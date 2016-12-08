@@ -27,14 +27,14 @@ function renderProduct(product) {
             ev.preventDefault();
             alert("Added " + document.getElementById("quantity").value + " products into cart.");
           },
-        },
-      ),
-    ),
+        }
+      )
+    )
   );
 }
 
 document.body.appendChild(renderProduct({
   title: "Battlefield Earth DVDs",
   description: "Critically acclaimed as one of the best movies ever made.",
-});
+}));
 ```
