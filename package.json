@@ -2,6 +2,7 @@
   "name": "pakertaja",
   "description": "Tiny JavaScript library for building HTML elements",
   "version": "0.0.1",
+  "author": "Rauli Laine",
   "homepage": "https://github.com/RauliL/pakertaja",
   "license": "MIT",
   "repository": {
@@ -11,15 +12,25 @@
   "bugs": {
     "url": "https://github.com/RauliL/pakertaja/issues"
   },
-  "main": "pakertaja.js",
+  "keywords": [
+    "dom"
+  ],
+  "main": "./pakertaja.min.js",
+  "scripts": {
+    "build": "gulp",
+    "watch": "gulp watch",
+    "prepublish": "npm run build"
+  },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-sourcemaps": "^2.2.0",
-    "gulp-uglify": "^2.0.0",
-    "pump": "^1.0.0"
+    "gulp": "^3.9.1",
+    "gulp-babili": "^0.1.4",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.6.0"
   },
   "files": [
+    "LICENSE",
+    "README.md",
     "pakertaja.js",
     "pakertaja.min.js",
     "pakertaja.min.js.map"
