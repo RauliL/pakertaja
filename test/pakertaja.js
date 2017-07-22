@@ -1,7 +1,7 @@
 const should = require('should');
-const { Document } = require('nodom');
+const nodom = require('nodom');
 
-global.document = new Document();
+global.document = new nodom.Document();
 
 describe('Pakertaja', () => {
   const p = require('../pakertaja');
