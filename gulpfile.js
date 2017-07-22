@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
+const babel = require('gulp-babel');
 const babili = require('gulp-babili');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
@@ -7,6 +8,7 @@ const rename = require('gulp-rename');
 gulp.task('minify', () => {
   return gulp.src('./pakertaja.js')
     .pipe(plumber())
+    .pipe(babel())
     .pipe(babili())
     .pipe(rename('./pakertaja.min.js'))
     .pipe(sourcemaps.write('.'))
