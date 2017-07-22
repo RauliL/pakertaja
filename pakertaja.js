@@ -1,6 +1,7 @@
 /* eslint-env amd, browser */
 
 ((global, factory) => {
+  'use strict';
   const Pakertaja = factory(global);
 
   if (typeof module === 'object' && module != null && module.exports) {
@@ -13,7 +14,8 @@
     Pakertaja.noConflict = () => original;
     global.p = global.Pakertaja = Pakertaja;
   }
-})(typeof window !== 'undefined' ? window : this, global => {
+})(typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : this, global => {
+  'use strict';
   const document = global.document;
   const entityMapping = {
     '&': '&amp;',
@@ -151,8 +153,8 @@
     // Miscanellaous elements
     'legend', 'div'
   ].forEach(tag => {
-    Pakertaja[tag] = () => {
-      var args = [tag];
+    Pakertaja[tag] = function () {
+      const args = [tag];
 
       Array.prototype.push.apply(args, arguments);
 
