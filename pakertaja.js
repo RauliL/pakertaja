@@ -151,8 +151,8 @@
     // Miscanellaous elements
     'legend', 'div'
   ].forEach(tag => {
-    Pakertaja[tag] = () => {
-      var args = [tag];
+    Pakertaja[tag] = function () {
+      const args = [tag];
 
       Array.prototype.push.apply(args, arguments);
 
