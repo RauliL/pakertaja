@@ -13,7 +13,7 @@
     Pakertaja.noConflict = () => original;
     global.p = global.Pakertaja = Pakertaja;
   }
-})(typeof window !== 'undefined' ? window : this, global => {
+})(typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : this, global => {
   const document = global.document;
   const entityMapping = {
     '&': '&amp;',
