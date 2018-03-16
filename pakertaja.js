@@ -27,20 +27,6 @@
   };
 
   /**
-   * Tests whether given value is string.
-   */
-  function isString (value) {
-    return typeof value === 'string';
-  }
-
-  /**
-   * Tests whether given value is function.
-   */
-  function isFunction (value) {
-    return typeof value === 'function';
-  }
-
-  /**
    * Tests whether given value is HTML element.
    */
   function isElement (value) {
@@ -53,7 +39,7 @@
    * function.
    */
   function toStringWithCallback (thisObject, value) {
-    if (isFunction(value)) {
+    if (typeof value === 'function') {
       value = value.call(thisObject);
     }
 
@@ -61,10 +47,10 @@
   }
 
   function applyStyleProperties (node, properties) {
-    if (isFunction(properties)) {
+    if (typeof properties === 'function') {
       properties = properties.call(node);
     }
-    if (isString(properties)) {
+    if (typeof properties === 'string') {
       node.setAttribute('style', properties);
     } else if (properties != null) {
       Object.keys(properties).forEach(key => {
@@ -79,12 +65,12 @@
     for (let i = 1, length = arguments.length; i < length; ++i) {
       const arg = arguments[i];
 
-      if (isString(arg)) {
+      if (typeof arg === 'string') {
         node.textContent = arg;
       } else if (isElement(arg)) {
         node.appendChild(arg);
       } else if (arg != null) {
-        Object.keys(arg).forEach(function (key) {
+        Object.keys(arg).forEach((key) => {
           var value = arg[key];
 
           if (key === 'text') {
