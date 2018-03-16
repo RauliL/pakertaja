@@ -1,7 +1,7 @@
 {
   "name": "pakertaja",
   "description": "Tiny JavaScript library for building HTML elements",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Rauli Laine",
   "homepage": "https://github.com/RauliL/pakertaja",
   "license": "MIT",
