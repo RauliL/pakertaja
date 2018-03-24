@@ -1,7 +1,7 @@
 {
   "name": "pakertaja",
   "description": "Tiny JavaScript library for building HTML elements",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Rauli Laine",
   "homepage": "https://github.com/RauliL/pakertaja",
   "license": "MIT",
@@ -19,7 +19,7 @@
   "scripts": {
     "build": "babel pakertaja.js -o pakertaja.min.js",
     "pretest": "npm run build",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "test": "mocha",
     "coverage": "istanbul cover node_modules/.bin/_mocha -- -- test/*"
   },
