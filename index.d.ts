@@ -25,7 +25,7 @@ interface PakertajaAttrs {
   tabindex: StringWithCallback;
   title: StringWithCallback;
 
-  [key: string]: StringWithCallback | EventListener | PakertajaStyleProperty;
+  [key: string]: StringWithCallback | number | boolean | EventListener | PakertajaStyleProperty;
 }
 
 type PakertajaArg = string | HTMLElement | PakertajaAttrs;
@@ -102,6 +102,8 @@ interface PakertajaStatic {
   (tagName: string, ...args: PakertajaArg[]): HTMLElement;
 
   escape: (input: string) => string;
+  append: (root: HTMLElement, ...args: Array<HTMLElement | StringWithCallback>) => HTMLElement;
+  prepend: (root: HTMLElement, ...args: Array<HTMLElement | StringWithCallback>) => HTMLElement;
 
   // The root element
   html: (...args: PakertajaArg[]) => HTMLHtmlElement;
