@@ -6,24 +6,24 @@ type StringWithCallback = StringCallback | string;
 type PakertajaStyleProperty = StringWithCallback | { [key: string]: StringWithCallback };
 
 interface PakertajaAttrs {
-  text: StringWithCallback;
-  html: StringWithCallback;
-  style: PakertajaStyleProperty;
+  text?: StringWithCallback;
+  html?: StringWithCallback;
+  style?: PakertajaStyleProperty;
 
   // Global HTML attributes available to all elements.
-  accesskey: StringWithCallback;
-  autocapitalize: StringCallback | 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
-  class: StringWithCallback;
-  contenteditable: StringWithCallback;
-  contextmenu: StringWithCallback;
-  dir: StringCallback | 'ltr' | 'rtl' | 'auto';
-  draggable: StringCallback | 'true' | 'false';
-  hidden: StringWithCallback;
-  id: StringWithCallback;
-  is: StringWithCallback;
-  lang: StringWithCallback;
-  tabindex: StringWithCallback;
-  title: StringWithCallback;
+  accesskey?: StringWithCallback;
+  autocapitalize?: StringCallback | 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
+  class?: StringWithCallback;
+  contenteditable?: StringWithCallback;
+  contextmenu?: StringWithCallback;
+  dir?: StringCallback | 'ltr' | 'rtl' | 'auto';
+  draggable?: StringCallback | 'true' | 'false';
+  hidden?: StringWithCallback;
+  id?: StringWithCallback;
+  is?: StringWithCallback;
+  lang?: StringWithCallback;
+  tabindex?: StringWithCallback;
+  title?: StringWithCallback;
 
   [key: string]: StringWithCallback | number | boolean | EventListener | PakertajaStyleProperty;
 }
