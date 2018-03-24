@@ -33,9 +33,11 @@
     "nodom": "^2.0.1",
     "should": "^11.2.1"
   },
+  "types": "./index.d.ts",
   "files": [
     "LICENSE",
     "README.md",
+    "index.d.ts",
     "pakertaja.js",
     "pakertaja.min.js",
     "pakertaja.min.js.map"
