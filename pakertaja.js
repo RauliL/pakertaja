@@ -95,6 +95,28 @@
 
   Pakertaja.escape = input => String(input).replace(/[&<>"'/]/g, s => entityMapping[s]);
 
+  Pakertaja.append = (root, ...children) => {
+    const fragment = document.createDocumentFragment();
+
+    children.forEach((child) => fragment.appendChild(
+      isElement(child) ? child : document.createTextNode(toStringWithCallback(root, child))
+    ));
+    root.appendChild(fragment);
+
+    return root;
+  };
+
+  Pakertaja.prepend = (root, ...children) => {
+    const fragment = document.createDocumentFragment();
+
+    children.forEach((child) => fragment.appendChild(
+      isElement(child) ? child : document.createTextNode(toStringWithCallback(root, child))
+    ));
+    root.insertBefore(fragment, root.firstChild);
+
+    return root;
+  };
+
   [
     // The root element
     'html',
