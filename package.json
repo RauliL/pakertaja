@@ -20,18 +20,18 @@
     "build": "babel pakertaja.js -o pakertaja.min.js",
     "pretest": "npm run build",
     "prepare": "npm run build",
-    "test": "mocha",
-    "coverage": "istanbul cover node_modules/.bin/_mocha -- -- test/*"
+    "test": "nyc --reporter=html --reporter=text mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.3.0",
-    "coveralls": "^2.13.1",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.4.2",
-    "nodom": "^2.0.1",
-    "should": "^11.2.1"
+    "coveralls": "^3.0.0",
+    "mocha": "^5.1.1",
+    "nodom": "^2.1.0",
+    "nyc": "^11.7.1",
+    "should": "^13.2.1"
   },
   "types": "./index.d.ts",
   "files": [
