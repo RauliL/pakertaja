@@ -91,6 +91,10 @@ describe('Pakertaja', () => {
     });
   });
 
+  it('should be able to set CSS rules as a string', () => {
+    should.strictEqual(p('div', { style: 'color: red' }).getAttribute('style'), 'color: red');
+  });
+
   it('should be able to create child nodes', () => {
     const element = p('div', p('div'), p('a'), p('div'));
 
