@@ -4,7 +4,7 @@ const nodom = require('nodom');
 global.document = new nodom.Document();
 
 describe('Pakertaja', () => {
-  const p = require('../pakertaja');
+  const p = require('./pakertaja');
 
   it('should be able to create DOM elements', () => {
     const elements = {
@@ -89,6 +89,10 @@ describe('Pakertaja', () => {
       element.style.should.not.be.empty();
       element.style.color.should.not.be.empty();
     });
+  });
+
+  it('should be able to set CSS rules as a string', () => {
+    should.strictEqual(p('div', { style: 'color: red' }).getAttribute('style'), 'color: red');
   });
 
   it('should be able to create child nodes', () => {
