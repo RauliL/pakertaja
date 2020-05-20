@@ -229,9 +229,8 @@ interface PakertajaStatic {
   div: (...args: PakertajaArg[]) => HTMLDivElement;
 }
 
+var p: PakertajaStatic;
+
 declare module 'pakertaja' {
   export = p;
 }
-
-declare var Pakertaja: PakertajaStatic;
-declare var p: PakertajaStatic;
