@@ -1,4 +1,4 @@
-// Type definitions for Pakertaja 1.1.1
+// Type definitions for Pakertaja 1.2.0
 
 type StringCallback = () => string;
 type StringWithCallback = StringCallback | string;
