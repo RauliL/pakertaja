@@ -18,8 +18,8 @@
   "main": "./pakertaja.min.js",
   "scripts": {
     "build": "babel pakertaja.js -o pakertaja.min.js",
-    "pretest": "npm run build",
-    "prepare": "npm run build",
+    "pretest": "yarn run build",
+    "prepare": "yarn run build",
     "test": "nyc --reporter=html --reporter=text mocha",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -31,7 +31,8 @@
     "mocha": "^5.1.1",
     "nodom": "^2.1.0",
     "nyc": "^11.7.1",
-    "should": "^13.2.1"
+    "should": "^13.2.1",
+    "yarn": "^1.22.4"
   },
   "types": "./index.d.ts",
   "files": [
