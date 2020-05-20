@@ -12,6 +12,8 @@ Pakertaja is a minimal JavaScript library for constructing DOM elements.
 ## Example
 
 ```JavaScript
+import p from 'pakertaja';
+
 function renderProduct(product) {
   return p.div(
     { class: 'product' },
