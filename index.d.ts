@@ -1,4 +1,4 @@
-// Type definitions for Pakertaja 1.1.1
+// Type definitions for Pakertaja 1.2.0
 
 type StringCallback = () => string;
 type StringWithCallback = StringCallback | string;
@@ -229,9 +229,8 @@ interface PakertajaStatic {
   div: (...args: PakertajaArg[]) => HTMLDivElement;
 }
 
+var p: PakertajaStatic;
+
 declare module 'pakertaja' {
   export = p;
 }
-
-declare var Pakertaja: PakertajaStatic;
-declare var p: PakertajaStatic;
