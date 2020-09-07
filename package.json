@@ -17,7 +17,6 @@
   ],
   "main": "dist/pakertaja.js",
   "module": "dist/pakertaja.mjs",
-  "browser": "dist/pakertaja.iife.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "rollup -c",
