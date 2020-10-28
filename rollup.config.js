@@ -5,7 +5,8 @@ export default {
   output: [
     {
       file: 'dist/pakertaja.js',
-      format: 'cjs'
+      format: 'cjs',
+      exports: 'default'
     },
     {
       file: 'dist/pakertaja.mjs',
