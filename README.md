@@ -69,6 +69,8 @@ create HTML elements of certain type more conveniently. These shortcuts are:
 `optgroup`, `option`, `textarea`, `output`, `details`, `command`, `bb`, `menu`,
 `legend` and `div`.
 
+Text nodes can also be created with an shortcut function called `text`.
+
 ### p.append( root[, ...children ] )
 
 Inserts given child elements to the end of given root element. Child elements

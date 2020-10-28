@@ -29,6 +29,20 @@ describe('Pakertaja', () => {
     });
   });
 
+  it('should be able to create text nodes', () => {
+    const node = p('text', 'Test.');
+
+    node.should.be.instanceOf(nodom.TextNode);
+    node.should.have.property('textContent', 'Test.');
+  });
+
+  it('should have shortcut function for creating text nodes', () => {
+    const node = p.text('Test.');
+
+    node.should.be.instanceOf(nodom.TextNode);
+    node.should.have.property('textContent', 'Test.');
+  });
+
   it('should be able to set inner text', () => {
     const elements1 = [
       p('div', 'Hello!'),

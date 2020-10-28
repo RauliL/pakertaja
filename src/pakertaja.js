@@ -43,7 +43,11 @@ function applyStyleProperties (node, properties) {
 }
 
 function Pakertaja () {
-  const node = document.createElement(arguments[0]);
+  const node = (
+    arguments[0] === 'text'
+      ? document.createTextNode('')
+      : document.createElement(arguments[0])
+  );
 
   for (let i = 1, length = arguments.length; i < length; ++i) {
     const arg = arguments[i];
@@ -142,7 +146,10 @@ Pakertaja.prepend = (root, ...children) => {
   'details', 'command', 'bb', 'menu',
 
   // Miscanellaous elements
-  'legend', 'div'
+  'legend', 'div',
+
+  // Text node
+  'text'
 ].forEach(tag => {
   Pakertaja[tag] = function () {
     const args = [tag];
