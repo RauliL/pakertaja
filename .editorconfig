@@ -9,3 +9,7 @@ trim_trailing_whitespace = true
 [*.{js,json,html,ts}]
 indent_style = space
 indent_size = 2
+
+[.babelrc]
+indent_style = space
+indent_size = 2

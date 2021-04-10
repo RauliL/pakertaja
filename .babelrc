@@ -1,4 +1,11 @@
 {
-  "presets": ["@babel/preset-env", "minify"],
-  "plugins": ["istanbul"]
+  "env": {
+    "production": {
+      "presets": ["@babel/preset-env", "minify"]
+    },
+    "test": {
+      "presets": ["@babel/preset-env"],
+      "plugins": ["istanbul"]
+    }
+  }
 }

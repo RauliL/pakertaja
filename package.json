@@ -21,8 +21,8 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "pretest": "yarn run build",
-    "prepare": "yarn run build",
+    "pretest": "env NODE_ENV=test yarn run build",
+    "prepare": "env NODE_ENV=production yarn run build",
     "test": "nyc --reporter=html --reporter=text mocha",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
