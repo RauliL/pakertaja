@@ -1,7 +1,7 @@
-# Pakertaja JavaScript library [![travis][travis-image]][travis-url] [![coveralls][coveralls-image]][coveralls-url] [![npm][npm-image]][npm-url]
+# Pakertaja JavaScript library [![github-url][github-image]][github-url] [![coveralls][coveralls-image]][coveralls-url] [![npm][npm-image]][npm-url]
 
-[travis-image]: https://img.shields.io/travis/RauliL/pakertaja/master.svg
-[travis-url]: https://travis-ci.org/RauliL/pakertaja
+[github-image]: https://github.com/RauliL/pakertaja/actions/workflows/test.yml/badge.svg
+[github-url]: https://github.com/RauliL/pakertaja/actions/workflows/test.yml
 [coveralls-image]: https://coveralls.io/repos/github/RauliL/pakertaja/badge.svg
 [coveralls-url]: https://coveralls.io/github/RauliL/pakertaja
 [npm-image]: https://img.shields.io/npm/v/pakertaja.svg
