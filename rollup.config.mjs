@@ -1,4 +1,5 @@
 import babel from "@rollup/plugin-babel";
+import terser from "@rollup/plugin-terser";
 
 export default {
   input: "src/pakertaja.js",
@@ -18,5 +19,8 @@ export default {
       name: "Pakertaja",
     },
   ],
-  plugins: [babel({ babelHelpers: "bundled" })],
+  plugins: [
+    babel({ babelHelpers: "bundled" }),
+    /^prod/i.test(process.env.NODE_ENV) ? terser() : null,
+  ],
 };
