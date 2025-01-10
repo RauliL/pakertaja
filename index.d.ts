@@ -1,236 +1,271 @@
-// Type definitions for Pakertaja 1.2.0
+// Type definitions for Pakertaja 1.3.0
 
 type StringCallback = () => string;
-type StringWithCallback = StringCallback | string;
+type StringOrCallback = string | StringCallback;
 
-type PakertajaStyleProperty = StringWithCallback | { [key: string]: StringWithCallback };
+type StyleValue = StringOrCallback | Record<string, StringOrCallback>;
 
-interface PakertajaAttrs {
-  text?: StringWithCallback;
-  html?: StringWithCallback;
-  style?: PakertajaStyleProperty;
+type DataValue = number | string;
+type DataValueCallback = () => DataValue;
+type DataValueOrCallback = DataValue | DataValueCallback;
+type DataValueMapping = Record<string, DataValueOrCallback>;
+type DataValueMappingCallback = () => DataValueMapping;
+
+type PakertajaAttributes = {
+  text?: StringOrCallback;
+  html?: StringOrCallback;
+  style?: StyleValue;
+  data?: DataValueMapping | DataValueMappingCallback;
 
   // Global HTML attributes available to all elements.
-  accesskey?: StringWithCallback;
-  autocapitalize?: StringCallback | 'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters';
-  class?: StringWithCallback;
-  contenteditable?: StringWithCallback;
-  contextmenu?: StringWithCallback;
-  dir?: StringCallback | 'ltr' | 'rtl' | 'auto';
-  draggable?: StringCallback | 'true' | 'false';
-  hidden?: StringWithCallback;
-  id?: StringWithCallback;
-  is?: StringWithCallback;
-  lang?: StringWithCallback;
-  tabindex?: StringWithCallback;
-  title?: StringWithCallback;
+  accesskey?: StringOrCallback;
+  autocapitalize?:
+    | StringCallback
+    | "off"
+    | "none"
+    | "on"
+    | "sentences"
+    | "words"
+    | "characters";
+  class?: StringOrCallback;
+  contenteditable?: StringOrCallback;
+  contextmenu?: StringOrCallback;
+  dir?: StringOrCallback | "ltr" | "rtl" | "auto";
+  draggable?: StringOrCallback | "true" | "false";
+  hidden?: StringOrCallback;
+  id?: StringOrCallback;
+  is?: StringOrCallback;
+  lang?: StringOrCallback;
+  tabindex?: StringOrCallback;
+  title?: StringOrCallback;
 
-  [key: string]: StringWithCallback | number | boolean | EventListener | PakertajaStyleProperty;
-}
+  [key: string]:
+    | StringOrCallback
+    | EventListener
+    | null
+    | undefined
+    | StyleValue
+    | DataValueMapping
+    | DataValueMappingCallback;
+};
 
-type PakertajaArg = string | HTMLElement | PakertajaAttrs;
+type PakertajaArgument =
+  | Element
+  | string
+  | PakertajaAttributes
+  | null
+  | undefined;
 
 interface PakertajaStatic {
-  (tagName: 'html', ...args: PakertajaArg[]): HTMLHtmlElement;
-  (tagName: 'head', ...args: PakertajaArg[]): HTMLHeadElement;
-  (tagName: 'title', ...args: PakertajaArg[]): HTMLTitleElement;
-  (tagName: 'base', ...args: PakertajaArg[]): HTMLBaseElement;
-  (tagName: 'link', ...args: PakertajaArg[]): HTMLLinkElement;
-  (tagName: 'meta', ...args: PakertajaArg[]): HTMLMetaElement;
-  (tagName: 'style', ...args: PakertajaArg[]): HTMLStyleElement;
-  (tagName: 'script', ...args: PakertajaArg[]): HTMLScriptElement;
-  (tagName: 'body', ...args: PakertajaArg[]): HTMLBodyElement;
-  (tagName: 'h1', ...args: PakertajaArg[]): HTMLHeadingElement;
-  (tagName: 'h2', ...args: PakertajaArg[]): HTMLHeadingElement;
-  (tagName: 'h3', ...args: PakertajaArg[]): HTMLHeadingElement;
-  (tagName: 'h4', ...args: PakertajaArg[]): HTMLHeadingElement;
-  (tagName: 'h5', ...args: PakertajaArg[]): HTMLHeadingElement;
-  (tagName: 'h6', ...args: PakertajaArg[]): HTMLHeadingElement;
-  (tagName: 'p', ...args: PakertajaArg[]): HTMLParagraphElement;
-  (tagName: 'hr', ...args: PakertajaArg[]): HTMLHRElement;
-  (tagName: 'br', ...args: PakertajaArg[]): HTMLBRElement;
-  (tagName: 'pre', ...args: PakertajaArg[]): HTMLPreElement;
-  (tagName: 'dialog', ...args: PakertajaArg[]): HTMLDialogElement;
-  (tagName: 'blockquote', ...args: PakertajaArg[]): HTMLQuoteElement;
-  (tagName: 'ol', ...args: PakertajaArg[]): HTMLOListElement;
-  (tagName: 'ul', ...args: PakertajaArg[]): HTMLUListElement;
-  (tagName: 'li', ...args: PakertajaArg[]): HTMLLIElement;
-  (tagName: 'dl', ...args: PakertajaArg[]): HTMLDListElement;
-  (tagName: 'a', ...args: PakertajaArg[]): HTMLAnchorElement;
-  (tagName: 'q', ...args: PakertajaArg[]): HTMLQuoteElement;
-  (tagName: 'time', ...args: PakertajaArg[]): HTMLTimeElement;
-  (tagName: 'progress', ...args: PakertajaArg[]): HTMLProgressElement;
-  (tagName: 'meter', ...args: PakertajaArg[]): HTMLMeterElement;
-  (tagName: 'span', ...args: PakertajaArg[]): HTMLSpanElement;
-  (tagName: 'ins', ...args: PakertajaArg[]): HTMLModElement;
-  (tagName: 'del', ...args: PakertajaArg[]): HTMLModElement;
-  (tagName: 'img', ...args: PakertajaArg[]): HTMLImageElement;
-  (tagName: 'iframe', ...args: PakertajaArg[]): HTMLIFrameElement;
-  (tagName: 'embed', ...args: PakertajaArg[]): HTMLEmbedElement;
-  (tagName: 'object', ...args: PakertajaArg[]): HTMLObjectElement;
-  (tagName: 'param', ...args: PakertajaArg[]): HTMLParamElement;
-  (tagName: 'video', ...args: PakertajaArg[]): HTMLVideoElement;
-  (tagName: 'audio', ...args: PakertajaArg[]): HTMLAudioElement;
-  (tagName: 'source', ...args: PakertajaArg[]): HTMLSourceElement;
-  (tagName: 'canvas', ...args: PakertajaArg[]): HTMLCanvasElement;
-  (tagName: 'map', ...args: PakertajaArg[]): HTMLMapElement;
-  (tagName: 'area', ...args: PakertajaArg[]): HTMLAreaElement;
-  (tagName: 'table', ...args: PakertajaArg[]): HTMLTableElement;
-  (tagName: 'caption', ...args: PakertajaArg[]): HTMLTableCaptionElement;
-  (tagName: 'colgroup', ...args: PakertajaArg[]): HTMLTableColElement;
-  (tagName: 'col', ...args: PakertajaArg[]): HTMLTableColElement;
-  (tagName: 'tbody', ...args: PakertajaArg[]): HTMLTableSectionElement;
-  (tagName: 'tfoot', ...args: PakertajaArg[]): HTMLTableSectionElement;
-  (tagName: 'tr', ...args: PakertajaArg[]): HTMLTableRowElement;
-  (tagName: 'td', ...args: PakertajaArg[]): HTMLTableCellElement;
-  (tagName: 'th', ...args: PakertajaArg[]): HTMLTableCellElement;
-  (tagName: 'form', ...args: PakertajaArg[]): HTMLFormElement;
-  (tagName: 'fieldset', ...args: PakertajaArg[]): HTMLFieldSetElement;
-  (tagName: 'label', ...args: PakertajaArg[]): HTMLLabelElement;
-  (tagName: 'input', ...args: PakertajaArg[]): HTMLInputElement;
-  (tagName: 'button', ...args: PakertajaArg[]): HTMLButtonElement;
-  (tagName: 'select', ...args: PakertajaArg[]): HTMLSelectElement;
-  (tagName: 'datalist', ...args: PakertajaArg[]): HTMLDataListElement;
-  (tagName: 'optgroup', ...args: PakertajaArg[]): HTMLOptGroupElement;
-  (tagName: 'option', ...args: PakertajaArg[]): HTMLOptionElement;
-  (tagName: 'textarea', ...args: PakertajaArg[]): HTMLTextAreaElement;
-  (tagName: 'output', ...args: PakertajaArg[]): HTMLOutputElement;
-  (tagName: 'details', ...args: PakertajaArg[]): HTMLDetailsElement;
-  (tagName: 'menu', ...args: PakertajaArg[]): HTMLMenuElement;
-  (tagName: 'legend', ...args: PakertajaArg[]): HTMLLegendElement;
-  (tagName: 'div', ...args: PakertajaArg[]): HTMLDivElement;
-  (tagName: string, ...args: PakertajaArg[]): HTMLElement;
+  (tagName: "html", ...args: PakertajaArgument[]): HTMLHtmlElement;
+  (tagName: "head", ...args: PakertajaArgument[]): HTMLHeadElement;
+  (tagName: "title", ...args: PakertajaArgument[]): HTMLTitleElement;
+  (tagName: "base", ...args: PakertajaArgument[]): HTMLBaseElement;
+  (tagName: "link", ...args: PakertajaArgument[]): HTMLLinkElement;
+  (tagName: "meta", ...args: PakertajaArgument[]): HTMLMetaElement;
+  (tagName: "style", ...args: PakertajaArgument[]): HTMLStyleElement;
+  (tagName: "script", ...args: PakertajaArgument[]): HTMLScriptElement;
+  (tagName: "body", ...args: PakertajaArgument[]): HTMLBodyElement;
+  (tagName: "h1", ...args: PakertajaArgument[]): HTMLHeadingElement;
+  (tagName: "h2", ...args: PakertajaArgument[]): HTMLHeadingElement;
+  (tagName: "h3", ...args: PakertajaArgument[]): HTMLHeadingElement;
+  (tagName: "h4", ...args: PakertajaArgument[]): HTMLHeadingElement;
+  (tagName: "h5", ...args: PakertajaArgument[]): HTMLHeadingElement;
+  (tagName: "h6", ...args: PakertajaArgument[]): HTMLHeadingElement;
+  (tagName: "p", ...args: PakertajaArgument[]): HTMLParagraphElement;
+  (tagName: "hr", ...args: PakertajaArgument[]): HTMLHRElement;
+  (tagName: "br", ...args: PakertajaArgument[]): HTMLBRElement;
+  (tagName: "pre", ...args: PakertajaArgument[]): HTMLPreElement;
+  (tagName: "dialog", ...args: PakertajaArgument[]): HTMLDialogElement;
+  (tagName: "blockquote", ...args: PakertajaArgument[]): HTMLQuoteElement;
+  (tagName: "ol", ...args: PakertajaArgument[]): HTMLOListElement;
+  (tagName: "ul", ...args: PakertajaArgument[]): HTMLUListElement;
+  (tagName: "li", ...args: PakertajaArgument[]): HTMLLIElement;
+  (tagName: "dl", ...args: PakertajaArgument[]): HTMLDListElement;
+  (tagName: "a", ...args: PakertajaArgument[]): HTMLAnchorElement;
+  (tagName: "q", ...args: PakertajaArgument[]): HTMLQuoteElement;
+  (tagName: "time", ...args: PakertajaArgument[]): HTMLTimeElement;
+  (tagName: "progress", ...args: PakertajaArgument[]): HTMLProgressElement;
+  (tagName: "meter", ...args: PakertajaArgument[]): HTMLMeterElement;
+  (tagName: "span", ...args: PakertajaArgument[]): HTMLSpanElement;
+  (tagName: "ins", ...args: PakertajaArgument[]): HTMLModElement;
+  (tagName: "del", ...args: PakertajaArgument[]): HTMLModElement;
+  (tagName: "img", ...args: PakertajaArgument[]): HTMLImageElement;
+  (tagName: "iframe", ...args: PakertajaArgument[]): HTMLIFrameElement;
+  (tagName: "embed", ...args: PakertajaArgument[]): HTMLEmbedElement;
+  (tagName: "object", ...args: PakertajaArgument[]): HTMLObjectElement;
+  (tagName: "param", ...args: PakertajaArgument[]): HTMLParamElement;
+  (tagName: "video", ...args: PakertajaArgument[]): HTMLVideoElement;
+  (tagName: "audio", ...args: PakertajaArgument[]): HTMLAudioElement;
+  (tagName: "source", ...args: PakertajaArgument[]): HTMLSourceElement;
+  (tagName: "canvas", ...args: PakertajaArgument[]): HTMLCanvasElement;
+  (tagName: "map", ...args: PakertajaArgument[]): HTMLMapElement;
+  (tagName: "area", ...args: PakertajaArgument[]): HTMLAreaElement;
+  (tagName: "table", ...args: PakertajaArgument[]): HTMLTableElement;
+  (tagName: "caption", ...args: PakertajaArgument[]): HTMLTableCaptionElement;
+  (tagName: "colgroup", ...args: PakertajaArgument[]): HTMLTableColElement;
+  (tagName: "col", ...args: PakertajaArgument[]): HTMLTableColElement;
+  (tagName: "tbody", ...args: PakertajaArgument[]): HTMLTableSectionElement;
+  (tagName: "tfoot", ...args: PakertajaArgument[]): HTMLTableSectionElement;
+  (tagName: "tr", ...args: PakertajaArgument[]): HTMLTableRowElement;
+  (tagName: "td", ...args: PakertajaArgument[]): HTMLTableCellElement;
+  (tagName: "th", ...args: PakertajaArgument[]): HTMLTableCellElement;
+  (tagName: "form", ...args: PakertajaArgument[]): HTMLFormElement;
+  (tagName: "fieldset", ...args: PakertajaArgument[]): HTMLFieldSetElement;
+  (tagName: "label", ...args: PakertajaArgument[]): HTMLLabelElement;
+  (tagName: "input", ...args: PakertajaArgument[]): HTMLInputElement;
+  (tagName: "button", ...args: PakertajaArgument[]): HTMLButtonElement;
+  (tagName: "select", ...args: PakertajaArgument[]): HTMLSelectElement;
+  (tagName: "datalist", ...args: PakertajaArgument[]): HTMLDataListElement;
+  (tagName: "optgroup", ...args: PakertajaArgument[]): HTMLOptGroupElement;
+  (tagName: "option", ...args: PakertajaArgument[]): HTMLOptionElement;
+  (tagName: "textarea", ...args: PakertajaArgument[]): HTMLTextAreaElement;
+  (tagName: "output", ...args: PakertajaArgument[]): HTMLOutputElement;
+  (tagName: "details", ...args: PakertajaArgument[]): HTMLDetailsElement;
+  (tagName: "menu", ...args: PakertajaArgument[]): HTMLMenuElement;
+  (tagName: "legend", ...args: PakertajaArgument[]): HTMLLegendElement;
+  (tagName: "div", ...args: PakertajaArgument[]): HTMLDivElement;
+  (tagName: "text", ...args: PakertajaArgument[]): Text;
+  (tagName: string, ...args: PakertajaArgument[]): HTMLElement;
 
   escape: (input: string) => string;
-  append: (root: HTMLElement, ...args: Array<HTMLElement | StringWithCallback>) => HTMLElement;
-  prepend: (root: HTMLElement, ...args: Array<HTMLElement | StringWithCallback>) => HTMLElement;
+
+  append: (
+    root: Element,
+    ...args: Array<Element | StringOrCallback>
+  ) => HTMLElement;
+  prepend: (
+    root: Element,
+    ...args: Array<Element | StringOrCallback>
+  ) => HTMLElement;
 
   // The root element
-  html: (...args: PakertajaArg[]) => HTMLHtmlElement;
+  html: (...args: PakertajaArgument[]) => HTMLHtmlElement;
 
   // Document metadata
-  head: (...args: PakertajaArg[]) => HTMLHeadElement;
-  title: (...args: PakertajaArg[]) => HTMLTitleElement;
-  base: (...args: PakertajaArg[]) => HTMLBaseElement;
-  link: (...args: PakertajaArg[]) => HTMLLinkElement;
-  meta: (...args: PakertajaArg[]) => HTMLMetaElement;
-  style: (...args: PakertajaArg[]) => HTMLStyleElement;
+  head: (...args: PakertajaArgument[]) => HTMLHeadElement;
+  title: (...args: PakertajaArgument[]) => HTMLTitleElement;
+  base: (...args: PakertajaArgument[]) => HTMLBaseElement;
+  link: (...args: PakertajaArgument[]) => HTMLLinkElement;
+  meta: (...args: PakertajaArgument[]) => HTMLMetaElement;
+  style: (...args: PakertajaArgument[]) => HTMLStyleElement;
 
   // Scripting
-  script: (...args: PakertajaArg[]) => HTMLScriptElement;
-  noscript: (...args: PakertajaArg[]) => HTMLElement;
+  script: (...args: PakertajaArgument[]) => HTMLScriptElement;
+  noscript: (...args: PakertajaArgument[]) => HTMLElement;
 
   // Sections
-  body: (...args: PakertajaArg[]) => HTMLBodyElement;
-  section: (...args: PakertajaArg[]) => HTMLElement;
-  nav: (...args: PakertajaArg[]) => HTMLElement;
-  article: (...args: PakertajaArg[]) => HTMLElement;
-  aside: (...args: PakertajaArg[]) => HTMLElement;
-  h1: (...args: PakertajaArg[]) => HTMLHeadingElement;
-  h2: (...args: PakertajaArg[]) => HTMLHeadingElement;
-  h3: (...args: PakertajaArg[]) => HTMLHeadingElement;
-  h4: (...args: PakertajaArg[]) => HTMLHeadingElement;
-  h5: (...args: PakertajaArg[]) => HTMLHeadingElement;
-  h6: (...args: PakertajaArg[]) => HTMLHeadingElement;
-  header: (...args: PakertajaArg[]) => HTMLElement;
-  footer: (...args: PakertajaArg[]) => HTMLElement;
-  address: (...args: PakertajaArg[]) => HTMLElement;
+  body: (...args: PakertajaArgument[]) => HTMLBodyElement;
+  section: (...args: PakertajaArgument[]) => HTMLElement;
+  nav: (...args: PakertajaArgument[]) => HTMLElement;
+  article: (...args: PakertajaArgument[]) => HTMLElement;
+  aside: (...args: PakertajaArgument[]) => HTMLElement;
+  h1: (...args: PakertajaArgument[]) => HTMLHeadingElement;
+  h2: (...args: PakertajaArgument[]) => HTMLHeadingElement;
+  h3: (...args: PakertajaArgument[]) => HTMLHeadingElement;
+  h4: (...args: PakertajaArgument[]) => HTMLHeadingElement;
+  h5: (...args: PakertajaArgument[]) => HTMLHeadingElement;
+  h6: (...args: PakertajaArgument[]) => HTMLHeadingElement;
+  header: (...args: PakertajaArgument[]) => HTMLElement;
+  footer: (...args: PakertajaArgument[]) => HTMLElement;
+  address: (...args: PakertajaArgument[]) => HTMLElement;
 
   // Grouping content
-  p: (...args: PakertajaArg[]) => HTMLParagraphElement;
-  hr: (...args: PakertajaArg[]) => HTMLHRElement;
-  br: (...args: PakertajaArg[]) => HTMLBRElement;
-  pre: (...args: PakertajaArg[]) => HTMLPreElement;
-  dialog: (...args: PakertajaArg[]) => HTMLDialogElement;
-  blockquote: (...args: PakertajaArg[]) => HTMLQuoteElement;
-  ol: (...args: PakertajaArg[]) => HTMLOListElement;
-  ul: (...args: PakertajaArg[]) => HTMLUListElement;
-  li: (...args: PakertajaArg[]) => HTMLLIElement;
-  dl: (...args: PakertajaArg[]) => HTMLDListElement;
-  dt: (...args: PakertajaArg[]) => HTMLElement;
-  dd: (...args: PakertajaArg[]) => HTMLElement;
+  p: (...args: PakertajaArgument[]) => HTMLParagraphElement;
+  hr: (...args: PakertajaArgument[]) => HTMLHRElement;
+  br: (...args: PakertajaArgument[]) => HTMLBRElement;
+  pre: (...args: PakertajaArgument[]) => HTMLPreElement;
+  dialog: (...args: PakertajaArgument[]) => HTMLDialogElement;
+  blockquote: (...args: PakertajaArgument[]) => HTMLQuoteElement;
+  ol: (...args: PakertajaArgument[]) => HTMLOListElement;
+  ul: (...args: PakertajaArgument[]) => HTMLUListElement;
+  li: (...args: PakertajaArgument[]) => HTMLLIElement;
+  dl: (...args: PakertajaArgument[]) => HTMLDListElement;
+  dt: (...args: PakertajaArgument[]) => HTMLElement;
+  dd: (...args: PakertajaArgument[]) => HTMLElement;
 
   // Text level semantics
-  a: (...args: PakertajaArg[]) => HTMLAnchorElement;
-  q: (...args: PakertajaArg[]) => HTMLQuoteElement;
-  cite: (...args: PakertajaArg[]) => HTMLElement;
-  em: (...args: PakertajaArg[]) => HTMLElement;
-  strong: (...args: PakertajaArg[]) => HTMLElement;
-  mark: (...args: PakertajaArg[]) => HTMLElement;
-  dfn: (...args: PakertajaArg[]) => HTMLElement;
-  abbr: (...args: PakertajaArg[]) => HTMLElement;
-  time: (...args: PakertajaArg[]) => HTMLTimeElement;
-  progress: (...args: PakertajaArg[]) => HTMLProgressElement;
-  meter: (...args: PakertajaArg[]) => HTMLMeterElement;
-  code: (...args: PakertajaArg[]) => HTMLElement;
-  var: (...args: PakertajaArg[]) => HTMLElement;
-  samp: (...args: PakertajaArg[]) => HTMLElement;
-  kbd: (...args: PakertajaArg[]) => HTMLElement;
-  sub: (...args: PakertajaArg[]) => HTMLElement;
-  sup: (...args: PakertajaArg[]) => HTMLElement;
-  span: (...args: PakertajaArg[]) => HTMLSpanElement;
-  i: (...args: PakertajaArg[]) => HTMLElement;
-  b: (...args: PakertajaArg[]) => HTMLElement;
-  bdo: (...args: PakertajaArg[]) => HTMLElement;
-  ruby: (...args: PakertajaArg[]) => HTMLElement;
-  rt: (...args: PakertajaArg[]) => HTMLElement;
-  rp: (...args: PakertajaArg[]) => HTMLElement;
+  a: (...args: PakertajaArgument[]) => HTMLAnchorElement;
+  q: (...args: PakertajaArgument[]) => HTMLQuoteElement;
+  cite: (...args: PakertajaArgument[]) => HTMLElement;
+  em: (...args: PakertajaArgument[]) => HTMLElement;
+  strong: (...args: PakertajaArgument[]) => HTMLElement;
+  mark: (...args: PakertajaArgument[]) => HTMLElement;
+  dfn: (...args: PakertajaArgument[]) => HTMLElement;
+  abbr: (...args: PakertajaArgument[]) => HTMLElement;
+  time: (...args: PakertajaArgument[]) => HTMLTimeElement;
+  progress: (...args: PakertajaArgument[]) => HTMLProgressElement;
+  meter: (...args: PakertajaArgument[]) => HTMLMeterElement;
+  code: (...args: PakertajaArgument[]) => HTMLElement;
+  var: (...args: PakertajaArgument[]) => HTMLElement;
+  samp: (...args: PakertajaArgument[]) => HTMLElement;
+  kbd: (...args: PakertajaArgument[]) => HTMLElement;
+  sub: (...args: PakertajaArgument[]) => HTMLElement;
+  sup: (...args: PakertajaArgument[]) => HTMLElement;
+  span: (...args: PakertajaArgument[]) => HTMLSpanElement;
+  i: (...args: PakertajaArgument[]) => HTMLElement;
+  b: (...args: PakertajaArgument[]) => HTMLElement;
+  bdo: (...args: PakertajaArgument[]) => HTMLElement;
+  ruby: (...args: PakertajaArgument[]) => HTMLElement;
+  rt: (...args: PakertajaArgument[]) => HTMLElement;
+  rp: (...args: PakertajaArgument[]) => HTMLElement;
 
   // Edits
-  ins: (...args: PakertajaArg[]) => HTMLModElement;
-  del: (...args: PakertajaArg[]) => HTMLModElement;
+  ins: (...args: PakertajaArgument[]) => HTMLModElement;
+  del: (...args: PakertajaArgument[]) => HTMLModElement;
 
   // Embedded content
-  figure: (...args: PakertajaArg[]) => HTMLElement;
-  img: (...args: PakertajaArg[]) => HTMLImageElement;
-  iframe: (...args: PakertajaArg[]) => HTMLIFrameElement;
-  embed: (...args: PakertajaArg[]) => HTMLEmbedElement;
-  object: (...args: PakertajaArg[]) => HTMLObjectElement;
-  param: (...args: PakertajaArg[]) => HTMLParamElement;
-  video: (...args: PakertajaArg[]) => HTMLVideoElement;
-  audio: (...args: PakertajaArg[]) => HTMLAudioElement;
-  source: (...args: PakertajaArg[]) => HTMLSourceElement;
-  canvas: (...args: PakertajaArg[]) => HTMLCanvasElement;
-  map: (...args: PakertajaArg[]) => HTMLMapElement;
-  area: (...args: PakertajaArg[]) => HTMLAreaElement;
+  figure: (...args: PakertajaArgument[]) => HTMLElement;
+  img: (...args: PakertajaArgument[]) => HTMLImageElement;
+  iframe: (...args: PakertajaArgument[]) => HTMLIFrameElement;
+  embed: (...args: PakertajaArgument[]) => HTMLEmbedElement;
+  object: (...args: PakertajaArgument[]) => HTMLObjectElement;
+  param: (...args: PakertajaArgument[]) => HTMLParamElement;
+  video: (...args: PakertajaArgument[]) => HTMLVideoElement;
+  audio: (...args: PakertajaArgument[]) => HTMLAudioElement;
+  source: (...args: PakertajaArgument[]) => HTMLSourceElement;
+  canvas: (...args: PakertajaArgument[]) => HTMLCanvasElement;
+  map: (...args: PakertajaArgument[]) => HTMLMapElement;
+  area: (...args: PakertajaArgument[]) => HTMLAreaElement;
 
   // Tabular data
-  table: (...args: PakertajaArg[]) => HTMLTableElement;
-  caption: (...args: PakertajaArg[]) => HTMLTableCaptionElement;
-  colgroup: (...args: PakertajaArg[]) => HTMLTableColElement;
-  col: (...args: PakertajaArg[]) => HTMLTableColElement;
-  tbody: (...args: PakertajaArg[]) => HTMLTableSectionElement;
-  tfoot: (...args: PakertajaArg[]) => HTMLTableSectionElement;
-  tr: (...args: PakertajaArg[]) => HTMLTableRowElement;
-  td: (...args: PakertajaArg[]) => HTMLTableCellElement;
-  th: (...args: PakertajaArg[]) => HTMLTableCellElement;
+  table: (...args: PakertajaArgument[]) => HTMLTableElement;
+  caption: (...args: PakertajaArgument[]) => HTMLTableCaptionElement;
+  colgroup: (...args: PakertajaArgument[]) => HTMLTableColElement;
+  col: (...args: PakertajaArgument[]) => HTMLTableColElement;
+  tbody: (...args: PakertajaArgument[]) => HTMLTableSectionElement;
+  tfoot: (...args: PakertajaArgument[]) => HTMLTableSectionElement;
+  tr: (...args: PakertajaArgument[]) => HTMLTableRowElement;
+  td: (...args: PakertajaArgument[]) => HTMLTableCellElement;
+  th: (...args: PakertajaArgument[]) => HTMLTableCellElement;
 
   // Forms
-  form: (...args: PakertajaArg[]) => HTMLFormElement;
-  fieldset: (...args: PakertajaArg[]) => HTMLFieldSetElement;
-  label: (...args: PakertajaArg[]) => HTMLLabelElement;
-  input: (...args: PakertajaArg[]) => HTMLInputElement;
-  button: (...args: PakertajaArg[]) => HTMLButtonElement;
-  select: (...args: PakertajaArg[]) => HTMLSelectElement;
-  datalist: (...args: PakertajaArg[]) => HTMLDataListElement;
-  optgroup: (...args: PakertajaArg[]) => HTMLOptGroupElement;
-  option: (...args: PakertajaArg[]) => HTMLOptionElement;
-  textarea: (...args: PakertajaArg[]) => HTMLTextAreaElement;
-  output: (...args: PakertajaArg[]) => HTMLOutputElement;
+  form: (...args: PakertajaArgument[]) => HTMLFormElement;
+  fieldset: (...args: PakertajaArgument[]) => HTMLFieldSetElement;
+  label: (...args: PakertajaArgument[]) => HTMLLabelElement;
+  input: (...args: PakertajaArgument[]) => HTMLInputElement;
+  button: (...args: PakertajaArgument[]) => HTMLButtonElement;
+  select: (...args: PakertajaArgument[]) => HTMLSelectElement;
+  datalist: (...args: PakertajaArgument[]) => HTMLDataListElement;
+  optgroup: (...args: PakertajaArgument[]) => HTMLOptGroupElement;
+  option: (...args: PakertajaArgument[]) => HTMLOptionElement;
+  textarea: (...args: PakertajaArgument[]) => HTMLTextAreaElement;
+  output: (...args: PakertajaArgument[]) => HTMLOutputElement;
 
   // Interactive elements
-  details: (...args: PakertajaArg[]) => HTMLDetailsElement;
-  command: (...args: PakertajaArg[]) => HTMLElement;
-  bb: (...args: PakertajaArg[]) => HTMLElement;
-  menu: (...args: PakertajaArg[]) => HTMLMenuElement;
+  details: (...args: PakertajaArgument[]) => HTMLDetailsElement;
+  command: (...args: PakertajaArgument[]) => HTMLElement;
+  bb: (...args: PakertajaArgument[]) => HTMLElement;
+  menu: (...args: PakertajaArgument[]) => HTMLMenuElement;
 
   // Miscanellaous elements
-  legend: (...args: PakertajaArg[]) => HTMLLegendElement;
-  div: (...args: PakertajaArg[]) => HTMLDivElement;
+  legend: (...args: PakertajaArgument[]) => HTMLLegendElement;
+  div: (...args: PakertajaArgument[]) => HTMLDivElement;
+  text: (...args: PakertajaArgument[]) => Text;
 }
 
-var p: PakertajaStatic;
+declare module "pakertaja" {
+  const p: PakertajaStatic;
 
-declare module 'pakertaja' {
   export = p;
 }

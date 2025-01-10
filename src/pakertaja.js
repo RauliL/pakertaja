@@ -1,6 +1,6 @@
-/* v8 ignore start */
+/* istanbul ignore next */
 const document = (typeof window !== 'undefined' ? window : global).document;
-/* v8 ignore stop */
+
 const entityMapping = {
   '&': '&amp;',
   '<': '&lt;',
