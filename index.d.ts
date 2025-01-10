@@ -11,7 +11,10 @@ type DataValueOrCallback = DataValue | DataValueCallback;
 type DataValueMapping = Record<string, DataValueOrCallback>;
 type DataValueMappingCallback = () => DataValueMapping;
 
-type PakertajaAttributes = {
+type BooleanAttribute = boolean | StringOrCallback;
+type NumberAttribute = number | StringOrCallback;
+
+type Attributes = {
   text?: StringOrCallback;
   html?: StringOrCallback;
   style?: StyleValue;
@@ -51,10 +54,209 @@ type PakertajaAttributes = {
     | DataValueMappingCallback;
 };
 
-type PakertajaArgument =
+type BaseAttributes = Attributes & {
+  href?: StringOrCallback;
+  target?: StringOrCallback;
+};
+
+type LinkAttributes = Attributes & {
+  as?:
+    | "audio"
+    | "document"
+    | "embed"
+    | "fetch"
+    | "font"
+    | "image"
+    | "object"
+    | "script"
+    | "style"
+    | "track"
+    | "video"
+    | "worker"
+    | StringCallback;
+  blocking?: BooleanAttribute;
+  crossorigin?: StringOrCallback;
+  disabled?: BooleanAttribute;
+  fetchpriority?: "high" | "low" | "auto" | StringCallback;
+  href?: StringOrCallback;
+  hreflang?: StringOrCallback;
+  imagesizes?: StringOrCallback;
+  imagesrcset?: StringOrCallback;
+  integrity?: StringOrCallback;
+  media?: StringOrCallback;
+  referrerpolicy?: StringOrCallback;
+  rel?: StringOrCallback;
+  sizes?: StringOrCallback;
+  type?: StringOrCallback;
+};
+
+type MetaAttributes = Attributes & {
+  charset?: StringOrCallback;
+  "http-equiv"?:
+    | "content-security-policy"
+    | "content-type"
+    | "default-style"
+    | "x-ua-compatible"
+    | "refresh"
+    | "media"
+    | "name"
+    | StringCallback;
+  media?: StringOrCallback;
+  name?: StringOrCallback;
+};
+
+type StyleAttributes = Attributes & {
+  blocking?: BooleanAttribute;
+  media?: StringOrCallback;
+  nonce?: StringOrCallback;
+};
+
+type ScriptAttributes = Attributes & {
+  async?: BooleanAttribute;
+  blocking?: BooleanAttribute;
+  crossorigin?: StringOrCallback;
+  defer?: BooleanAttribute;
+  fetchpriority?: "high" | "low" | "auto" | StringCallback;
+  integrity?: StringOrCallback;
+  nomodule?: BooleanAttribute;
+  nonce?: StringOrCallback;
+  referrerpolicy?:
+    | "no-referrer"
+    | "no-referrer-when-downgrade"
+    | "origin-when-cross-origin"
+    | "same-origin"
+    | "strict-origin"
+    | "strict-origin-when-cross-origin"
+    | "unsafe-url"
+    | StringCallback;
+  src?: StringOrCallback;
+  type?: "importmap" | "module" | StringCallback;
+};
+
+type BodyAttributes = Attributes & {
+  onafterprint?: EventListener;
+  onbeforeprint?: EventListener;
+  onbeforeunload?: EventListener;
+  onblur?: EventListener;
+  onerror?: EventListener;
+  onfocus?: EventListener;
+  onhashchange?: EventListener;
+  onlanguagechange?: EventListener;
+  onload?: EventListener;
+  onmessage?: EventListener;
+  onmessageerror?: EventListener;
+  onoffline?: EventListener;
+  ononline?: EventListener;
+  onpageswap?: EventListener;
+  onpagehide?: EventListener;
+  onpagereveal?: EventListener;
+  onpageshow?: EventListener;
+  onpopstate?: EventListener;
+  onresize?: EventListener;
+  onrejectionhandled?: EventListener;
+  onstorage?: EventListener;
+  onunhandledrejection?: EventListener;
+  onunload?: EventListener;
+};
+
+type DialogAttributes = Attributes & {
+  open?: BooleanAttribute;
+};
+
+type BlockquoteAttributes = Attributes & {
+  cite?: StringOrCallback;
+};
+
+type OlAttributes = Attributes & {
+  reversed?: BooleanAttribute;
+  start?: NumberAttribute;
+  type?: "a" | "A" | "i" | "I" | "1" | StringOrCallback;
+};
+
+type LiAttributes = Attributes & {
+  value?: NumberAttribute;
+};
+
+type AAttributes = Attributes & {
+  download?: BooleanAttribute;
+  href?: StringOrCallback;
+  hreflang?: StringOrCallback;
+  ping?: StringOrCallback;
+  referrerpolicy?:
+    | "no-referrer"
+    | "no-referrer-when-downgrade"
+    | "origin"
+    | "origin-when-cross-origin"
+    | "same-origin"
+    | "strict-origin"
+    | "strict-origin-when-cross-origin"
+    | "unsafe-url"
+    | StringCallback;
+  rel?: StringOrCallback;
+  target?:
+    | "_self"
+    | "_blank"
+    | "_parent"
+    | "_top"
+    | "_unfencedTop"
+    | StringCallback;
+  type?: StringOrCallback;
+};
+
+type TimeAttributes = Attributes & {
+  datetime?: StringOrCallback;
+};
+
+type ProgressAttributes = Attributes & {
+  max?: NumberAttribute;
+  value?: NumberAttribute;
+};
+
+type MeterAttributes = Attributes & {
+  value?: NumberAttribute;
+  min?: NumberAttribute;
+  max?: NumberAttribute;
+  low?: NumberAttribute;
+  high?: NumberAttribute;
+  optimum?: NumberAttribute;
+  form?: StringOrCallback;
+};
+
+type InsAttributes = Attributes & {
+  cite?: StringOrCallback;
+  datetime?: StringOrCallback;
+};
+
+type ImgAttributes = Attributes & {
+  alt?: StringOrCallback;
+  crossorigin?: StringOrCallback;
+  decoding?: "sync" | "async" | "auto" | StringCallback;
+  elementtiming?: StringOrCallback;
+  fetchpriority?: "high" | "low" | "auto" | StringCallback;
+  height?: NumberAttribute;
+  ismap?: BooleanAttribute;
+  loading?: "eager" | "lazy" | StringCallback;
+  referrerpolicy?:
+    | "no-referrer"
+    | "no-referrer-when-downgrade"
+    | "origin"
+    | "origin-when-cross-origin"
+    | "same-origin"
+    | "strict-origin"
+    | "strict-origin-when-cross-origin"
+    | "unsafe-url"
+    | StringCallback;
+  sizes?: StringOrCallback;
+  src?: StringOrCallback;
+  srcset?: StringOrCallback;
+  width?: NumberAttribute;
+  usemap?: StringOrCallback;
+};
+
+type PakertajaArgument<A extends Attributes = Attributes> =
   | Element
   | string
-  | PakertajaAttributes
+  | A
   | null
   | undefined;
 
@@ -62,12 +264,30 @@ interface PakertajaStatic {
   (tagName: "html", ...args: PakertajaArgument[]): HTMLHtmlElement;
   (tagName: "head", ...args: PakertajaArgument[]): HTMLHeadElement;
   (tagName: "title", ...args: PakertajaArgument[]): HTMLTitleElement;
-  (tagName: "base", ...args: PakertajaArgument[]): HTMLBaseElement;
-  (tagName: "link", ...args: PakertajaArgument[]): HTMLLinkElement;
-  (tagName: "meta", ...args: PakertajaArgument[]): HTMLMetaElement;
-  (tagName: "style", ...args: PakertajaArgument[]): HTMLStyleElement;
-  (tagName: "script", ...args: PakertajaArgument[]): HTMLScriptElement;
-  (tagName: "body", ...args: PakertajaArgument[]): HTMLBodyElement;
+  (
+    tagName: "base",
+    ...args: PakertajaArgument<BaseAttributes>[]
+  ): HTMLBaseElement;
+  (
+    tagName: "link",
+    ...args: PakertajaArgument<LinkAttributes>[]
+  ): HTMLLinkElement;
+  (
+    tagName: "meta",
+    ...args: PakertajaArgument<MetaAttributes>[]
+  ): HTMLMetaElement;
+  (
+    tagName: "style",
+    ...args: PakertajaArgument<StyleAttributes>[]
+  ): HTMLStyleElement;
+  (
+    tagName: "script",
+    ...args: PakertajaArgument<ScriptAttributes>[]
+  ): HTMLScriptElement;
+  (
+    tagName: "body",
+    ...args: PakertajaArgument<BodyAttributes>[]
+  ): HTMLBodyElement;
   (tagName: "h1", ...args: PakertajaArgument[]): HTMLHeadingElement;
   (tagName: "h2", ...args: PakertajaArgument[]): HTMLHeadingElement;
   (tagName: "h3", ...args: PakertajaArgument[]): HTMLHeadingElement;
@@ -78,21 +298,39 @@ interface PakertajaStatic {
   (tagName: "hr", ...args: PakertajaArgument[]): HTMLHRElement;
   (tagName: "br", ...args: PakertajaArgument[]): HTMLBRElement;
   (tagName: "pre", ...args: PakertajaArgument[]): HTMLPreElement;
-  (tagName: "dialog", ...args: PakertajaArgument[]): HTMLDialogElement;
-  (tagName: "blockquote", ...args: PakertajaArgument[]): HTMLQuoteElement;
-  (tagName: "ol", ...args: PakertajaArgument[]): HTMLOListElement;
+  (
+    tagName: "dialog",
+    ...args: PakertajaArgument<DialogAttributes>[]
+  ): HTMLDialogElement;
+  (
+    tagName: "blockquote",
+    ...args: PakertajaArgument<BlockquoteAttributes>[]
+  ): HTMLQuoteElement;
+  (tagName: "ol", ...args: PakertajaArgument<OlAttributes>[]): HTMLOListElement;
   (tagName: "ul", ...args: PakertajaArgument[]): HTMLUListElement;
-  (tagName: "li", ...args: PakertajaArgument[]): HTMLLIElement;
+  (tagName: "li", ...args: PakertajaArgument<LiAttributes>[]): HTMLLIElement;
   (tagName: "dl", ...args: PakertajaArgument[]): HTMLDListElement;
-  (tagName: "a", ...args: PakertajaArgument[]): HTMLAnchorElement;
+  (tagName: "a", ...args: PakertajaArgument<AAttributes>[]): HTMLAnchorElement;
   (tagName: "q", ...args: PakertajaArgument[]): HTMLQuoteElement;
-  (tagName: "time", ...args: PakertajaArgument[]): HTMLTimeElement;
-  (tagName: "progress", ...args: PakertajaArgument[]): HTMLProgressElement;
-  (tagName: "meter", ...args: PakertajaArgument[]): HTMLMeterElement;
+  (
+    tagName: "time",
+    ...args: PakertajaArgument<TimeAttributes>[]
+  ): HTMLTimeElement;
+  (
+    tagName: "progress",
+    ...args: PakertajaArgument<ProgressAttributes>[]
+  ): HTMLProgressElement;
+  (
+    tagName: "meter",
+    ...args: PakertajaArgument<MeterAttributes>[]
+  ): HTMLMeterElement;
   (tagName: "span", ...args: PakertajaArgument[]): HTMLSpanElement;
-  (tagName: "ins", ...args: PakertajaArgument[]): HTMLModElement;
-  (tagName: "del", ...args: PakertajaArgument[]): HTMLModElement;
-  (tagName: "img", ...args: PakertajaArgument[]): HTMLImageElement;
+  (tagName: "ins", ...args: PakertajaArgument<InsAttributes>[]): HTMLModElement;
+  (tagName: "del", ...args: PakertajaArgument<InsAttributes>[]): HTMLModElement;
+  (
+    tagName: "img",
+    ...args: PakertajaArgument<ImgAttributes>[]
+  ): HTMLImageElement;
   (tagName: "iframe", ...args: PakertajaArgument[]): HTMLIFrameElement;
   (tagName: "embed", ...args: PakertajaArgument[]): HTMLEmbedElement;
   (tagName: "object", ...args: PakertajaArgument[]): HTMLObjectElement;
@@ -130,9 +368,13 @@ interface PakertajaStatic {
   (tagName: "text", ...args: PakertajaArgument[]): Text;
   (tagName: string, ...args: PakertajaArgument[]): HTMLElement;
 
+  /**
+   * Escapes HTML entities from given string and returns result.
+   */
   escape: (input: string) => string;
 
   fragment: (...args: Array<Element | StringOrCallback>) => DocumentFragment;
+
   append: (
     root: Element,
     ...args: Array<Element | StringOrCallback>
@@ -148,17 +390,17 @@ interface PakertajaStatic {
   // Document metadata
   head: (...args: PakertajaArgument[]) => HTMLHeadElement;
   title: (...args: PakertajaArgument[]) => HTMLTitleElement;
-  base: (...args: PakertajaArgument[]) => HTMLBaseElement;
-  link: (...args: PakertajaArgument[]) => HTMLLinkElement;
-  meta: (...args: PakertajaArgument[]) => HTMLMetaElement;
-  style: (...args: PakertajaArgument[]) => HTMLStyleElement;
+  base: (...args: PakertajaArgument<BaseAttributes>[]) => HTMLBaseElement;
+  link: (...args: PakertajaArgument<LinkAttributes>[]) => HTMLLinkElement;
+  meta: (...args: PakertajaArgument<MetaAttributes>[]) => HTMLMetaElement;
+  style: (...args: PakertajaArgument<StyleAttributes>[]) => HTMLStyleElement;
 
   // Scripting
-  script: (...args: PakertajaArgument[]) => HTMLScriptElement;
+  script: (...args: PakertajaArgument<ScriptAttributes>[]) => HTMLScriptElement;
   noscript: (...args: PakertajaArgument[]) => HTMLElement;
 
   // Sections
-  body: (...args: PakertajaArgument[]) => HTMLBodyElement;
+  body: (...args: PakertajaArgument<BodyAttributes>[]) => HTMLBodyElement;
   section: (...args: PakertajaArgument[]) => HTMLElement;
   nav: (...args: PakertajaArgument[]) => HTMLElement;
   article: (...args: PakertajaArgument[]) => HTMLElement;
@@ -178,17 +420,19 @@ interface PakertajaStatic {
   hr: (...args: PakertajaArgument[]) => HTMLHRElement;
   br: (...args: PakertajaArgument[]) => HTMLBRElement;
   pre: (...args: PakertajaArgument[]) => HTMLPreElement;
-  dialog: (...args: PakertajaArgument[]) => HTMLDialogElement;
-  blockquote: (...args: PakertajaArgument[]) => HTMLQuoteElement;
-  ol: (...args: PakertajaArgument[]) => HTMLOListElement;
+  dialog: (...args: PakertajaArgument<DialogAttributes>[]) => HTMLDialogElement;
+  blockquote: (
+    ...args: PakertajaArgument<BlockquoteAttributes>[]
+  ) => HTMLQuoteElement;
+  ol: (...args: PakertajaArgument<OlAttributes>[]) => HTMLOListElement;
   ul: (...args: PakertajaArgument[]) => HTMLUListElement;
-  li: (...args: PakertajaArgument[]) => HTMLLIElement;
+  li: (...args: PakertajaArgument<LiAttributes>[]) => HTMLLIElement;
   dl: (...args: PakertajaArgument[]) => HTMLDListElement;
   dt: (...args: PakertajaArgument[]) => HTMLElement;
   dd: (...args: PakertajaArgument[]) => HTMLElement;
 
   // Text level semantics
-  a: (...args: PakertajaArgument[]) => HTMLAnchorElement;
+  a: (...args: PakertajaArgument<AAttributes>[]) => HTMLAnchorElement;
   q: (...args: PakertajaArgument[]) => HTMLQuoteElement;
   cite: (...args: PakertajaArgument[]) => HTMLElement;
   em: (...args: PakertajaArgument[]) => HTMLElement;
@@ -196,9 +440,11 @@ interface PakertajaStatic {
   mark: (...args: PakertajaArgument[]) => HTMLElement;
   dfn: (...args: PakertajaArgument[]) => HTMLElement;
   abbr: (...args: PakertajaArgument[]) => HTMLElement;
-  time: (...args: PakertajaArgument[]) => HTMLTimeElement;
-  progress: (...args: PakertajaArgument[]) => HTMLProgressElement;
-  meter: (...args: PakertajaArgument[]) => HTMLMeterElement;
+  time: (...args: PakertajaArgument<TimeAttributes>[]) => HTMLTimeElement;
+  progress: (
+    ...args: PakertajaArgument<ProgressAttributes>[]
+  ) => HTMLProgressElement;
+  meter: (...args: PakertajaArgument<MeterAttributes>[]) => HTMLMeterElement;
   code: (...args: PakertajaArgument[]) => HTMLElement;
   var: (...args: PakertajaArgument[]) => HTMLElement;
   samp: (...args: PakertajaArgument[]) => HTMLElement;
@@ -214,12 +460,12 @@ interface PakertajaStatic {
   rp: (...args: PakertajaArgument[]) => HTMLElement;
 
   // Edits
-  ins: (...args: PakertajaArgument[]) => HTMLModElement;
-  del: (...args: PakertajaArgument[]) => HTMLModElement;
+  ins: (...args: PakertajaArgument<InsAttributes>[]) => HTMLModElement;
+  del: (...args: PakertajaArgument<InsAttributes>[]) => HTMLModElement;
 
   // Embedded content
   figure: (...args: PakertajaArgument[]) => HTMLElement;
-  img: (...args: PakertajaArgument[]) => HTMLImageElement;
+  img: (...args: PakertajaArgument<ImgAttributes>[]) => HTMLImageElement;
   iframe: (...args: PakertajaArgument[]) => HTMLIFrameElement;
   embed: (...args: PakertajaArgument[]) => HTMLEmbedElement;
   object: (...args: PakertajaArgument[]) => HTMLObjectElement;
