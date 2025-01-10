@@ -42,6 +42,17 @@ function applyStyleProperties (node, properties) {
   }
 }
 
+function applyDataProperties (node, properties) {
+  if (typeof properties === 'function') {
+    properties = properties.call(node);
+  }
+  if (properties != null) {
+    Object.keys(properties).forEach(key => {
+      node.dataset[key] = toStringWithCallback(node, properties[key]);
+    });
+  }
+}
+
 function Pakertaja () {
   const node = (
     arguments[0] === 'text'
@@ -58,7 +69,7 @@ function Pakertaja () {
       node.appendChild(arg);
     } else if (arg != null) {
       Object.keys(arg).forEach((key) => {
-        var value = arg[key];
+        const value = arg[key];
 
         if (key === 'text') {
           node.textContent = toStringWithCallback(node, value);
@@ -66,6 +77,8 @@ function Pakertaja () {
           node.innerHTML = toStringWithCallback(node, value);
         } else if (key === 'style') {
           applyStyleProperties(node, value);
+        } else if (key === 'data') {
+          applyDataProperties(node, value);
         } else if (/^on.+$/.test(key)) {
           node.addEventListener(key.substring(2), ev => {
             value.call(node, ev);

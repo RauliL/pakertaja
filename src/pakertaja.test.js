@@ -92,10 +92,29 @@ describe("Pakertaja", () => {
     });
   });
 
+  it("should be able to set CSS rules returned from function", () => {
+    const element = p("div", { style: () => ({ color: "red" }) });
+
+    expect(element).toHaveProperty(["style", "color"], "red");
+  });
+
   it("should be able to set CSS rules as a string", () => {
     expect(p("div", { style: "color: red" }).getAttribute("style")).toEqual(
       "color: red"
     );
+  });
+
+  it("should be able to set data attributes", () => {
+    const element = p("div", { data: { a: "foo", b: () => 1 + 2 } });
+
+    expect(element.dataset).toHaveProperty("a", "foo");
+    expect(element.dataset).toHaveProperty("b", "3");
+  });
+
+  it("should be able to set data attributes returned from function", () => {
+    const element = p("div", { data: () => ({ a: "foo" }) });
+
+    expect(element.dataset).toHaveProperty("a", "foo");
   });
 
   it("should be able to add event listeners", () => {
