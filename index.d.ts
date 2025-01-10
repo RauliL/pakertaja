@@ -41,6 +41,8 @@ type PakertajaAttributes = {
 
   [key: string]:
     | StringOrCallback
+    | number
+    | boolean
     | EventListener
     | null
     | undefined
