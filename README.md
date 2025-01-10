@@ -14,35 +14,42 @@ Pakertaja is a minimal JavaScript library for constructing DOM elements.
 ```JavaScript
 import p from 'pakertaja';
 
-function renderProduct(product) {
-  return p.div(
-    { class: 'product' },
+const renderProduct = (title, description) => p.div(
+  {
+    class: 'product',
+    style: {
+      background: 'black',
+      color: 'white'
+    }
+  },
 
-    p.h1(product.title),
+  p.h1(title),
 
-    p.p(product.description),
+  p.p(description),
 
-    p.form(
-      p.label({ for: 'quantity' }, 'Quantity: '),
-      p.input({ type: 'number', id: 'quantity', min: 10 }),
-      p.button(
-        'Add to cart',
-        {
-          type: 'submit',
-          onclick: (ev) => {
-            ev.preventDefault();
-            alert(`Added ${document.getElementById('quantity').value} products into cart.`);
-          },
+  p.form(
+    p.label({ for: 'quantity' }, 'Quantity: '),
+    p.input({ type: 'number', id: 'quantity', min: 10 }),
+    p.button(
+      'Add to cart',
+      {
+        type: 'submit',
+        onclick(ev) {
+          ev.preventDefault();
+          alert(`Added ${document.getElementById('quantity').value} products into cart.`);
         }
-      )
+      }
     )
-  );
-}
+  )
+);
 
-p.append(document.body, renderProduct({
-  title: 'Battlefield Earth DVDs',
-  description: 'Critically acclaimed as one of the best movies ever made.',
-}));
+p.append(
+  document.body,
+  renderProduct(
+    'Battlefield Earth DVDs',
+    'Critically acclaimed as one of the best movies ever made.'
+  )
+);
 ```
 
 ## API
