@@ -85,6 +85,10 @@ function Pakertaja () {
           node.addEventListener(key.substring(2), ev => {
             value.call(node, ev);
           });
+        } else if (value === true) {
+          node.setAttribute(key, key);
+        } else if (value === false) {
+          node.removeAttribute(key);
         } else {
           node.setAttribute(key, toStringWithCallback(node, value));
         }

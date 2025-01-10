@@ -87,6 +87,18 @@ describe("Pakertaja", () => {
     expect(element.innerHTML).toHaveLength(0);
   });
 
+  it("should set attribute value to it's name when value is `true`", () => {
+    const element = p("input", { autofocus: true });
+
+    expect(element.getAttribute("autofocus")).toBe("autofocus");
+  });
+
+  it("should remove attribute when it's value is `false`", () => {
+    const element = p("input", { autofocus: false });
+
+    expect(element.getAttribute("autofocus")).toBeNull();
+  });
+
   it("should be able to set CSS rules", () => {
     const elements = [
       p("div", { style: { color: "red" } }),
