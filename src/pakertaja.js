@@ -15,7 +15,11 @@ const entityMapping = {
  * Tests whether given value is HTML element.
  */
 function isElement (value) {
-  return typeof value === 'object' && value != null && value.nodeType === 1;
+  return value != null && typeof value === 'object' && (
+    value.nodeType === 1 ||
+    value.nodeType === 3 ||
+    value.nodeType === 11
+  );
 }
 
 /**
@@ -59,6 +63,8 @@ function Pakertaja () {
   const node = (
     arguments[0] === 'text'
       ? document.createTextNode('')
+      : (arguments[0] === 'fragment' || arguments[0] === Pakertaja.fragment)
+      ? document.createDocumentFragment()
       : document.createElement(arguments[0])
   );
 
@@ -101,24 +107,26 @@ function Pakertaja () {
 
 Pakertaja.escape = input => String(input).replace(/[&<>"'/]/g, s => entityMapping[s]);
 
-Pakertaja.append = (root, ...children) => {
+Pakertaja.fragment = (...children) => {
   const fragment = document.createDocumentFragment();
 
   children.forEach((child) => fragment.appendChild(
-    isElement(child) ? child : document.createTextNode(toStringWithCallback(root, child))
+    isElement(child)
+      ? child
+      : document.createTextNode(toStringWithCallback(fragment, child))
   ));
-  root.appendChild(fragment);
+
+  return fragment;
+};
+
+Pakertaja.append = (root, ...children) => {
+  root.appendChild(Pakertaja.fragment(...children));
 
   return root;
 };
 
 Pakertaja.prepend = (root, ...children) => {
-  const fragment = document.createDocumentFragment();
-
-  children.forEach((child) => fragment.appendChild(
-    isElement(child) ? child : document.createTextNode(toStringWithCallback(root, child))
-  ));
-  root.insertBefore(fragment, root.firstChild);
+  root.insertBefore(Pakertaja.fragment(...children), root.firstChild);
 
   return root;
 };

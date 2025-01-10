@@ -16,7 +16,7 @@ describe("Pakertaja", () => {
       expect(element).not.toBeUndefined();
       expect(element).toHaveProperty("childNodes");
       expect(element).toHaveProperty("style");
-      expect(element).toHaveProperty("nodeType", 1);
+      expect(element).toHaveProperty("nodeType", Node.ELEMENT_NODE);
       expect(element).toHaveProperty("tagName", tagName.toUpperCase());
 
       expect(element.childNodes).toHaveLength(0);
@@ -27,9 +27,18 @@ describe("Pakertaja", () => {
   it("should be able to create text nodes", () => {
     const node = p("text", "Test.");
 
-    expect(node).toHaveProperty("nodeType", 3);
+    expect(node).toHaveProperty("nodeType", Node.TEXT_NODE);
     expect(node).toHaveProperty("textContent", "Test.");
   });
+
+  it.each(["fragment", p.fragment])(
+    "should be able to create document fragment nodes",
+    (tagName) => {
+      const node = p(tagName);
+
+      expect(node).toHaveProperty("nodeType", Node.DOCUMENT_FRAGMENT_NODE);
+    }
+  );
 
   it("should have shortcut function for creating text nodes", () => {
     const node = p.text("Test.");

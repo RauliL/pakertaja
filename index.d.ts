@@ -132,6 +132,7 @@ interface PakertajaStatic {
 
   escape: (input: string) => string;
 
+  fragment: (...args: Array<Element | StringOrCallback>) => DocumentFragment;
   append: (
     root: Element,
     ...args: Array<Element | StringOrCallback>
