@@ -24,7 +24,7 @@
     "watch": "rollup -c -w",
     "clean": "rimraf './dist'",
     "prebuild": "$npm_execpath run clean",
-    "prepack": "env NODE_ENV=production $npm_execpath run build",
+    "prepack": "cross-env NODE_ENV=production $npm_execpath run build",
     "test": "vitest",
     "coverage": "vitest --coverage"
   },
