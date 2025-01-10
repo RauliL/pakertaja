@@ -1,7 +1,7 @@
 {
   "name": "pakertaja",
   "description": "Tiny JavaScript library for building HTML elements",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "author": "Rauli Laine",
   "homepage": "https://github.com/RauliL/pakertaja",
   "license": "MIT",
@@ -17,7 +17,6 @@
   ],
   "main": "dist/pakertaja.js",
   "module": "dist/pakertaja.mjs",
-  "browser": "dist/pakertaja.iife.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "rollup -c",
