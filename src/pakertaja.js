@@ -1,4 +1,6 @@
+/* v8 ignore start */
 const document = (typeof window !== 'undefined' ? window : global).document;
+/* v8 ignore stop */
 const entityMapping = {
   '&': '&amp;',
   '<': '&lt;',

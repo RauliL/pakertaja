@@ -81,6 +81,12 @@ describe("Pakertaja", () => {
     });
   });
 
+  it("should ignore null attributes", () => {
+    const element = p("div", null);
+
+    expect(element.innerHTML).toHaveLength(0);
+  });
+
   it("should be able to set CSS rules", () => {
     const elements = [
       p("div", { style: { color: "red" } }),
@@ -104,6 +110,12 @@ describe("Pakertaja", () => {
     );
   });
 
+  it("should ignore null CSS rules", () => {
+    const element = p("div", { style: () => null });
+
+    expect(Object.keys(element.style)).toHaveLength(1);
+  });
+
   it("should be able to set data attributes", () => {
     const element = p("div", { data: { a: "foo", b: () => 1 + 2 } });
 
@@ -115,6 +127,12 @@ describe("Pakertaja", () => {
     const element = p("div", { data: () => ({ a: "foo" }) });
 
     expect(element.dataset).toHaveProperty("a", "foo");
+  });
+
+  it("should ignore null data attributes", () => {
+    const element = p("div", { data: () => null });
+
+    expect(element.dataset).toEqual({});
   });
 
   it("should be able to add event listeners", () => {
