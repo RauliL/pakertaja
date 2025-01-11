@@ -28,7 +28,17 @@ type Attributes = {
   data?: DataValueMapping | DataValueMappingCallback;
 
   // Global HTML attributes available to all elements.
+  /**
+   * Provides a hint for generating a keyboard shortcut for the current
+   * element. This attribute consists of a space-separated list of
+   * characters. The browser should use the first one that exists on the
+   * computer keyboard layout.
+   */
   accesskey?: StringOrCallback;
+  /**
+   * Controls whether inputted text is automatically capitalized and,
+   * if so, in what manner.
+   */
   autocapitalize?:
     | StringCallback
     | "off"
@@ -37,6 +47,13 @@ type Attributes = {
     | "sentences"
     | "words"
     | "characters";
+  /**
+   * Controls whether input text is automatically corrected for spelling
+   * errors. This can be applied to elements that have editable text except
+   * for <input> elements with the attribute: type="password", type="email",
+   * or type="url".
+   */
+  autocorrect?: "on" | "off" | "" | StringCallback;
   class?: StringOrCallback;
   contenteditable?: StringOrCallback;
   contextmenu?: StringOrCallback;
@@ -147,7 +164,7 @@ type LinkAttributes = Attributes & {
   blocking?: BooleanAttribute;
   crossorigin?: StringOrCallback;
   disabled?: BooleanAttribute;
-  fetchpriority?: "high" | "low" | "auto" | StringCallback;
+  fetchpriority?: FetchPriority | StringCallback;
   href?: StringOrCallback;
   hreflang?: StringOrCallback;
   imagesizes?: StringOrCallback;
