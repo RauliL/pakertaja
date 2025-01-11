@@ -14,6 +14,15 @@ type DataValueMappingCallback = () => DataValueMapping;
 type BooleanAttribute = boolean | StringOrCallback;
 type NumberAttribute = number | StringOrCallback;
 
+type ReferrerPolicy =
+  | "no-referrer"
+  | "no-referrer-when-downgrade"
+  | "origin-when-cross-origin"
+  | "same-origin"
+  | "strict-origin"
+  | "strict-origin-when-cross-origin"
+  | "unsafe-url";
+
 type Attributes = {
   text?: StringOrCallback;
   html?: StringOrCallback;
@@ -84,7 +93,7 @@ type LinkAttributes = Attributes & {
   imagesrcset?: StringOrCallback;
   integrity?: StringOrCallback;
   media?: StringOrCallback;
-  referrerpolicy?: StringOrCallback;
+  referrerpolicy?: ReferrerPolicy | StringOrCallback;
   rel?: StringOrCallback;
   sizes?: StringOrCallback;
   type?: StringOrCallback;
@@ -120,15 +129,7 @@ type ScriptAttributes = Attributes & {
   integrity?: StringOrCallback;
   nomodule?: BooleanAttribute;
   nonce?: StringOrCallback;
-  referrerpolicy?:
-    | "no-referrer"
-    | "no-referrer-when-downgrade"
-    | "origin-when-cross-origin"
-    | "same-origin"
-    | "strict-origin"
-    | "strict-origin-when-cross-origin"
-    | "unsafe-url"
-    | StringCallback;
+  referrerpolicy?: ReferrerPolicy | StringOrCallback;
   src?: StringOrCallback;
   type?: "importmap" | "module" | StringCallback;
 };
@@ -177,21 +178,12 @@ type LiAttributes = Attributes & {
   value?: NumberAttribute;
 };
 
-type AAttributes = Attributes & {
+type AnchorAttributes = Attributes & {
   download?: BooleanAttribute;
   href?: StringOrCallback;
   hreflang?: StringOrCallback;
   ping?: StringOrCallback;
-  referrerpolicy?:
-    | "no-referrer"
-    | "no-referrer-when-downgrade"
-    | "origin"
-    | "origin-when-cross-origin"
-    | "same-origin"
-    | "strict-origin"
-    | "strict-origin-when-cross-origin"
-    | "unsafe-url"
-    | StringCallback;
+  referrerpolicy?: ReferrerPolicy | StringCallback;
   rel?: StringOrCallback;
   target?:
     | "_self"
@@ -236,21 +228,265 @@ type ImgAttributes = Attributes & {
   height?: NumberAttribute;
   ismap?: BooleanAttribute;
   loading?: "eager" | "lazy" | StringCallback;
-  referrerpolicy?:
-    | "no-referrer"
-    | "no-referrer-when-downgrade"
-    | "origin"
-    | "origin-when-cross-origin"
-    | "same-origin"
-    | "strict-origin"
-    | "strict-origin-when-cross-origin"
-    | "unsafe-url"
-    | StringCallback;
+  referrerpolicy?: ReferrerPolicy | StringCallback;
   sizes?: StringOrCallback;
   src?: StringOrCallback;
   srcset?: StringOrCallback;
   width?: NumberAttribute;
   usemap?: StringOrCallback;
+};
+
+export type IFrameAttributes = Attributes & {
+  allow?: StringOrCallback;
+  allowfullscreen?: BooleanAttribute;
+  height?: NumberAttribute;
+  loading?: "easger" | "lazy" | StringCallback;
+  name?: StringOrCallback;
+  referrerpolicy?: ReferrerPolicy | StringCallback;
+  sandbox?:
+    | "allow-downloads"
+    | "allow-forms"
+    | "allow-modals"
+    | "allow-oriental-lock"
+    | "allow-pointer-lock"
+    | "allow-popups"
+    | "allow-popups-to-escape-sandbox"
+    | "allow-presentation"
+    | "allow-same-origin"
+    | "allow-scripts"
+    | "allow-top-navigation"
+    | "allow-top-navigation-by-user-activation"
+    | "allow-top-navigation-to-custom-protocols"
+    | StringCallback;
+};
+
+type EmbedAttributes = Attributes & {
+  height?: NumberAttribute;
+  src?: StringOrCallback;
+  type?: StringOrCallback;
+  width?: NumberAttribute;
+};
+
+type ObjectAttributes = Attributes & {
+  data?: StringOrCallback;
+  form?: StringOrCallback;
+  height?: NumberAttribute;
+  name?: StringOrCallback;
+  type?: StringOrCallback;
+  width?: NumberAttribute;
+};
+
+type VideoAttributes = Attributes & {
+  autoplay?: BooleanAttribute;
+  controls?: StringOrCallback;
+  controlslist?: StringOrCallback;
+  crossorigin?: "anonymous" | "use-credentials" | StringCallback;
+  disablepictureinpicture?: BooleanAttribute;
+  disableremoteplayback?: BooleanAttribute;
+  height?: NumberAttribute;
+  loop?: BooleanAttribute;
+  muted?: BooleanAttribute;
+  playsinline?: BooleanAttribute;
+  poster?: StringOrCallback;
+  preload?: "none" | "metadata" | "auto" | StringCallback;
+  src?: StringOrCallback;
+  width?: NumberAttribute;
+};
+
+type AudioAttributes = Omit<VideoAttributes, "height" | "width">;
+
+type SourceAttributes = Attributes & {
+  type?: StringOrCallback;
+  src?: StringOrCallback;
+  srcset?: StringOrCallback;
+  sizes?: StringOrCallback;
+  media?: StringOrCallback;
+  height?: NumberAttribute;
+  width?: NumberAttribute;
+};
+
+type CanvasAttributes = Attributes & {
+  height?: NumberAttribute;
+  width?: NumberAttribute;
+};
+
+type MapAttributes = Attributes & {
+  name?: StringOrCallback;
+};
+
+type AreaAttributes = Attributes & {
+  alt?: StringOrCallback;
+  coords?: "rect" | "circle" | "poly" | StringCallback;
+  download?: BooleanAttribute;
+  href?: StringOrCallback;
+  ping?: StringOrCallback;
+  referrerpolicy: ReferrerPolicy | StringCallback;
+  rel?: StringOrCallback;
+  shape?: StringOrCallback;
+  target?: "_self" | "_blank" | "_parent" | "_top" | StringCallback;
+};
+
+type ColgroupAttributes = Attributes & {
+  span?: NumberAttribute;
+};
+
+type TDAttributes = Attributes & {
+  colspan?: NumberAttribute;
+  headers?: StringOrCallback;
+  rowspan?: NumberAttribute;
+};
+
+type THAttributes = Attributes & {
+  abbr?: StringOrCallback;
+  colspan?: NumberAttribute;
+  headers?: StringOrCallback;
+  rowspan?: NumberAttribute;
+  scope?: "row" | "col" | "rowgroup" | "colgroup" | StringCallback;
+};
+
+type FormAttributes = Attributes & {
+  "accept-charset"?: StringOrCallback;
+  autocomplete?: BooleanAttribute;
+  name?: StringOrCallback;
+  rel?: StringOrCallback;
+};
+
+type FieldsetAttributes = Attributes & {
+  disabled?: BooleanAttribute;
+  form?: StringOrCallback;
+  name?: StringOrCallback;
+};
+
+type LabelAttributes = Attributes & {
+  for?: StringOrCallback;
+};
+
+type InputAttributes = Attributes & {
+  accept?: StringOrCallback;
+  alt?: StringOrCallback;
+  autocapitalize?: BooleanAttribute;
+  autocomplete?: BooleanAttribute;
+  capture?: StringOrCallback;
+  checked?: BooleanAttribute;
+  dirname?: StringOrCallback;
+  disabled?: BooleanAttribute;
+  form?: StringOrCallback;
+  formaction?: StringOrCallback;
+  formenctype?: StringOrCallback;
+  formmethod?: StringOrCallback;
+  formonvalidate?: StringOrCallback;
+  formtarget?: StringOrCallback;
+  height?: NumberAttribute;
+  list?: StringOrCallback;
+  max?: NumberAttribute;
+  maxlength?: NumberAttribute;
+  min?: NumberAttribute;
+  minlength?: NumberAttribute;
+  multiple?: BooleanAttribute;
+  name?: StringOrCallback;
+  pattern?: StringOrCallback;
+  placeholder?: StringOrCallback;
+  popovertarget?: StringOrCallback;
+  popovertargetaction?: StringOrCallback;
+  readonly?: BooleanAttribute;
+  required?: BooleanAttribute;
+  size?: NumberAttribute;
+  src?: StringOrCallback;
+  step?: NumberAttribute;
+  type?:
+    | "button"
+    | "checkbox"
+    | "color"
+    | "date"
+    | "datetime-local"
+    | "email"
+    | "file"
+    | "hidden"
+    | "image"
+    | "month"
+    | "number"
+    | "password"
+    | "radio"
+    | "range"
+    | "reset"
+    | "search"
+    | "submit"
+    | "tel"
+    | "text"
+    | "time"
+    | "url"
+    | "week"
+    | StringCallback;
+  value?: StringOrCallback;
+  width?: NumberAttribute;
+};
+
+type ButtonAttributes = Attributes & {
+  autofocus?: BooleanAttribute;
+  disabled?: BooleanAttribute;
+  form?: StringOrCallback;
+  formaction?: StringOrCallback;
+  formenctype?: StringOrCallback;
+  formmethod?: StringOrCallback;
+  formonvalidate?: BooleanAttribute;
+  formtarget?: "_self" | "_blank" | "_parent" | "_top" | StringCallback;
+  name?: StringOrCallback;
+  popovertarget?: StringOrCallback;
+  popovertargetaction?: StringOrCallback;
+  type?: "submit" | "reset" | "button" | StringCallback;
+  value?: StringOrCallback;
+};
+
+type SelectAttributes = Attributes & {
+  autocomplete?: BooleanAttribute;
+  autofocus?: BooleanAttribute;
+  disabled?: BooleanAttribute;
+  form?: StringOrCallback;
+  multiple?: BooleanAttribute;
+  name?: StringOrCallback;
+  required?: BooleanAttribute;
+  size?: NumberAttribute;
+};
+
+type OptGroupAttributes = Attributes & {
+  disabled?: BooleanAttribute;
+  label?: StringOrCallback;
+};
+
+type OptionAttributes = OptGroupAttributes & {
+  selected?: BooleanAttribute;
+  value?: StringOrCallback;
+};
+
+type TextAreaAttributes = Attributes & {
+  autocapitalize?: BooleanAttribute;
+  autocomplete?: BooleanAttribute;
+  autocorrect?: "on" | "off" | StringCallback;
+  autofocus?: BooleanAttribute;
+  cols?: NumberAttribute;
+  dirname?: StringOrCallback;
+  disabled?: BooleanAttribute;
+  form?: StringOrCallback;
+  maxlength?: NumberAttribute;
+  minlength?: NumberAttribute;
+  name?: StringOrCallback;
+  placeholder?: StringOrCallback;
+  readonly?: BooleanAttribute;
+  required?: BooleanAttribute;
+  rows?: NumberAttribute;
+  spellcheck?: "true" | "default" | "false" | StringCallback;
+  wrap?: "hard" | "soft" | StringCallback;
+};
+
+type OutputAttributes = Attributes & {
+  for?: StringOrCallback;
+  form?: StringOrCallback;
+  name?: StringOrCallback;
+};
+
+type DetailsAttributes = Attributes & {
+  open?: BooleanAttribute;
+  name?: StringOrCallback;
 };
 
 type PakertajaArgument<A extends Attributes = Attributes> =
@@ -310,7 +546,10 @@ interface PakertajaStatic {
   (tagName: "ul", ...args: PakertajaArgument[]): HTMLUListElement;
   (tagName: "li", ...args: PakertajaArgument<LiAttributes>[]): HTMLLIElement;
   (tagName: "dl", ...args: PakertajaArgument[]): HTMLDListElement;
-  (tagName: "a", ...args: PakertajaArgument<AAttributes>[]): HTMLAnchorElement;
+  (
+    tagName: "a",
+    ...args: PakertajaArgument<AnchorAttributes>[]
+  ): HTMLAnchorElement;
   (tagName: "q", ...args: PakertajaArgument[]): HTMLQuoteElement;
   (
     tagName: "time",
@@ -331,37 +570,105 @@ interface PakertajaStatic {
     tagName: "img",
     ...args: PakertajaArgument<ImgAttributes>[]
   ): HTMLImageElement;
-  (tagName: "iframe", ...args: PakertajaArgument[]): HTMLIFrameElement;
-  (tagName: "embed", ...args: PakertajaArgument[]): HTMLEmbedElement;
-  (tagName: "object", ...args: PakertajaArgument[]): HTMLObjectElement;
-  (tagName: "param", ...args: PakertajaArgument[]): HTMLParamElement;
-  (tagName: "video", ...args: PakertajaArgument[]): HTMLVideoElement;
-  (tagName: "audio", ...args: PakertajaArgument[]): HTMLAudioElement;
-  (tagName: "source", ...args: PakertajaArgument[]): HTMLSourceElement;
-  (tagName: "canvas", ...args: PakertajaArgument[]): HTMLCanvasElement;
-  (tagName: "map", ...args: PakertajaArgument[]): HTMLMapElement;
-  (tagName: "area", ...args: PakertajaArgument[]): HTMLAreaElement;
+  (
+    tagName: "iframe",
+    ...args: PakertajaArgument<IFrameAttributes>[]
+  ): HTMLIFrameElement;
+  (
+    tagName: "embed",
+    ...args: PakertajaArgument<EmbedAttributes>[]
+  ): HTMLEmbedElement;
+  (
+    tagName: "object",
+    ...args: PakertajaArgument<ObjectAttributes>[]
+  ): HTMLObjectElement;
+  (
+    tagName: "video",
+    ...args: PakertajaArgument<VideoAttributes>[]
+  ): HTMLVideoElement;
+  (
+    tagName: "audio",
+    ...args: PakertajaArgument<AudioAttributes>[]
+  ): HTMLAudioElement;
+  (
+    tagName: "source",
+    ...args: PakertajaArgument<SourceAttributes>[]
+  ): HTMLSourceElement;
+  (
+    tagName: "canvas",
+    ...args: PakertajaArgument<CanvasAttributes>[]
+  ): HTMLCanvasElement;
+  (tagName: "map", ...args: PakertajaArgument<MapAttributes>[]): HTMLMapElement;
+  (
+    tagName: "area",
+    ...args: PakertajaArgument<AreaAttributes>[]
+  ): HTMLAreaElement;
   (tagName: "table", ...args: PakertajaArgument[]): HTMLTableElement;
   (tagName: "caption", ...args: PakertajaArgument[]): HTMLTableCaptionElement;
-  (tagName: "colgroup", ...args: PakertajaArgument[]): HTMLTableColElement;
-  (tagName: "col", ...args: PakertajaArgument[]): HTMLTableColElement;
+  (
+    tagName: "colgroup",
+    ...args: PakertajaArgument<ColgroupAttributes>[]
+  ): HTMLTableColElement;
+  (
+    tagName: "col",
+    ...args: PakertajaArgument<ColgroupAttributes>[]
+  ): HTMLTableColElement;
   (tagName: "tbody", ...args: PakertajaArgument[]): HTMLTableSectionElement;
   (tagName: "tfoot", ...args: PakertajaArgument[]): HTMLTableSectionElement;
   (tagName: "tr", ...args: PakertajaArgument[]): HTMLTableRowElement;
-  (tagName: "td", ...args: PakertajaArgument[]): HTMLTableCellElement;
-  (tagName: "th", ...args: PakertajaArgument[]): HTMLTableCellElement;
-  (tagName: "form", ...args: PakertajaArgument[]): HTMLFormElement;
-  (tagName: "fieldset", ...args: PakertajaArgument[]): HTMLFieldSetElement;
-  (tagName: "label", ...args: PakertajaArgument[]): HTMLLabelElement;
-  (tagName: "input", ...args: PakertajaArgument[]): HTMLInputElement;
-  (tagName: "button", ...args: PakertajaArgument[]): HTMLButtonElement;
-  (tagName: "select", ...args: PakertajaArgument[]): HTMLSelectElement;
+  (
+    tagName: "td",
+    ...args: PakertajaArgument<TDAttributes>[]
+  ): HTMLTableCellElement;
+  (
+    tagName: "th",
+    ...args: PakertajaArgument<THAttributes>[]
+  ): HTMLTableCellElement;
+  (
+    tagName: "form",
+    ...args: PakertajaArgument<FormAttributes>[]
+  ): HTMLFormElement;
+  (
+    tagName: "fieldset",
+    ...args: PakertajaArgument<FieldsetAttributes>[]
+  ): HTMLFieldSetElement;
+  (
+    tagName: "label",
+    ...args: PakertajaArgument<LabelAttributes>[]
+  ): HTMLLabelElement;
+  (
+    tagName: "input",
+    ...args: PakertajaArgument<InputAttributes>[]
+  ): HTMLInputElement;
+  (
+    tagName: "button",
+    ...args: PakertajaArgument<ButtonAttributes>[]
+  ): HTMLButtonElement;
+  (
+    tagName: "select",
+    ...args: PakertajaArgument<SelectAttributes>[]
+  ): HTMLSelectElement;
   (tagName: "datalist", ...args: PakertajaArgument[]): HTMLDataListElement;
-  (tagName: "optgroup", ...args: PakertajaArgument[]): HTMLOptGroupElement;
-  (tagName: "option", ...args: PakertajaArgument[]): HTMLOptionElement;
-  (tagName: "textarea", ...args: PakertajaArgument[]): HTMLTextAreaElement;
-  (tagName: "output", ...args: PakertajaArgument[]): HTMLOutputElement;
-  (tagName: "details", ...args: PakertajaArgument[]): HTMLDetailsElement;
+  (
+    tagName: "optgroup",
+    ...args: PakertajaArgument<OptGroupAttributes>[]
+  ): HTMLOptGroupElement;
+  (
+    tagName: "option",
+    ...args: PakertajaArgument<OptionAttributes>[]
+  ): HTMLOptionElement;
+  (
+    tagName: "textarea",
+    ...args: PakertajaArgument<TextAreaAttributes>[]
+  ): HTMLTextAreaElement;
+  (
+    tagName: "output",
+    ...args: PakertajaArgument<OutputAttributes>[]
+  ): HTMLOutputElement;
+  (
+    tagName: "details",
+    ...args: PakertajaArgument<DetailsAttributes>[]
+  ): HTMLDetailsElement;
   (tagName: "menu", ...args: PakertajaArgument[]): HTMLMenuElement;
   (tagName: "legend", ...args: PakertajaArgument[]): HTMLLegendElement;
   (tagName: "div", ...args: PakertajaArgument[]): HTMLDivElement;
@@ -432,7 +739,7 @@ interface PakertajaStatic {
   dd: (...args: PakertajaArgument[]) => HTMLElement;
 
   // Text level semantics
-  a: (...args: PakertajaArgument<AAttributes>[]) => HTMLAnchorElement;
+  a: (...args: PakertajaArgument<AnchorAttributes>[]) => HTMLAnchorElement;
   q: (...args: PakertajaArgument[]) => HTMLQuoteElement;
   cite: (...args: PakertajaArgument[]) => HTMLElement;
   em: (...args: PakertajaArgument[]) => HTMLElement;
@@ -466,43 +773,54 @@ interface PakertajaStatic {
   // Embedded content
   figure: (...args: PakertajaArgument[]) => HTMLElement;
   img: (...args: PakertajaArgument<ImgAttributes>[]) => HTMLImageElement;
-  iframe: (...args: PakertajaArgument[]) => HTMLIFrameElement;
-  embed: (...args: PakertajaArgument[]) => HTMLEmbedElement;
-  object: (...args: PakertajaArgument[]) => HTMLObjectElement;
-  param: (...args: PakertajaArgument[]) => HTMLParamElement;
-  video: (...args: PakertajaArgument[]) => HTMLVideoElement;
-  audio: (...args: PakertajaArgument[]) => HTMLAudioElement;
-  source: (...args: PakertajaArgument[]) => HTMLSourceElement;
-  canvas: (...args: PakertajaArgument[]) => HTMLCanvasElement;
-  map: (...args: PakertajaArgument[]) => HTMLMapElement;
-  area: (...args: PakertajaArgument[]) => HTMLAreaElement;
+  iframe: (...args: PakertajaArgument<IFrameAttributes>[]) => HTMLIFrameElement;
+  embed: (...args: PakertajaArgument<EmbedAttributes>[]) => HTMLEmbedElement;
+  object: (...args: PakertajaArgument<ObjectAttributes>[]) => HTMLObjectElement;
+  video: (...args: PakertajaArgument<VideoAttributes>[]) => HTMLVideoElement;
+  audio: (...args: PakertajaArgument<AudioAttributes>[]) => HTMLAudioElement;
+  source: (...args: PakertajaArgument<SourceAttributes>[]) => HTMLSourceElement;
+  canvas: (...args: PakertajaArgument<CanvasAttributes>[]) => HTMLCanvasElement;
+  map: (...args: PakertajaArgument<MapAttributes>[]) => HTMLMapElement;
+  area: (...args: PakertajaArgument<AreaAttributes>[]) => HTMLAreaElement;
 
   // Tabular data
   table: (...args: PakertajaArgument[]) => HTMLTableElement;
   caption: (...args: PakertajaArgument[]) => HTMLTableCaptionElement;
-  colgroup: (...args: PakertajaArgument[]) => HTMLTableColElement;
-  col: (...args: PakertajaArgument[]) => HTMLTableColElement;
+  colgroup: (
+    ...args: PakertajaArgument<ColgroupAttributes>[]
+  ) => HTMLTableColElement;
+  col: (
+    ...args: PakertajaArgument<ColgroupAttributes>[]
+  ) => HTMLTableColElement;
   tbody: (...args: PakertajaArgument[]) => HTMLTableSectionElement;
   tfoot: (...args: PakertajaArgument[]) => HTMLTableSectionElement;
   tr: (...args: PakertajaArgument[]) => HTMLTableRowElement;
-  td: (...args: PakertajaArgument[]) => HTMLTableCellElement;
-  th: (...args: PakertajaArgument[]) => HTMLTableCellElement;
+  td: (...args: PakertajaArgument<TDAttributes>[]) => HTMLTableCellElement;
+  th: (...args: PakertajaArgument<THAttributes>[]) => HTMLTableCellElement;
 
   // Forms
-  form: (...args: PakertajaArgument[]) => HTMLFormElement;
-  fieldset: (...args: PakertajaArgument[]) => HTMLFieldSetElement;
-  label: (...args: PakertajaArgument[]) => HTMLLabelElement;
-  input: (...args: PakertajaArgument[]) => HTMLInputElement;
-  button: (...args: PakertajaArgument[]) => HTMLButtonElement;
-  select: (...args: PakertajaArgument[]) => HTMLSelectElement;
+  form: (...args: PakertajaArgument<FormAttributes>[]) => HTMLFormElement;
+  fieldset: (
+    ...args: PakertajaArgument<FieldsetAttributes>[]
+  ) => HTMLFieldSetElement;
+  label: (...args: PakertajaArgument<LabelAttributes>[]) => HTMLLabelElement;
+  input: (...args: PakertajaArgument<InputAttributes>[]) => HTMLInputElement;
+  button: (...args: PakertajaArgument<ButtonAttributes>[]) => HTMLButtonElement;
+  select: (...args: PakertajaArgument<SelectAttributes>[]) => HTMLSelectElement;
   datalist: (...args: PakertajaArgument[]) => HTMLDataListElement;
-  optgroup: (...args: PakertajaArgument[]) => HTMLOptGroupElement;
-  option: (...args: PakertajaArgument[]) => HTMLOptionElement;
-  textarea: (...args: PakertajaArgument[]) => HTMLTextAreaElement;
-  output: (...args: PakertajaArgument[]) => HTMLOutputElement;
+  optgroup: (
+    ...args: PakertajaArgument<OptGroupAttributes>[]
+  ) => HTMLOptGroupElement;
+  option: (...args: PakertajaArgument<OptionAttributes>[]) => HTMLOptionElement;
+  textarea: (
+    ...args: PakertajaArgument<TextAreaAttributes>[]
+  ) => HTMLTextAreaElement;
+  output: (...args: PakertajaArgument<OutputAttributes>[]) => HTMLOutputElement;
 
   // Interactive elements
-  details: (...args: PakertajaArgument[]) => HTMLDetailsElement;
+  details: (
+    ...args: PakertajaArgument<DetailsAttributes>[]
+  ) => HTMLDetailsElement;
   command: (...args: PakertajaArgument[]) => HTMLElement;
   bb: (...args: PakertajaArgument[]) => HTMLElement;
   menu: (...args: PakertajaArgument[]) => HTMLMenuElement;
