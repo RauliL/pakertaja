@@ -277,7 +277,7 @@ type MeterAttributes = Attributes & {
   form?: StringOrCallback;
 };
 
-type InsAttributes = Attributes & {
+type ModAttributes = Attributes & {
   cite?: StringOrCallback;
   datetime?: StringOrCallback;
 };
@@ -628,8 +628,8 @@ interface PakertajaStatic {
     ...args: PakertajaArgument<MeterAttributes>[]
   ): HTMLMeterElement;
   (tagName: "span", ...args: PakertajaArgument[]): HTMLSpanElement;
-  (tagName: "ins", ...args: PakertajaArgument<InsAttributes>[]): HTMLModElement;
-  (tagName: "del", ...args: PakertajaArgument<InsAttributes>[]): HTMLModElement;
+  (tagName: "ins", ...args: PakertajaArgument<ModAttributes>[]): HTMLModElement;
+  (tagName: "del", ...args: PakertajaArgument<ModAttributes>[]): HTMLModElement;
   (
     tagName: "img",
     ...args: PakertajaArgument<ImgAttributes>[]
@@ -831,8 +831,8 @@ interface PakertajaStatic {
   rp: (...args: PakertajaArgument[]) => HTMLElement;
 
   // Edits
-  ins: (...args: PakertajaArgument<InsAttributes>[]) => HTMLModElement;
-  del: (...args: PakertajaArgument<InsAttributes>[]) => HTMLModElement;
+  ins: (...args: PakertajaArgument<ModAttributes>[]) => HTMLModElement;
+  del: (...args: PakertajaArgument<ModAttributes>[]) => HTMLModElement;
 
   // Embedded content
   figure: (...args: PakertajaArgument[]) => HTMLElement;
@@ -902,5 +902,127 @@ declare module "pakertaja" {
 }
 
 declare namespace JSX {
-  type IntrinsicElements = Record<string, any>;
+  type IntrinsicElements = {
+    // The root element
+    html: PakertajaArgument;
+
+    // Document metadata
+    head: PakertajaArgument;
+    title: PakertajaArgument;
+    base: PakertajaArgument<BaseAttributes>;
+    link: PakertajaArgument<LinkAttributes>;
+    meta: PakertajaArgument<MetaAttributes>;
+    style: PakertajaArgument<StyleAttributes>;
+
+    // Scripting
+    script: PakertajaArgument<ScriptAttributes>;
+    noscript: PakertajaArgument;
+
+    // Sections
+    body: PakertajaArgument<BodyAttributes>;
+    section: PakertajaArgument;
+    nav: PakertajaArgument;
+    article: PakertajaArgument;
+    aside: PakertajaArgument;
+    h1: PakertajaArgument;
+    h2: PakertajaArgument;
+    h3: PakertajaArgument;
+    h4: PakertajaArgument;
+    h5: PakertajaArgument;
+    h6: PakertajaArgument;
+    header: PakertajaArgument;
+    footer: PakertajaArgument;
+    address: PakertajaArgument;
+
+    // Grouping content
+    p: PakertajaArgument;
+    hr: PakertajaArgument;
+    br: PakertajaArgument;
+    pre: PakertajaArgument;
+    dialog: PakertajaArgument<DialogAttributes>;
+    blockquote: PakertajaArgument<BlockquoteAttributes>;
+    ol: PakertajaArgument<OlAttributes>;
+    ul: PakertajaArgument;
+    li: PakertajaArgument<LiAttributes>;
+    dl: PakertajaArgument;
+    dt: PakertajaArgument;
+    dd: PakertajaArgument;
+
+    // Text level semantics
+    a: PakertajaArgument<AnchorAttributes>;
+    q: PakertajaArgument;
+    cite: PakertajaArgument;
+    em: PakertajaArgument;
+    strong: PakertajaArgument;
+    mark: PakertajaArgument;
+    dfn: PakertajaArgument;
+    abbr: PakertajaArgument;
+    time: PakertajaArgument<TimeAttributes>;
+    progress: PakertajaArgument<ProgressAttributes>;
+    meter: PakertajaArgument<MeterAttributes>;
+    code: PakertajaArgument;
+    var: PakertajaArgument;
+    samp: PakertajaArgument;
+    kbd: PakertajaArgument;
+    sub: PakertajaArgument;
+    sup: PakertajaArgument;
+    span: PakertajaArgument;
+    i: PakertajaArgument;
+    b: PakertajaArgument;
+    bdo: PakertajaArgument;
+    ruby: PakertajaArgument;
+    rt: PakertajaArgument;
+    rp: PakertajaArgument;
+
+    // Edits
+    ins: PakertajaArgument<ModAttributes>;
+    del: PakertajaArgument<ModAttributes>;
+
+    // Embedded content
+    figure: PakertajaArgument;
+    img: PakertajaArgument<ImgAttributes>;
+    iframe: PakertajaArgument<IFrameAttributes>;
+    embed: PakertajaArgument<EmbedAttributes>;
+    object: PakertajaArgument<ObjectAttributes>;
+    video: PakertajaArgument<VideoAttributes>;
+    audio: PakertajaArgument<AudioAttributes>;
+    source: PakertajaArgument<SourceAttributes>;
+    canvas: PakertajaArgument<CanvasAttributes>;
+    map: PakertajaArgument<MapAttributes>;
+    area: PakertajaArgument<AreaAttributes>;
+
+    // Tabular data
+    table: PakertajaArgument;
+    caption: PakertajaArgument;
+    colgroup: PakertajaArgument<ColgroupAttributes>;
+    col: PakertajaArgument<ColgroupAttributes>;
+    tbody: PakertajaArgument;
+    tfoot: PakertajaArgument;
+    tr: PakertajaArgument;
+    td: PakertajaArgument<TDAttributes>;
+    th: PakertajaArgument<THAttributes>;
+
+    // Forms
+    form: PakertajaArgument<FormAttributes>;
+    fieldset: PakertajaArgument<FieldsetAttributes>;
+    label: PakertajaArgument<LabelAttributes>;
+    input: PakertajaArgument<InputAttributes>;
+    button: PakertajaArgument<ButtonAttributes>;
+    select: PakertajaArgument<SelectAttributes>;
+    datalist: PakertajaArgument;
+    optgroup: PakertajaArgument<OptGroupAttributes>;
+    option: PakertajaArgument<OptionAttributes>;
+    textarea: PakertajaArgument<TextAreaAttributes>;
+    output: PakertajaArgument<OutputAttributes>;
+
+    // Interactive elements
+    details: PakertajaArgument<DetailsAttributes>;
+    command: PakertajaArgument;
+    bb: PakertajaArgument;
+    menu: PakertajaArgument;
+
+    // Miscanellaous elements
+    legend: PakertajaArgument;
+    div: PakertajaArgument;
+  };
 }
