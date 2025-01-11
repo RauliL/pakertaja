@@ -76,7 +76,8 @@ create HTML elements of certain type more conveniently. These shortcuts are:
 `optgroup`, `option`, `textarea`, `output`, `details`, `command`, `bb`, `menu`,
 `legend` and `div`.
 
-Text nodes can also be created with an shortcut function called `text`.
+Text nodes can also be created with an shortcut function called `text` and
+document fragments with `fragment`.
 
 ### p.append( root[, ...children ] )
 
@@ -93,3 +94,55 @@ which return strings.
 ### p.escape( input )
 
 Escapes HTML entities from given string input and returns result.
+
+## JSX
+
+With [TypeScript] you can also use Pakertaja with [JSX] by adding following
+lines to `tsconfig.json` file:
+
+[TypeScript]: https://www.typescriptlang.org
+[JSX]: https://en.wikipedia.org/wiki/JSX_(JavaScript)
+
+```json
+{
+  "compilerOptions": {
+    "jsxFactory": "p",
+    "jsxFragmentFactory": "p.fragment"
+  }
+}
+```
+
+### Example
+
+```TypeScript
+import p from 'pakertaja';
+
+const onClick = (ev: Event) => {
+  const quantity = (document.getElementById('quantity') as HTMLInputElement).value;
+
+  ev.preventDefault();
+  alert(`Added ${quantity} products into cart.`);
+}
+
+const renderProduct = (title: string, description: string): HTMLDivElement => (
+  <div class="product" style={{ background: 'black', color: 'white' }}>
+    <h1>{title}</h1>
+    <p>{description}</p>
+    <form>
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" min={10} />
+      <button type="submit" onclick={onClick}>
+        Add to cart
+      </button>
+    </form>
+  </div>
+);
+
+p.append(
+  document.body,
+  renderProduct(
+    'Battlefield Earth DVDs',
+    'Critically acclaimed as one of the best movies ever made.'
+  )
+);
+```
