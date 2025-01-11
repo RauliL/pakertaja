@@ -24,12 +24,15 @@ describe("Pakertaja", () => {
     });
   });
 
-  it("should be able to create text nodes", () => {
-    const node = p("text", "Test.");
+  it.each(["text", p.text])(
+    "should be able to create text nodes",
+    (tagName) => {
+      const node = p(tagName, "Test.");
 
-    expect(node).toHaveProperty("nodeType", Node.TEXT_NODE);
-    expect(node).toHaveProperty("textContent", "Test.");
-  });
+      expect(node).toHaveProperty("nodeType", Node.TEXT_NODE);
+      expect(node).toHaveProperty("textContent", "Test.");
+    }
+  );
 
   it.each(["fragment", p.fragment])(
     "should be able to create document fragment nodes",

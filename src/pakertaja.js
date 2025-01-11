@@ -61,7 +61,7 @@ function applyDataProperties (node, properties) {
 
 function Pakertaja () {
   const node = (
-    arguments[0] === 'text'
+    (arguments[0] === 'text' || arguments[0] === Pakertaja.text)
       ? document.createTextNode('')
       : (arguments[0] === 'fragment' || arguments[0] === Pakertaja.fragment)
       ? document.createDocumentFragment()
