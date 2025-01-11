@@ -14,14 +14,12 @@ type DataValueMappingCallback = () => DataValueMapping;
 type BooleanAttribute = boolean | StringOrCallback;
 type NumberAttribute = number | StringOrCallback;
 
-type ReferrerPolicy =
-  | "no-referrer"
-  | "no-referrer-when-downgrade"
-  | "origin-when-cross-origin"
-  | "same-origin"
-  | "strict-origin"
-  | "strict-origin-when-cross-origin"
-  | "unsafe-url";
+type FetchPriority = "high" | "low" | "auto";
+
+type FormEncType =
+  | "application/x-www-form-urlencoded"
+  | "multipart/form-data"
+  | "text/plain";
 
 type Attributes = {
   text?: StringOrCallback;
@@ -156,7 +154,7 @@ type LinkAttributes = Attributes & {
   imagesrcset?: StringOrCallback;
   integrity?: StringOrCallback;
   media?: StringOrCallback;
-  referrerpolicy?: ReferrerPolicy | StringOrCallback;
+  referrerpolicy?: ReferrerPolicy | StringCallback;
   rel?: StringOrCallback;
   sizes?: StringOrCallback;
   type?: StringOrCallback;
@@ -188,7 +186,7 @@ type ScriptAttributes = Attributes & {
   blocking?: BooleanAttribute;
   crossorigin?: StringOrCallback;
   defer?: BooleanAttribute;
-  fetchpriority?: "high" | "low" | "auto" | StringCallback;
+  fetchpriority?: FetchPriority | StringCallback;
   integrity?: StringOrCallback;
   nomodule?: BooleanAttribute;
   nonce?: StringOrCallback;
@@ -224,10 +222,22 @@ type BodyAttributes = Attributes & {
 };
 
 type DialogAttributes = Attributes & {
+  /**
+   * Indicates that the dialog box is active and is available for interaction.
+   * If the open attribute is not set, the dialog box will not be visible to
+   * the user. It is recommended to use the .show() or .showModal() method to
+   * render dialogs, rather than the open attribute. If a <dialog> is opened
+   * using the open attribute, it is non-modal.
+   */
   open?: BooleanAttribute;
 };
 
 type BlockquoteAttributes = Attributes & {
+  /**
+   * A URL that designates a source document or message for the information
+   * quoted. This attribute is intended to point to information explaining
+   * the context or the reference for the quote.
+   */
   cite?: StringOrCallback;
 };
 
@@ -287,7 +297,7 @@ type ImgAttributes = Attributes & {
   crossorigin?: StringOrCallback;
   decoding?: "sync" | "async" | "auto" | StringCallback;
   elementtiming?: StringOrCallback;
-  fetchpriority?: "high" | "low" | "auto" | StringCallback;
+  fetchpriority?: FetchPriority | StringCallback;
   height?: NumberAttribute;
   ismap?: BooleanAttribute;
   loading?: "eager" | "lazy" | StringCallback;
@@ -299,7 +309,7 @@ type ImgAttributes = Attributes & {
   usemap?: StringOrCallback;
 };
 
-export type IFrameAttributes = Attributes & {
+type IFrameAttributes = Attributes & {
   allow?: StringOrCallback;
   allowfullscreen?: BooleanAttribute;
   height?: NumberAttribute;
@@ -409,7 +419,7 @@ type THAttributes = Attributes & {
 
 type FormAttributes = Attributes & {
   "accept-charset"?: StringOrCallback;
-  autocomplete?: BooleanAttribute;
+  autocomplete?: StringOrCallback;
   name?: StringOrCallback;
   rel?: StringOrCallback;
 };
@@ -421,41 +431,87 @@ type FieldsetAttributes = Attributes & {
 };
 
 type LabelAttributes = Attributes & {
+  /**
+   * The value of the for attribute must be a single id for a labelable
+   * form-related element in the same document as the <label> element.
+   * So, any given label element can be associated with only one form control.
+   */
   for?: StringOrCallback;
 };
 
 type InputAttributes = Attributes & {
+  /** Hint for expected file type in file upload controls. */
   accept?: StringOrCallback;
+  /** alt attribute for the image type. Required for accessibility. */
   alt?: StringOrCallback;
+  /** Controls automatic capitalization in inputted text. */
   autocapitalize?: BooleanAttribute;
-  autocomplete?: BooleanAttribute;
+  /** Hint for form autofill feature. */
+  autocomplete?: StringOrCallback;
+  /** Media capture input method in file upload controls. */
   capture?: StringOrCallback;
+  /** Whether the command or control is checked. */
   checked?: BooleanAttribute;
+  /**
+   * Name of form field to use for sending the element's directionality in
+   * form submission.
+   */
   dirname?: StringOrCallback;
+  /** Whether the form control is disabled. */
   disabled?: BooleanAttribute;
+  /** Associates the control with a form element. */
   form?: StringOrCallback;
+  /** URL to use for form submission. */
   formaction?: StringOrCallback;
-  formenctype?: StringOrCallback;
+  /** Form data set encoding type to use for form submission. */
+  formenctype?: FormEncType | StringOrCallback;
+  /** HTTP method to use for form submission. */
   formmethod?: StringOrCallback;
+  /** Bypass form control validation for form submission. */
   formonvalidate?: StringOrCallback;
+  /** Browsing context for form submission. */
   formtarget?: StringOrCallback;
+  /** Same as height attribute for <img>; vertical dimension. */
   height?: NumberAttribute;
+  /** Value of the id attribute of the <datalist> of autocomplete options. */
   list?: StringOrCallback;
+  /** Maximum value. */
   max?: NumberAttribute;
+  /** Maximum length (number of characters) of value. */
   maxlength?: NumberAttribute;
+  /** Minimum value. */
   min?: NumberAttribute;
+  /** Minimum length (number of characters) of value. */
   minlength?: NumberAttribute;
+  /** Boolean. Whether to allow multiple values. */
   multiple?: BooleanAttribute;
+  /**
+   * Name of the form control. Submitted with the form as part of a name/value
+   * pair.
+   */
   name?: StringOrCallback;
+  /** Pattern the value must match to be valid. */
   pattern?: StringOrCallback;
+  /** Text that appears in the form control when it has no value set. */
   placeholder?: StringOrCallback;
+  /** Designates an <input type="button"> as a control for a popover element. */
   popovertarget?: StringOrCallback;
+  /** Specifies the action that a popover control should perform. */
   popovertargetaction?: StringOrCallback;
+  /** Boolean. The value is not editable. */
   readonly?: BooleanAttribute;
+  /**
+   * Boolean. A value is required or must be checked for the form to be
+   * submittable.
+   */
   required?: BooleanAttribute;
+  /** Size of the control. */
   size?: NumberAttribute;
+  /** Same as src attribute for <img>; address of image resource. */
   src?: StringOrCallback;
+  /** Incremental values that are valid. */
   step?: NumberAttribute;
+  /** Type of form control. */
   type?:
     | "button"
     | "checkbox"
@@ -480,50 +536,183 @@ type InputAttributes = Attributes & {
     | "url"
     | "week"
     | StringCallback;
-  value?: StringOrCallback;
+  /**
+   * The value of the control. When specified in the HTML, corresponds to the
+   * initial value.
+   */
+  value?: NumberAttribute;
+  /** Same as width attribute for <img>. */
   width?: NumberAttribute;
 };
 
 type ButtonAttributes = Attributes & {
+  /**
+   * This Boolean attribute specifies that the button should have input focus
+   * when the page loads. Only one element in a document can have this
+   * attribute. */
   autofocus?: BooleanAttribute;
+  /**
+   * This Boolean attribute prevents the user from interacting with the button:
+   * it cannot be pressed or focused.
+   */
   disabled?: BooleanAttribute;
+  /**
+   * The <form> element to associate the button with (its form owner). The
+   * value of this attribute must be the id of a <form> in the same document.
+   * (If this attribute is not set, the <button> is associated with its
+   * ancestor <form> element, if any.)
+   *
+   * This attribute lets you associate <button> elements to <form>s anywhere
+   * in the document, not just inside a <form>. It can also override an
+   * ancestor <form> element.
+   */
   form?: StringOrCallback;
+  /**
+   * The URL that processes the information submitted by the button. Overrides
+   * the action attribute of the button's form owner. Does nothing if there is
+   * no form owner.
+   */
   formaction?: StringOrCallback;
-  formenctype?: StringOrCallback;
+  /**
+   * If the button is a submit button (it's inside/associated with a <form> and
+   * doesn't have type="button"), specifies how to encode the form data that is
+   * submitted.
+   */
+  formenctype?: FormEncType | StringOrCallback;
+  /**
+   * If the button is a submit button (it's inside/associated with a <form> and
+   * doesn't have type="button"), this attribute specifies the HTTP method used
+   * to submit the form.
+   */
   formmethod?: StringOrCallback;
+  /**
+   * If the button is a submit button, this Boolean attribute specifies that
+   * the form is not to be validated when it is submitted. If this attribute
+   * is specified, it overrides the novalidate attribute of the button's form
+   * owner.
+   *
+   * This attribute is also available on <input type="image"> and
+   * <input type="submit"> elements.
+   */
   formonvalidate?: BooleanAttribute;
+  /**
+   * If the button is a submit button, this attribute is an author-defined name
+   * or standardized, underscore-prefixed keyword indicating where to display
+   * the response from submitting the form. This is the name of, or keyword
+   * for, a browsing context (a tab, window, or <iframe>). If this attribute is
+   * specified, it overrides the target attribute of the button's form owner.
+   */
   formtarget?: "_self" | "_blank" | "_parent" | "_top" | StringCallback;
+  /**
+   * The name of the button, submitted as a pair with the button's value as
+   * part of the form data, when that button is used to submit the form.
+   */
   name?: StringOrCallback;
+  /**
+   * Turns a <button> element into a popover control button; takes the ID of
+   * the popover element to control as its value.
+   */
   popovertarget?: StringOrCallback;
-  popovertargetaction?: StringOrCallback;
+  /**
+   * Specifies the action to be performed on a popover element being controlled
+   * by a control <button>.
+   */
+  popovertargetaction?: "hide" | "show" | "toggle" | StringOrCallback;
+  /** The default behavior of the button. */
   type?: "submit" | "reset" | "button" | StringCallback;
+  /**
+   * Defines the value associated with the button's name when it's submitted
+   * with the form data. This value is passed to the server in params when the
+   * form is submitted using this button.
+   */
   value?: StringOrCallback;
 };
 
 type SelectAttributes = Attributes & {
-  autocomplete?: BooleanAttribute;
+  /** A string providing a hint for a user agent's autocomplete feature. */
+  autocomplete?: StringOrCallback;
+  /**
+   * This Boolean attribute lets you specify that a form control should have
+   * input focus when the page loads. Only one form element in a document can
+   * have the autofocus attribute.
+   */
   autofocus?: BooleanAttribute;
+  /**
+   * This Boolean attribute indicates that the user cannot interact with the
+   * control. If this attribute is not specified, the control inherits its
+   * setting from the containing element, for example <fieldset>; if there is
+   * no containing element with the disabled attribute set, then the control
+   * is enabled.
+   */
   disabled?: BooleanAttribute;
+  /**
+   * The <form> element to associate the <select> with (its form owner). The
+   * value of this attribute must be the id of a <form> in the same document.
+   * (If this attribute is not set, the <select> is associated with its
+   * ancestor <form> element, if any.)
+   *
+   * This attribute lets you associate <select> elements to <form>s anywhere in
+   * the document, not just inside a <form>. It can also override an ancestor
+   * <form> element.
+   */
   form?: StringOrCallback;
+  /**
+   * This Boolean attribute indicates that multiple options can be selected in
+   * the list. If it is not specified, then only one option can be selected at
+   * a time. When multiple is specified, most browsers will show a scrolling
+   * list box instead of a single line dropdown.
+   */
   multiple?: BooleanAttribute;
+  /** This attribute is used to specify the name of the control. */
   name?: StringOrCallback;
+  /**
+   * A Boolean attribute indicating that an option with a non-empty string
+   * value must be selected.
+   */
   required?: BooleanAttribute;
+  /**
+   * If the control is presented as a scrolling list box (e.g. when multiple
+   * is specified), this attribute represents the number of rows in the list
+   * that should be visible at one time. Browsers are not required to present
+   * a select element as a scrolled list box. The default value is 0.
+   */
   size?: NumberAttribute;
 };
 
 type OptGroupAttributes = Attributes & {
+  /**
+   * If this Boolean attribute is set, none of the items in this option group
+   * is selectable. Often browsers grey out such control and it won't receive
+   * any browsing events, like mouse clicks or focus-related ones.
+   */
   disabled?: BooleanAttribute;
+  /**
+   * The name of the group of options, which the browser can use when labeling
+   * the options in the user interface. This attribute is mandatory if this
+   * element is used.
+   */
   label?: StringOrCallback;
 };
 
 type OptionAttributes = OptGroupAttributes & {
+  /**
+   * If present, this Boolean attribute indicates that the option is initially
+   * selected. If the <option> element is the descendant of a <select> element
+   * whose multiple attribute is not set, only one single <option> of this
+   * <select> element may have the selected attribute.
+   */
   selected?: BooleanAttribute;
+  /**
+   * The content of this attribute represents the value to be submitted with
+   * the form, should this option be selected. If this attribute is omitted,
+   * the value is taken from the text content of the option element.
+   */
   value?: StringOrCallback;
 };
 
 type TextAreaAttributes = Attributes & {
   autocapitalize?: BooleanAttribute;
-  autocomplete?: BooleanAttribute;
+  autocomplete?: StringOrCallback;
   autocorrect?: "on" | "off" | StringCallback;
   autofocus?: BooleanAttribute;
   cols?: NumberAttribute;
@@ -744,15 +933,17 @@ interface PakertajaStatic {
    */
   escape: (input: string) => string;
 
-  fragment: (...args: Array<Element | StringOrCallback>) => DocumentFragment;
+  fragment: (
+    ...args: Array<Element | boolean | null | undefined | StringOrCallback>
+  ) => DocumentFragment;
 
   append: (
     root: Element,
-    ...args: Array<Element | StringOrCallback>
+    ...args: Array<Element | boolean | null | undefined | StringOrCallback>
   ) => HTMLElement;
   prepend: (
     root: Element,
-    ...args: Array<Element | StringOrCallback>
+    ...args: Array<Element | boolean | null | undefined | StringOrCallback>
   ) => HTMLElement;
 
   // The root element
