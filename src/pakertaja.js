@@ -42,9 +42,9 @@ function applyStyleProperties (node, properties) {
   if (typeof properties === 'string') {
     node.setAttribute('style', properties);
   } else if (properties != null) {
-    Object.keys(properties).forEach(key => {
+    for (const key of Object.keys(properties)) {
       node.style[key] = toStringWithCallback(node, properties[key]);
-    });
+    }
   }
 }
 
@@ -53,9 +53,21 @@ function applyDataProperties (node, properties) {
     properties = properties.call(node);
   }
   if (properties != null) {
-    Object.keys(properties).forEach(key => {
+    for (const key of Object.keys(properties)) {
       node.dataset[key] = toStringWithCallback(node, properties[key]);
-    });
+    }
+  }
+}
+
+function process (root, arg) {
+  if (isElement(arg)) {
+    root.appendChild(arg);
+  } else if (Array.isArray(arg)) {
+    for (const child of arg) {
+      process(root, child);
+    }
+  } else if (arg != null && arg !== false) {
+    root.appendChild(document.createTextNode(toStringWithCallback(root, arg)));
   }
 }
 
@@ -75,8 +87,12 @@ function Pakertaja () {
       node.textContent = arg;
     } else if (isElement(arg)) {
       node.appendChild(arg);
+    } else if (Array.isArray(arg)) {
+      for (const child of arg) {
+        process(node, child);
+      }
     } else if (arg != null) {
-      Object.keys(arg).forEach((key) => {
+      for (const key of Object.keys(arg)) {
         const value = arg[key];
 
         if (key === 'text') {
@@ -93,12 +109,12 @@ function Pakertaja () {
           });
         } else if (value === true) {
           node.setAttribute(key, key);
-        } else if (value === false) {
+        } else if (value === false || value == null) {
           node.removeAttribute(key);
         } else {
           node.setAttribute(key, toStringWithCallback(node, value));
         }
-      });
+      }
     }
   }
 
@@ -110,11 +126,9 @@ Pakertaja.escape = input => String(input).replace(/[&<>"'/]/g, s => entityMappin
 Pakertaja.fragment = (...children) => {
   const fragment = document.createDocumentFragment();
 
-  children.forEach((child) => fragment.appendChild(
-    isElement(child)
-      ? child
-      : document.createTextNode(toStringWithCallback(fragment, child))
-  ));
+  for (const child of children) {
+    process(fragment, child);
+  }
 
   return fragment;
 };

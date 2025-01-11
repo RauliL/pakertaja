@@ -43,10 +43,23 @@ describe("Pakertaja", () => {
     }
   );
 
+  it("should allow array of nodes for creation of fragment nodes", () => {
+    const node = p.fragment([
+      p.p("First"),
+      null,
+      p.p("Second"),
+      undefined,
+      p.p("Third"),
+      false,
+    ]);
+
+    expect(node.textContent).toBe("FirstSecondThird");
+  });
+
   it("should have shortcut function for creating text nodes", () => {
     const node = p.text("Test.");
 
-    expect(node).toHaveProperty("nodeType", 3);
+    expect(node).toHaveProperty("nodeType", Node.TEXT_NODE);
     expect(node).toHaveProperty("textContent", "Test.");
   });
 
@@ -166,6 +179,20 @@ describe("Pakertaja", () => {
     element.dispatchEvent(new MouseEvent("click"));
 
     expect(onClick).toBeCalled();
+  });
+
+  it("should append child nodes from an array", () => {
+    const element = p("div", [
+      p.p("First"),
+      p.p("Second"),
+      null,
+      false,
+      undefined,
+      [],
+      p.p("Third"),
+    ]);
+
+    expect(element.textContent).toBe("FirstSecondThird");
   });
 
   it("should be able to create child nodes", () => {

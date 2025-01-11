@@ -553,11 +553,12 @@ type DetailsAttributes = Attributes & {
 };
 
 type PakertajaArgument<A extends Attributes = Attributes> =
-  | Element
+  | Node
   | string
   | A
   | null
-  | undefined;
+  | undefined
+  | Array<Node | boolean | null | undefined>;
 
 interface PakertajaStatic {
   (tagName: "html", ...args: PakertajaArgument[]): HTMLHtmlElement;
