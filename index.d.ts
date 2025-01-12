@@ -1012,20 +1012,80 @@ type AreaAttributes = Attributes & {
 };
 
 type ColgroupAttributes = Attributes & {
+  /**
+   * Specifies the number of consecutive columns the <colgroup> element
+   * spans. The value must be a positive integer greater than zero. If
+   * not present, its default value is 1.
+   */
   span?: NumberAttribute;
 };
 
 type TDAttributes = Attributes & {
+  /**
+   * Contains a non-negative integer value that indicates how many columns
+   * the data cell spans or extends. The default value is 1. User agents
+   * dismiss values higher than 1000 as incorrect, setting to the default
+   * value (1).
+   */
   colspan?: NumberAttribute;
+  /**
+   * Contains a list of space-separated strings, each corresponding to the
+   * id attribute of the <th> elements that provide headings for this table
+   * cell.
+   */
   headers?: StringAttribute;
+  /**
+   * Contains a non-negative integer value that indicates for how many rows
+   * the data cell spans or extends. The default value is 1; if its value is
+   * set to 0, it extends until the end of the table grouping section (<thead>,
+   * <tbody>, <tfoot>, even if implicitly defined), that the cell belongs to.
+   * Values higher than 65534 are clipped to 65534.
+   */
   rowspan?: NumberAttribute;
 };
 
 type THAttributes = Attributes & {
+  /**
+   * A short, abbreviated description of the header cell's content provided
+   * as an alternative label to use for the header cell when referencing the
+   * cell in other contexts. Some user-agents, such as speech readers, may
+   * present this description before the content itself.
+   */
   abbr?: StringAttribute;
+  /**
+   * A non-negative integer value indicating how many columns the header cell
+   * spans or extends. The default value is 1. User agents dismiss values
+   * higher than 1000 as incorrect, defaulting such values to 1.
+   */
   colspan?: NumberAttribute;
+  /**
+   * A list of space-separated strings corresponding to the id attributes of
+   * the <th> elements that provide the headers for this header cell.
+   */
   headers?: StringAttribute;
+  /**
+   * A non-negative integer value indicating how many rows the header cell
+   * spans or extends. The default value is 1; if its value is set to 0, the
+   * header cell will extends to the end of the table grouping section
+   * (<thead>, <tbody>, <tfoot>, even if implicitly defined), that the <th>
+   * belongs to. Values higher than 65534 are clipped at 65534.
+   */
   rowspan?: NumberAttribute;
+  /**
+   * Defines the cells that the header (defined in the <th>) element relates
+   * to. Possible enumerated values are:
+   *
+   * - row: the header relates to all cells of the row it belongs to;
+   * - col: the header relates to all cells of the column it belongs to;
+   * - rowgroup: the header belongs to a rowgroup and relates to all of its
+   *   cells;
+   * - colgroup: the header belongs to a colgroup and relates to all of its
+   *   cells.
+   *
+   * If the scope attribute is not specified, or its value is not row, col,
+   * rowgroup, or colgroup, then browsers automatically select the set of
+   * cells to which the header cell applies.
+   */
   scope?: StringAttribute<"row" | "col" | "rowgroup" | "colgroup">;
 };
 
