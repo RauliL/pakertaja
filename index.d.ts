@@ -57,7 +57,7 @@ type Attributes = {
    * if so, in what manner.
    */
   autocapitalize?: StringAttribute<
-    "off" | "none" | "on" | "senctences" | "words" | "characters"
+    "off" | "none" | "on" | "sentences" | "words" | "characters"
   >;
   /**
    * Controls whether input text is automatically corrected for spelling
