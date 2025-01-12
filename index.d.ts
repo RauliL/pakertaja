@@ -1168,9 +1168,23 @@ type IFrameAttributes = Attributes & {
 };
 
 type EmbedAttributes = Attributes & {
+  /**
+   * The displayed height of the resource, in CSS pixels. This must be an
+   * absolute value; percentages are not allowed.
+   */
   height?: NumberAttribute;
+  /**
+   * The URL of the resource being embedded.
+   */
   src?: StringAttribute;
+  /**
+   * The MIME type to use to select the plug-in to instantiate.
+   */
   type?: StringAttribute;
+  /**
+   * The displayed width of the resource, in CSS pixels. This must be an
+   * absolute value; percentages are not allowed.
+   */
   width?: NumberAttribute;
 };
 
