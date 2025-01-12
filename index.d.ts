@@ -1162,14 +1162,68 @@ type TextAreaAttributes = Attributes & {
    * as descendants of form elements.
    */
   form?: StringAttribute;
+  /**
+   * The maximum string length (measured in UTF-16 code units) that the user
+   * can enter. If this value isn't specified, the user can enter an unlimited
+   * number of characters.
+   */
   maxlength?: NumberAttribute;
+  /**
+   * The minimum string length (measured in UTF-16 code units) required that
+   * the user should enter.
+   */
   minlength?: NumberAttribute;
+  /**
+   * The name of the control.
+   */
   name?: StringAttribute;
+  /**
+   * A hint to the user of what can be entered in the control. Carriage returns
+   * or line-feeds within the placeholder text must be treated as line breaks
+   * when rendering the hint.
+   */
   placeholder?: StringAttribute;
+  /**
+   * This Boolean attribute indicates that the user cannot modify the value of
+   * the control. Unlike the disabled attribute, the readonly attribute does
+   * not prevent the user from clicking or selecting in the control. The value
+   * of a read-only control is still submitted with the form.
+   */
   readonly?: BooleanAttribute;
+  /**
+   * This attribute specifies that the user must fill in a value before
+   * submitting a form.
+   */
   required?: BooleanAttribute;
+  /**
+   * The number of visible text lines for the control. If it is specified, it
+   * must be a positive integer. If it is not specified, the default value is
+   * 2.
+   */
   rows?: NumberAttribute;
+  /**
+   * Specifies whether the <textarea> is subject to spell-checking by the
+   * underlying browser/OS. The value can be:
+   *
+   * - true: Indicates that the element needs to have its spelling and grammar
+   *   checked.
+   * - default : Indicates that the element is to act according to a default
+   *   behavior, possibly based on the parent element's own spellcheck value.
+   * - false : Indicates that the element should not be spell-checked.
+   */
   spellcheck?: BooleanAttribute | StringAttribute<"true" | "default" | "false">;
+  /**
+   * Indicates how the control should wrap the value for form submission.
+   * Possible values are:
+   *
+   * - hard: The browser automatically inserts line breaks (CR+LF) so that each
+   *   line is no longer than the width of the control; the cols attribute must
+   *   be specified for this to take effect
+   * - soft: The browser ensures that all line breaks in the entered value are
+   *   a CR+LF pair, but no additional line breaks are added to the value.
+   *
+   *  If this attribute is not specified, soft is its default value.
+   */
   wrap?: StringAttribute<"hard" | "soft">;
 };
 
