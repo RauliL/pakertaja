@@ -747,15 +747,58 @@ type LiAttributes = Attributes & {
 };
 
 type AnchorAttributes = Attributes & {
-  download?: BooleanAttribute;
+  /**
+   * Causes the browser to treat the linked URL as a download. Can be used with
+   * or without a filename value:
+   *
+   * Without a value, the browser will suggest a filename/extension, generated
+   * from various sources:
+   *
+   * - The Content-Disposition HTTP header
+   * - The final segment in the URL path
+   * - The media type (from the Content-Type header, the start of a data: URL,
+   *   or Blob.type for a blob: URL)
+   *
+   * filename: defining a value suggests it as the filename. / and \ characters
+   * are converted to underscores (_). Filesystems may forbid other characters
+   * in filenames, so browsers will adjust the suggested name if necessary.
+   */
+  download?: StringAttribute;
+  /**
+   * The URL that the hyperlink points to. Links are not restricted to
+   * HTTP-based URLs — they can use any URL scheme supported by browsers
+   */
   href?: StringAttribute;
+  /**
+   * Hints at the human language of the linked URL. No built-in functionality.
+   * Allowed values are the same as the global lang attribute.
+   */
   hreflang?: StringAttribute;
+  /**
+   * A space-separated list of URLs. When the link is followed, the browser
+   * will send POST requests with the body PING to the URLs. Typically for
+   * tracking.
+   */
   ping?: StringAttribute;
+  /**
+   * How much of the referrer to send when following the link.
+   */
   referrerpolicy?: StringAttribute<ReferrerPolicy>;
+  /**
+   * The relationship of the linked URL as space-separated link types.
+   */
   rel?: StringAttribute;
+  /**
+   * Where to display the linked URL, as the name for a browsing context
+   * (a tab, window, or <iframe>).
+   */
   target?: StringAttribute<
     "_self" | "_blank" | "_parent" | "_top" | "_unfencedTop"
   >;
+  /**
+   * Hints at the linked URL's format with a MIME type. No built-in
+   * functionality.
+   */
   type?: StringAttribute;
 };
 
