@@ -1049,12 +1049,107 @@ type ImgAttributes = Attributes & {
 };
 
 type IFrameAttributes = Attributes & {
+  /**
+   * Specifies a Permissions Policy for the <iframe>. The policy defines what
+   * features are available to the <iframe> (for example, access to the
+   * microphone, camera, battery, web-share, etc.) based on the origin of the
+   * request.
+   *
+   * See iframes in the Permissions-Policy topic for examples.
+   */
   allow?: StringAttribute;
+  /**
+   * Set to true if the <iframe> can activate fullscreen mode by calling the
+   * requestFullscreen() method.
+   */
   allowfullscreen?: BooleanAttribute;
+  /**
+   * The height of the frame in CSS pixels. Default is 150.
+   */
   height?: NumberAttribute;
+  /**
+   * Indicates when the browser should load the iframe:
+   *
+   * - eager
+   *   Load the iframe immediately on page load (this is the default value).
+   * - lazy
+   *   Defer loading of the iframe until it reaches a calculated distance
+   *   from the visual viewport, as defined by the browser. The intent is to
+   *   avoid using the network and storage bandwidth required to fetch the
+   *   frame until the browser is reasonably certain that it will be needed.
+   *   This improves the performance and cost in most typical use cases,
+   *   in particular by reducing initial page load times.
+   */
   loading?: StringAttribute<"eager" | "lazy">;
+  /**
+   * A targetable name for the embedded browsing context. This can be used
+   * in the target attribute of the <a>, <form>, or <base> elements; the
+   * formtarget attribute of the <input> or <button> elements; or the
+   * windowName parameter in the window.open() method.
+   */
   name?: StringAttribute;
+  /**
+   * Indicates which referrer to send when fetching the frame's resource.
+   */
   referrerpolicy?: StringAttribute<ReferrerPolicy>;
+  /**
+   * Controls the restrictions applied to the content embedded in the
+   * <iframe>. The value of the attribute can either be empty to apply all
+   * restrictions, or space-separated tokens to lift particular restrictions:
+   *
+   * - allow-downloads
+   *   Allows downloading files through an <a> or <area> element with the
+   *   download attribute, as well as through the navigation that leads to a
+   *   download of a file. This works regardless of whether the user clicked
+   *   on the link, or JS code initiated it without user interaction.
+   * - allow-forms
+   *   Allows the page to submit forms. If this keyword is not used, a form
+   *   will be displayed as normal, but submitting it will not trigger input
+   *   validation, send data to a web server, or close a dialog.
+   * - allow-modals
+   *   Allows the page to open modal windows by Window.alert(),
+   *   Window.confirm(), Window.print() and Window.prompt(), while opening a
+   *   <dialog> is allowed regardless of this keyword. It also allows the page
+   *   to receive BeforeUnloadEvent event.
+   * - allow-orientation-lock
+   *   Lets the resource lock the screen orientation.
+   * - allow-pointer-lock
+   *   Allows the page to use the Pointer Lock API.
+   * - allow-popups
+   *   Allows popups (like from Window.open(), target="_blank",
+   *   Window.showModalDialog()). If this keyword is not used, that
+   *   functionality will silently fail.
+   * - allow-popups-to-escape-sandbox
+   *   Allows a sandboxed document to open a new browsing context without
+   *   forcing the sandboxing flags upon it. This will allow, for example,
+   *   a third-party advertisement to be safely sandboxed without forcing the
+   *   same restrictions upon the page the ad links to. If this flag is not
+   *   included, a redirected page, popup window, or new tab will be subject
+   *   to the same sandbox restrictions as the originating <iframe>.
+   * - allow-presentation
+   *   Allows embedders to have control over whether an iframe can start a
+   *   presentation session.
+   * - allow-same-origin
+   *   If this token is not used, the resource is treated as being from a
+   *   special origin that always fails the same-origin policy (potentially
+   *   preventing access to data storage/cookies and some JavaScript APIs).
+   * - allow-scripts
+   *   Allows the page to run scripts (but not create pop-up windows). If
+   *   this keyword is not used, this operation is not allowed.
+   * - allow-storage-access-by-user-activation Experimental
+   *   Allows a document loaded in the <iframe> to use the Storage Access
+   *   API to request access to unpartitioned cookies.
+   * - allow-top-navigation
+   *   Lets the resource navigate the top-level browsing context (the one
+   *   named _top).
+   * - allow-top-navigation-by-user-activation
+   *   Lets the resource navigate the top-level browsing context, but only
+   *   if initiated by a user gesture.
+   * - allow-top-navigation-to-custom-protocols
+   *   Allows navigations to non-http protocols built into browser or
+   *   registered by a website. This feature is also activated by
+   *   allow-popups or allow-top-navigation keyword.
+   */
   sandbox?: StringAttribute<
     | "allow-downloads"
     | "allow-forms"
