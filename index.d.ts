@@ -1,7 +1,5 @@
-// Type definitions for Pakertaja 1.3.0
-
-type StringCallback = () => string;
-type StringOrCallback = string | StringCallback;
+// Type definitions for Pakertaja 2.0.0
+// Attribute documentation copied from MDN.
 
 type DataValue = number | string;
 type DataValueCallback = () => DataValue;
@@ -395,18 +393,124 @@ type LinkAttributes = Attributes & {
    * blocking tokens listed below.
    */
   blocking?: BooleanAttribute;
-  crossorigin?: StringAttribute;
+  /**
+   * This enumerated attribute indicates whether CORS must be used when
+   * fetching the resource. CORS-enabled images can be reused in the
+   * <canvas> element without being tainted.
+   *
+   * The allowed values are:
+   * - anonymous
+   *   A cross-origin request (i.e. with an Origin HTTP header) is performed,
+   *   but no credential is sent (i.e. no cookie, X.509 certificate, or HTTP
+   *   Basic authentication). If the server does not give credentials to the
+   *   origin site (by not setting the Access-Control-Allow-Origin HTTP header)
+   *   the resource will be tainted and its usage restricted.
+   * - use-credentials
+   *   A cross-origin request (i.e. with an Origin HTTP header) is performed
+   *   along with a credential sent (i.e. a cookie, certificate, and/or HTTP
+   *   Basic authentication is performed). If the server does not give
+   *   credentials to the origin site (through Access-Control-Allow-Credentials
+   *   HTTP header), the resource will be tainted and its usage restricted.
+   *
+   * If the attribute is not present, the resource is fetched without a CORS
+   * request (i.e. without sending the Origin HTTP header), preventing its
+   * non-tainted usage. If invalid, it is handled as if the enumerated keyword
+   * anonymous was used. See CORS settings attributes for additional
+   * information.
+   */
+  crossorigin?: StringAttribute<"anonymous" | "use-credentials">;
+  /**
+   * For rel="stylesheet" only, the disabled Boolean attribute indicates
+   * whether the described stylesheet should be loaded and applied to the
+   * document. If disabled is specified in the HTML when it is loaded, the
+   * stylesheet will not be loaded during page load. Instead, the stylesheet
+   * will be loaded on-demand, if and when the disabled attribute is changed
+   * to false or removed.
+   *
+   * Setting the disabled property in the DOM causes the stylesheet to be
+   * removed from the document's Document.styleSheets list.
+   */
   disabled?: BooleanAttribute;
+  /**
+   * Provides a hint of the relative priority to use when fetching a resource
+   * of a particular type.
+   */
   fetchpriority?: StringAttribute<FetchPriority>;
+  /**
+   * This attribute specifies the URL of the linked resource. A URL can be
+   * absolute or relative.
+   */
   href?: StringAttribute;
+  /**
+   * This attribute indicates the language of the linked resource. It is purely
+   * advisory. Allowed values are specified by RFC 5646: Tags for Identifying
+   * Languages (also known as BCP 47). Use this attribute only if the href
+   * attribute is present.
+   */
   hreflang?: StringAttribute;
+  /**
+   * For rel="preload" and as="image" only, the imagesizes attribute has
+   * similar syntax and semantics as the sizes attribute that indicates to
+   * preload the appropriate resource used by an img element with
+   * corresponding values for its srcset and sizes attributes.
+   */
   imagesizes?: StringAttribute;
+  /**
+   * For rel="preload" and as="image" only, the imagesrcset attribute has
+   * similar syntax and semantics as the srcset attribute that indicates to
+   * preload the appropriate resource used by an img element with corresponding
+   * values for its srcset and sizes attributes.
+   */
   imagesrcset?: StringAttribute;
+  /**
+   * Contains inline metadata — a base64-encoded cryptographic hash of the
+   * resource (file) you're telling the browser to fetch. The browser can use
+   * this to verify that the fetched resource has been delivered without
+   * unexpected manipulation. The attribute must only be specified when the rel
+   * attribute is specified to stylesheet, preload, or modulepreload. See
+   * Subresource Integrity.
+   */
   integrity?: StringAttribute;
+  /**
+   * This attribute specifies the media that the linked resource applies to.
+   * Its value must be a media type / media query. This attribute is mainly
+   * useful when linking to external stylesheets — it allows the user agent
+   * to pick the best adapted one for the device it runs on.
+   */
   media?: StringAttribute;
+  /**
+   * A string indicating which referrer to use when fetching the resource.
+   */
   referrerpolicy?: StringAttribute<ReferrerPolicy>;
+  /**
+   * This attribute names a relationship of the linked document to the current
+   * document. The attribute must be a space-separated list of link type
+   * values.
+   */
   rel?: StringAttribute;
+  /**
+   * This attribute defines the sizes of the icons for visual media contained
+   * in the resource. It must be present only if the rel contains a value of
+   * icon or a non-standard type such as Apple's apple-touch-icon. It may have
+   * the following values:
+   *
+   * - any, meaning that the icon can be scaled to any size as it is in a
+   *   vector format, like image/svg+xml.
+   * - a white-space separated list of sizes, each in the format <width in
+   *   pixels>x<height in pixels> or <width in pixels>X<height in pixels>.
+   *   Each of these sizes must be contained in the resource.
+   */
   sizes?: StringAttribute;
+  /**
+   * This attribute is used to define the type of the content linked to. The
+   * value of the attribute should be a MIME type such as text/html, text/css,
+   * and so on. The common use of this attribute is to define the type of
+   * stylesheet being referenced (such as text/css), but given that CSS is the
+   * only stylesheet language used on the web, not only is it possible to omit
+   * the type attribute, but is actually now recommended practice. It is also
+   * used on rel="preload" link types, to make sure the browser only downloads
+   * file types that it supports.
+   */
   type?: StringAttribute;
 };
 
@@ -986,13 +1090,15 @@ type DetailsAttributes = Attributes & {
   name?: StringAttribute;
 };
 
+type PakertajaElement = Node | boolean | null | undefined | (() => string);
+
 type PakertajaArgument<A extends Attributes = Attributes> =
   | Node
   | string
   | A
   | null
   | undefined
-  | Array<Node | boolean | null | undefined>;
+  | PakertajaElement[];
 
 interface PakertajaStatic {
   (tagName: "html", ...args: PakertajaArgument[]): HTMLHtmlElement;
@@ -1178,18 +1284,10 @@ interface PakertajaStatic {
    */
   escape: (input: string) => string;
 
-  fragment: (
-    ...args: Array<Element | boolean | null | undefined | StringOrCallback>
-  ) => DocumentFragment;
+  fragment: (...args: PakertajaElement[]) => DocumentFragment;
 
-  append: (
-    root: Element,
-    ...args: Array<Element | boolean | null | undefined | StringOrCallback>
-  ) => HTMLElement;
-  prepend: (
-    root: Element,
-    ...args: Array<Element | boolean | null | undefined | StringOrCallback>
-  ) => HTMLElement;
+  append: (root: Node, ...args: PakertajaElement[]) => Node;
+  prepend: (root: Node, ...args: PakertajaElement[]) => Node;
 
   // The root element
   html: (...args: PakertajaArgument[]) => HTMLHtmlElement;
