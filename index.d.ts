@@ -515,7 +515,24 @@ type LinkAttributes = Attributes & {
 };
 
 type MetaAttributes = Attributes & {
+  /**
+   * This attribute declares the document's character encoding. If the
+   * attribute is present, its value must be an ASCII case-insensitive match
+   * for the string "utf-8", because UTF-8 is the only valid encoding for
+   * HTML5 documents. <meta> elements which declare a character encoding must
+   * be located entirely within the first 1024 bytes of the document.
+   */
   charset?: StringAttribute;
+  /**
+   * This attribute contains the value for the http-equiv or name attribute,
+   * depending on which is used.
+   */
+  content?: StringAttribute;
+  /**
+   * Defines a pragma directive. The attribute's name, short for
+   * http-equivalent, is because all the allowed values are names of particular
+   * HTTP headers.
+   */
   "http-equiv"?: StringAttribute<
     | "content-security-policy"
     | "content-type"
@@ -525,7 +542,22 @@ type MetaAttributes = Attributes & {
     | "media"
     | "name"
   >;
+  /**
+   * The media attribute defines which media the theme color defined in the
+   * content attribute should be applied to. Its value is a media query, which
+   * defaults to all if the attribute is missing. This attribute is only
+   * relevant when the element's name attribute is set to theme-color.
+   * Otherwise, it has no effect, and should not be included.
+   */
   media?: StringAttribute;
+  /**
+   * The name and content attributes can be used together to provide document
+   * metadata in terms of name-value pairs, with the name attribute giving
+   * the metadata name, and the content attribute giving the value.
+   *
+   * See standard metadata names for details about the set of standard metadata
+   * names defined in the HTML specification.
+   */
   name?: StringAttribute;
 };
 
