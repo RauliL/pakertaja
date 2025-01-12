@@ -3,16 +3,20 @@
 type StringCallback = () => string;
 type StringOrCallback = string | StringCallback;
 
-type StyleValue = StringOrCallback | Record<string, StringOrCallback>;
-
 type DataValue = number | string;
 type DataValueCallback = () => DataValue;
 type DataValueOrCallback = DataValue | DataValueCallback;
 type DataValueMapping = Record<string, DataValueOrCallback>;
 type DataValueMappingCallback = () => DataValueMapping;
 
-type BooleanAttribute = boolean | StringOrCallback;
-type NumberAttribute = number | StringOrCallback;
+type StringAttribute<T extends string = string> = T | (() => T);
+type NumberAttribute = number | (() => number) | StringAttribute;
+type BooleanAttribute =
+  | boolean
+  | (() => boolean)
+  | StringAttribute<"true" | "false">;
+type StyleAttribute = StringAttribute | Record<string, StringAttribute>;
+type DataAttribute = DataValueMapping | DataValueMappingCallback;
 
 type FetchPriority = "high" | "low" | "auto";
 
@@ -22,49 +26,241 @@ type FormEncType =
   | "text/plain";
 
 type Attributes = {
-  text?: StringOrCallback;
-  html?: StringOrCallback;
-  style?: StyleValue;
-  data?: DataValueMapping | DataValueMappingCallback;
+  /**
+   * Text contents of the element.
+   */
+  text?: StringAttribute;
+  /**
+   * HTML contents of the element.
+   */
+  html?: StringAttribute;
+  /**
+   * CSS style rules.
+   */
+  style?: StyleAttribute;
+  /**
+   * Data values.
+   */
+  data?: DataAttribute;
 
   // Global HTML attributes available to all elements.
+
   /**
    * Provides a hint for generating a keyboard shortcut for the current
    * element. This attribute consists of a space-separated list of
    * characters. The browser should use the first one that exists on the
    * computer keyboard layout.
    */
-  accesskey?: StringOrCallback;
+  accesskey?: StringAttribute;
   /**
    * Controls whether inputted text is automatically capitalized and,
    * if so, in what manner.
    */
-  autocapitalize?:
-    | StringCallback
-    | "off"
-    | "none"
-    | "on"
-    | "sentences"
-    | "words"
-    | "characters";
+  autocapitalize?: StringAttribute<
+    "off" | "none" | "on" | "senctences" | "words" | "characters"
+  >;
   /**
    * Controls whether input text is automatically corrected for spelling
    * errors. This can be applied to elements that have editable text except
    * for <input> elements with the attribute: type="password", type="email",
    * or type="url".
    */
-  autocorrect?: "on" | "off" | "" | StringCallback;
-  class?: StringOrCallback;
-  contenteditable?: StringOrCallback;
-  contextmenu?: StringOrCallback;
-  dir?: StringOrCallback | "ltr" | "rtl" | "auto";
-  draggable?: StringOrCallback | "true" | "false";
-  hidden?: StringOrCallback;
-  id?: StringOrCallback;
-  is?: StringOrCallback;
-  lang?: StringOrCallback;
-  tabindex?: StringOrCallback;
-  title?: StringOrCallback;
+  autocorrect?: StringAttribute<"on" | "off" | "">;
+  /**
+   * Indicates that an element is to be focused on page load, or as soon as the
+   * <dialog> it is part of is displayed. This attribute is a boolean, initially
+   * false.
+   */
+  autofocus?: BooleanAttribute;
+  /**
+   * A space-separated list of the classes of the element. Classes allow CSS
+   * and JavaScript to select and access specific elements via the class
+   * selectors or functions like the method Document.getElementsByClassName().
+   */
+  class?: StringAttribute;
+  /**
+   * An enumerated attribute indicating if the element should be editable by
+   * the user. If so, the browser modifies its widget to allow editing.
+   */
+  contenteditable?: BooleanAttribute | StringAttribute<"plaintext-only">;
+  /**
+   * An enumerated attribute indicating the directionality of the element's
+   * text.
+   */
+  dir?: StringAttribute<"ltr" | "rtl" | "auto">;
+  /**
+   * An enumerated attribute indicating whether the element can be dragged,
+   * using the Drag and Drop API.
+   */
+  draggable?: BooleanAttribute;
+  /**
+   * Hints what action label (or icon) to present for the enter key on virtual
+   * keyboards.
+   */
+  enterkeyhint?: StringAttribute;
+  /**
+   * Used to transitively export shadow parts from a nested shadow tree into a
+   * containing light tree.
+   */
+  exportparts?: StringAttribute;
+  /**
+   * An enumerated attribute indicating that the element is not yet, or is no
+   * longer, relevant. For example, it can be used to hide elements of the page
+   * that can't be used until the login process has been completed. The browser
+   * won't render such elements. This attribute must not be used to hide
+   * content that could legitimately be shown.
+   */
+  hidden?: BooleanAttribute;
+  /**
+   * Defines a unique identifier (ID) which must be unique in the whole
+   * document. Its purpose is to identify the element when linking (using a
+   * fragment identifier), scripting, or styling (with CSS).
+   */
+  id?: StringAttribute;
+  /**
+   * A boolean value that makes the browser disregard user input events for the
+   * element. Useful when click events are present.
+   */
+  inert?: BooleanAttribute;
+  /**
+   * Provides a hint to browsers about the type of virtual keyboard
+   * configuration to use when editing this element or its contents. Used
+   * primarily on <input> elements, but is usable on any element while in
+   * contenteditable mode.
+   */
+  inputmode?: StringAttribute;
+  /**
+   * Allows you to specify that a standard HTML element should behave like a
+   * registered custom built-in element (see Using custom elements for more details).
+   */
+  is?: StringAttribute;
+  /**
+   * The unique, global identifier of an item.
+   */
+  itemid?: StringAttribute;
+  /**
+   * Used to add properties to an item. Every HTML element may have an itemprop
+   * attribute specified, where an itemprop consists of a name and value pair.
+   */
+  itemprop?: StringAttribute;
+  /**
+   * Properties that are not descendants of an element with the itemscope
+   * attribute can be associated with the item using an itemref. It provides
+   * a list of element ids (not itemids) with additional properties elsewhere
+   * in the document.
+   */
+  itemref?: StringAttribute;
+  /**
+   * itemscope (usually) works along with itemtype to specify that the HTML
+   * contained in a block is about a particular item. itemscope creates the
+   * Item and defines the scope of the itemtype associated with it. itemtype
+   * is a valid URL of a vocabulary (such as schema.org) that describes the
+   * item and its properties context.
+   */
+  itemscope?: StringAttribute;
+  /**
+   * Specifies the URL of the vocabulary that will be used to define itemprops
+   * (item properties) in the data structure. itemscope is used to set the
+   * scope of where in the data structure the vocabulary set by itemtype will
+   * be active.
+   */
+  itemtype?: StringAttribute;
+  /**
+   * Helps define the language of an element: the language that non-editable
+   * elements are in, or the language that editable elements should be written
+   * in by the user. The attribute contains one "language tag" (made of
+   * hyphen-separated "language subtags") in the format defined in RFC 5646:
+   * Tags for Identifying Languages (also known as BCP 47). xml:lang has
+   * priority over it.
+   */
+  lang?: StringAttribute;
+  /**
+   * A cryptographic nonce ("number used once") which can be used by Content
+   * Security Policy to determine whether or not a given fetch will be allowed
+   * to proceed.
+   */
+  nonce?: StringAttribute;
+  /**
+   * A space-separated list of the part names of the element. Part names allows
+   * CSS to select and style specific elements in a shadow tree via the ::part
+   * pseudo-element.
+   */
+  part?: StringAttribute;
+  /**
+   * Used to designate an element as a popover element (see Popover API).
+   * Popover elements are hidden via display: none until opened via an
+   * invoking/control element (i.e. a <button> or <input type="button"> with a
+   * popovertarget attribute) or a HTMLElement.showPopover() call.
+   */
+  popover?: StringAttribute;
+  /**
+   * Roles define the semantic meaning of content, allowing screen readers and
+   * other tools to present and support interaction with an object in a way
+   * that is consistent with user expectations of that type of object. roles
+   * are added to HTML elements using role="role_type", where role_type is the
+   * name of a role in the ARIA specification.
+   */
+  role?: StringAttribute;
+  /**
+   * Assigns a slot in a shadow DOM shadow tree to an element: An element with
+   * a slot attribute is assigned to the slot created by the <slot> element
+   * whose name attribute's value matches that slot attribute's value.
+   */
+  slot?: StringAttribute;
+  /**
+   * An enumerated attribute defines whether the element may be checked for
+   * spelling errors. It may have the following values:
+   *
+   * - empty string or true, which indicates that the element should be, if
+   *   possible, checked for spelling errors;
+   * - false, which indicates that the element should not be checked for
+   *   spelling errors.
+   */
+  spellcheck?: BooleanAttribute | StringAttribute<"">;
+  /**
+   * An integer attribute indicating if the element can take input focus (is
+   * focusable), if it should participate to sequential keyboard navigation,
+   * and if so, at what position. It can take several values:
+   *
+   * - a negative value means that the element should be focusable, but should
+   *   not be reachable via sequential keyboard navigation;
+   * - 0 means that the element should be focusable and reachable via sequential
+   *   keyboard navigation, but its relative order is defined by the platform
+   *   convention;
+   * - a positive value means that the element should be focusable and reachable
+   *   via sequential keyboard navigation; the order in which the elements are
+   *   focused is the increasing value of the tabindex. If several elements
+   *   share the same tabindex, their relative order follows their relative
+   *   positions in the document.
+   */
+  tabindex?: NumberAttribute;
+  /**
+   * Contains a text representing advisory information related to the element
+   * it belongs to. Such information can typically, but not necessarily, be
+   * presented to the user as a tooltip.
+   */
+  title?: StringAttribute;
+  /**
+   * An enumerated attribute that is used to specify whether an element's
+   * attribute values and the values of its Text node children are to be
+   * translated when the page is localized, or whether to leave them unchanged.
+   * It can have the following values:
+   *
+   * - empty string or yes, which indicates that the element will be
+   *   translated.
+   * - no, which indicates that the element will not be translated.
+   */
+  translate?: StringAttribute<"" | "yes" | "no">;
+  /**
+   * An enumerated attribute indicating if browser-provided writing suggestions
+   * should be enabled under the scope of the element or not.
+   *
+   * - false, which disables the browser's writing suggestions.
+   * - true or an empty string, which enables writing suggestions.
+   */
+  writingsuggestions?: BooleanAttribute;
+
+  // Global event listeners available to all HTML elements.
 
   onabort?: EventListener;
   onautocomplete?: EventListener;
@@ -130,24 +326,54 @@ type Attributes = {
   onwaiting?: EventListener;
 
   [key: string]:
-    | StringOrCallback
-    | number
-    | boolean
+    | StringAttribute
+    | NumberAttribute
+    | BooleanAttribute
+    | StyleAttribute
+    | DataAttribute
     | EventListener
     | null
-    | undefined
-    | StyleValue
-    | DataValueMapping
-    | DataValueMappingCallback;
+    | undefined;
 };
 
 type BaseAttributes = Attributes & {
-  href?: StringOrCallback;
-  target?: StringOrCallback;
+  /**
+   * The base URL to be used throughout the document for relative URLs.
+   * Absolute and relative URLs are allowed. data: and javascript: URLs
+   * are not allowed.
+   */
+  href?: StringAttribute;
+  /**
+   * A keyword or author-defined name of the default browsing context to
+   * show the results of navigation from <a>, <area>, or <form> elements
+   * without explicit target attributes. The following keywords have
+   * special meanings:
+   *
+   * - _self (default): Show the result in the current browsing context.
+   * - _blank: Show the result in a new, unnamed browsing context.
+   * - _parent: Show the result in the parent browsing context of the
+   *    current one, if the current page is inside a frame. If there is
+   *    no parent, acts the same as _self.
+   * - _top: Show the result in the topmost browsing context (the browsing
+   *    context that is an ancestor of the current one and has no parent).
+   *    If there is no parent, acts the same as _self.
+   */
+  target?: StringAttribute<"_self" | "_blank" | "_parent" | "_top">;
 };
 
 type LinkAttributes = Attributes & {
-  as?:
+  /**
+   * This attribute is required when rel="preload" has been set on the <link>
+   * element, optional when rel="modulepreload" has been set, and otherwise
+   * should not be used. It specifies the type of content being loaded by the
+   * <link>, which is necessary for request matching, application of correct
+   * content security policy, and setting of correct Accept request header.
+   *
+   * Furthermore, rel="preload" uses this as a signal for request
+   * prioritization. The table below lists the valid values for this
+   * attribute and the elements or resources they apply to.
+   */
+  as?: StringAttribute<
     | "audio"
     | "document"
     | "embed"
@@ -160,26 +386,33 @@ type LinkAttributes = Attributes & {
     | "track"
     | "video"
     | "worker"
-    | StringCallback;
+  >;
+  /**
+   * This attribute explicitly indicates that certain operations should be
+   * blocked on the fetching of an external resource. It must only be used
+   * when the rel attribute contains expect or stylesheet keywords. The
+   * operations that are to be blocked must be a space-separated list of
+   * blocking tokens listed below.
+   */
   blocking?: BooleanAttribute;
-  crossorigin?: StringOrCallback;
+  crossorigin?: StringAttribute;
   disabled?: BooleanAttribute;
-  fetchpriority?: FetchPriority | StringCallback;
-  href?: StringOrCallback;
-  hreflang?: StringOrCallback;
-  imagesizes?: StringOrCallback;
-  imagesrcset?: StringOrCallback;
-  integrity?: StringOrCallback;
-  media?: StringOrCallback;
-  referrerpolicy?: ReferrerPolicy | StringCallback;
-  rel?: StringOrCallback;
-  sizes?: StringOrCallback;
-  type?: StringOrCallback;
+  fetchpriority?: StringAttribute<FetchPriority>;
+  href?: StringAttribute;
+  hreflang?: StringAttribute;
+  imagesizes?: StringAttribute;
+  imagesrcset?: StringAttribute;
+  integrity?: StringAttribute;
+  media?: StringAttribute;
+  referrerpolicy?: StringAttribute<ReferrerPolicy>;
+  rel?: StringAttribute;
+  sizes?: StringAttribute;
+  type?: StringAttribute;
 };
 
 type MetaAttributes = Attributes & {
-  charset?: StringOrCallback;
-  "http-equiv"?:
+  charset?: StringAttribute;
+  "http-equiv"?: StringAttribute<
     | "content-security-policy"
     | "content-type"
     | "default-style"
@@ -187,29 +420,28 @@ type MetaAttributes = Attributes & {
     | "refresh"
     | "media"
     | "name"
-    | StringCallback;
-  media?: StringOrCallback;
-  name?: StringOrCallback;
+  >;
+  media?: StringAttribute;
+  name?: StringAttribute;
 };
 
 type StyleAttributes = Attributes & {
   blocking?: BooleanAttribute;
-  media?: StringOrCallback;
-  nonce?: StringOrCallback;
+  media?: StringAttribute;
 };
 
 type ScriptAttributes = Attributes & {
   async?: BooleanAttribute;
   blocking?: BooleanAttribute;
-  crossorigin?: StringOrCallback;
+  crossorigin?: StringAttribute;
   defer?: BooleanAttribute;
-  fetchpriority?: FetchPriority | StringCallback;
-  integrity?: StringOrCallback;
+  fetchpriority?: StringAttribute<FetchPriority>;
+  integrity?: StringAttribute;
   nomodule?: BooleanAttribute;
-  nonce?: StringOrCallback;
-  referrerpolicy?: ReferrerPolicy | StringOrCallback;
-  src?: StringOrCallback;
-  type?: "importmap" | "module" | StringCallback;
+  nonce?: StringAttribute;
+  referrerpolicy?: StringAttribute<ReferrerPolicy>;
+  src?: StringAttribute;
+  type?: StringAttribute<"importmap" | "module">;
 };
 
 type BodyAttributes = Attributes & {
@@ -255,13 +487,13 @@ type BlockquoteAttributes = Attributes & {
    * quoted. This attribute is intended to point to information explaining
    * the context or the reference for the quote.
    */
-  cite?: StringOrCallback;
+  cite?: StringAttribute;
 };
 
 type OlAttributes = Attributes & {
   reversed?: BooleanAttribute;
   start?: NumberAttribute;
-  type?: "a" | "A" | "i" | "I" | "1" | StringOrCallback;
+  type?: StringAttribute<"a" | "A" | "i" | "I" | "1">;
 };
 
 type LiAttributes = Attributes & {
@@ -270,23 +502,19 @@ type LiAttributes = Attributes & {
 
 type AnchorAttributes = Attributes & {
   download?: BooleanAttribute;
-  href?: StringOrCallback;
-  hreflang?: StringOrCallback;
-  ping?: StringOrCallback;
-  referrerpolicy?: ReferrerPolicy | StringCallback;
-  rel?: StringOrCallback;
-  target?:
-    | "_self"
-    | "_blank"
-    | "_parent"
-    | "_top"
-    | "_unfencedTop"
-    | StringCallback;
-  type?: StringOrCallback;
+  href?: StringAttribute;
+  hreflang?: StringAttribute;
+  ping?: StringAttribute;
+  referrerpolicy?: StringAttribute<ReferrerPolicy>;
+  rel?: StringAttribute;
+  target?: StringAttribute<
+    "_self" | "_blank" | "_parent" | "_top" | "_unfencedTop"
+  >;
+  type?: StringAttribute;
 };
 
 type TimeAttributes = Attributes & {
-  datetime?: StringOrCallback;
+  datetime?: StringAttribute;
 };
 
 type ProgressAttributes = Attributes & {
@@ -301,39 +529,39 @@ type MeterAttributes = Attributes & {
   low?: NumberAttribute;
   high?: NumberAttribute;
   optimum?: NumberAttribute;
-  form?: StringOrCallback;
+  form?: StringAttribute;
 };
 
 type ModAttributes = Attributes & {
-  cite?: StringOrCallback;
-  datetime?: StringOrCallback;
+  cite?: StringAttribute;
+  datetime?: StringAttribute;
 };
 
 type ImgAttributes = Attributes & {
-  alt?: StringOrCallback;
-  crossorigin?: StringOrCallback;
-  decoding?: "sync" | "async" | "auto" | StringCallback;
-  elementtiming?: StringOrCallback;
-  fetchpriority?: FetchPriority | StringCallback;
+  alt?: StringAttribute;
+  crossorigin?: StringAttribute;
+  decoding?: StringAttribute<"sync" | "async" | "auto">;
+  elementtiming?: StringAttribute;
+  fetchpriority?: StringAttribute<FetchPriority>;
   height?: NumberAttribute;
   ismap?: BooleanAttribute;
-  loading?: "eager" | "lazy" | StringCallback;
-  referrerpolicy?: ReferrerPolicy | StringCallback;
-  sizes?: StringOrCallback;
-  src?: StringOrCallback;
-  srcset?: StringOrCallback;
+  loading?: StringAttribute<"eager" | "lazy">;
+  referrerpolicy?: StringAttribute<ReferrerPolicy>;
+  sizes?: StringAttribute;
+  src?: StringAttribute;
+  srcset?: StringAttribute;
   width?: NumberAttribute;
-  usemap?: StringOrCallback;
+  usemap?: StringAttribute;
 };
 
 type IFrameAttributes = Attributes & {
-  allow?: StringOrCallback;
+  allow?: StringAttribute;
   allowfullscreen?: BooleanAttribute;
   height?: NumberAttribute;
-  loading?: "easger" | "lazy" | StringCallback;
-  name?: StringOrCallback;
-  referrerpolicy?: ReferrerPolicy | StringCallback;
-  sandbox?:
+  loading?: StringAttribute<"eager" | "lazy">;
+  name?: StringAttribute;
+  referrerpolicy?: StringAttribute<ReferrerPolicy>;
+  sandbox?: StringAttribute<
     | "allow-downloads"
     | "allow-forms"
     | "allow-modals"
@@ -347,50 +575,50 @@ type IFrameAttributes = Attributes & {
     | "allow-top-navigation"
     | "allow-top-navigation-by-user-activation"
     | "allow-top-navigation-to-custom-protocols"
-    | StringCallback;
+  >;
 };
 
 type EmbedAttributes = Attributes & {
   height?: NumberAttribute;
-  src?: StringOrCallback;
-  type?: StringOrCallback;
+  src?: StringAttribute;
+  type?: StringAttribute;
   width?: NumberAttribute;
 };
 
 type ObjectAttributes = Attributes & {
-  data?: StringOrCallback;
-  form?: StringOrCallback;
+  data?: StringAttribute;
+  form?: StringAttribute;
   height?: NumberAttribute;
-  name?: StringOrCallback;
-  type?: StringOrCallback;
+  name?: StringAttribute;
+  type?: StringAttribute;
   width?: NumberAttribute;
 };
 
 type VideoAttributes = Attributes & {
   autoplay?: BooleanAttribute;
-  controls?: StringOrCallback;
-  controlslist?: StringOrCallback;
-  crossorigin?: "anonymous" | "use-credentials" | StringCallback;
+  controls?: StringAttribute;
+  controlslist?: StringAttribute;
+  crossorigin?: StringAttribute<"anonymous" | "use-credentials">;
   disablepictureinpicture?: BooleanAttribute;
   disableremoteplayback?: BooleanAttribute;
   height?: NumberAttribute;
   loop?: BooleanAttribute;
   muted?: BooleanAttribute;
   playsinline?: BooleanAttribute;
-  poster?: StringOrCallback;
-  preload?: "none" | "metadata" | "auto" | StringCallback;
-  src?: StringOrCallback;
+  poster?: StringAttribute;
+  preload?: StringAttribute<"none" | "metadata" | "auto">;
+  src?: StringAttribute;
   width?: NumberAttribute;
 };
 
 type AudioAttributes = Omit<VideoAttributes, "height" | "width">;
 
 type SourceAttributes = Attributes & {
-  type?: StringOrCallback;
-  src?: StringOrCallback;
-  srcset?: StringOrCallback;
-  sizes?: StringOrCallback;
-  media?: StringOrCallback;
+  type?: StringAttribute;
+  src?: StringAttribute;
+  srcset?: StringAttribute;
+  sizes?: StringAttribute;
+  media?: StringAttribute;
   height?: NumberAttribute;
   width?: NumberAttribute;
 };
@@ -401,19 +629,19 @@ type CanvasAttributes = Attributes & {
 };
 
 type MapAttributes = Attributes & {
-  name?: StringOrCallback;
+  name?: StringAttribute;
 };
 
 type AreaAttributes = Attributes & {
-  alt?: StringOrCallback;
-  coords?: "rect" | "circle" | "poly" | StringCallback;
+  alt?: StringAttribute;
+  coords?: StringAttribute<"rect" | "circle" | "poly">;
   download?: BooleanAttribute;
-  href?: StringOrCallback;
-  ping?: StringOrCallback;
-  referrerpolicy: ReferrerPolicy | StringCallback;
-  rel?: StringOrCallback;
-  shape?: StringOrCallback;
-  target?: "_self" | "_blank" | "_parent" | "_top" | StringCallback;
+  href?: StringAttribute;
+  ping?: StringAttribute;
+  referrerpolicy: StringAttribute<ReferrerPolicy>;
+  rel?: StringAttribute;
+  shape?: StringAttribute;
+  target?: StringAttribute<"_self" | "_blank" | "_parent" | "_top">;
 };
 
 type ColgroupAttributes = Attributes & {
@@ -422,29 +650,29 @@ type ColgroupAttributes = Attributes & {
 
 type TDAttributes = Attributes & {
   colspan?: NumberAttribute;
-  headers?: StringOrCallback;
+  headers?: StringAttribute;
   rowspan?: NumberAttribute;
 };
 
 type THAttributes = Attributes & {
-  abbr?: StringOrCallback;
+  abbr?: StringAttribute;
   colspan?: NumberAttribute;
-  headers?: StringOrCallback;
+  headers?: StringAttribute;
   rowspan?: NumberAttribute;
-  scope?: "row" | "col" | "rowgroup" | "colgroup" | StringCallback;
+  scope?: StringAttribute<"row" | "col" | "rowgroup" | "colgroup">;
 };
 
 type FormAttributes = Attributes & {
-  "accept-charset"?: StringOrCallback;
-  autocomplete?: StringOrCallback;
-  name?: StringOrCallback;
-  rel?: StringOrCallback;
+  "accept-charset"?: StringAttribute;
+  autocomplete?: StringAttribute;
+  name?: StringAttribute;
+  rel?: StringAttribute;
 };
 
 type FieldsetAttributes = Attributes & {
   disabled?: BooleanAttribute;
-  form?: StringOrCallback;
-  name?: StringOrCallback;
+  form?: StringAttribute;
+  name?: StringAttribute;
 };
 
 type LabelAttributes = Attributes & {
@@ -453,45 +681,45 @@ type LabelAttributes = Attributes & {
    * form-related element in the same document as the <label> element.
    * So, any given label element can be associated with only one form control.
    */
-  for?: StringOrCallback;
+  for?: StringAttribute;
 };
 
 type InputAttributes = Attributes & {
   /** Hint for expected file type in file upload controls. */
-  accept?: StringOrCallback;
+  accept?: StringAttribute;
   /** alt attribute for the image type. Required for accessibility. */
-  alt?: StringOrCallback;
+  alt?: StringAttribute;
   /** Controls automatic capitalization in inputted text. */
   autocapitalize?: BooleanAttribute;
   /** Hint for form autofill feature. */
-  autocomplete?: StringOrCallback;
+  autocomplete?: StringAttribute;
   /** Media capture input method in file upload controls. */
-  capture?: StringOrCallback;
+  capture?: StringAttribute;
   /** Whether the command or control is checked. */
   checked?: BooleanAttribute;
   /**
    * Name of form field to use for sending the element's directionality in
    * form submission.
    */
-  dirname?: StringOrCallback;
+  dirname?: StringAttribute;
   /** Whether the form control is disabled. */
   disabled?: BooleanAttribute;
   /** Associates the control with a form element. */
-  form?: StringOrCallback;
+  form?: StringAttribute;
   /** URL to use for form submission. */
-  formaction?: StringOrCallback;
+  formaction?: StringAttribute;
   /** Form data set encoding type to use for form submission. */
-  formenctype?: FormEncType | StringOrCallback;
+  formenctype?: StringAttribute<FormEncType>;
   /** HTTP method to use for form submission. */
-  formmethod?: StringOrCallback;
+  formmethod?: StringAttribute;
   /** Bypass form control validation for form submission. */
-  formonvalidate?: StringOrCallback;
+  formonvalidate?: StringAttribute;
   /** Browsing context for form submission. */
-  formtarget?: StringOrCallback;
+  formtarget?: StringAttribute;
   /** Same as height attribute for <img>; vertical dimension. */
   height?: NumberAttribute;
   /** Value of the id attribute of the <datalist> of autocomplete options. */
-  list?: StringOrCallback;
+  list?: StringAttribute;
   /** Maximum value. */
   max?: NumberAttribute;
   /** Maximum length (number of characters) of value. */
@@ -506,15 +734,15 @@ type InputAttributes = Attributes & {
    * Name of the form control. Submitted with the form as part of a name/value
    * pair.
    */
-  name?: StringOrCallback;
+  name?: StringAttribute;
   /** Pattern the value must match to be valid. */
-  pattern?: StringOrCallback;
+  pattern?: StringAttribute;
   /** Text that appears in the form control when it has no value set. */
-  placeholder?: StringOrCallback;
+  placeholder?: StringAttribute;
   /** Designates an <input type="button"> as a control for a popover element. */
-  popovertarget?: StringOrCallback;
+  popovertarget?: StringAttribute;
   /** Specifies the action that a popover control should perform. */
-  popovertargetaction?: StringOrCallback;
+  popovertargetaction?: StringAttribute;
   /** Boolean. The value is not editable. */
   readonly?: BooleanAttribute;
   /**
@@ -525,11 +753,11 @@ type InputAttributes = Attributes & {
   /** Size of the control. */
   size?: NumberAttribute;
   /** Same as src attribute for <img>; address of image resource. */
-  src?: StringOrCallback;
+  src?: StringAttribute;
   /** Incremental values that are valid. */
   step?: NumberAttribute;
   /** Type of form control. */
-  type?:
+  type?: StringAttribute<
     | "button"
     | "checkbox"
     | "color"
@@ -552,7 +780,7 @@ type InputAttributes = Attributes & {
     | "time"
     | "url"
     | "week"
-    | StringCallback;
+  >;
   /**
    * The value of the control. When specified in the HTML, corresponds to the
    * initial value.
@@ -583,25 +811,25 @@ type ButtonAttributes = Attributes & {
    * in the document, not just inside a <form>. It can also override an
    * ancestor <form> element.
    */
-  form?: StringOrCallback;
+  form?: StringAttribute;
   /**
    * The URL that processes the information submitted by the button. Overrides
    * the action attribute of the button's form owner. Does nothing if there is
    * no form owner.
    */
-  formaction?: StringOrCallback;
+  formaction?: StringAttribute;
   /**
    * If the button is a submit button (it's inside/associated with a <form> and
    * doesn't have type="button"), specifies how to encode the form data that is
    * submitted.
    */
-  formenctype?: FormEncType | StringOrCallback;
+  formenctype?: StringAttribute<FormEncType>;
   /**
    * If the button is a submit button (it's inside/associated with a <form> and
    * doesn't have type="button"), this attribute specifies the HTTP method used
    * to submit the form.
    */
-  formmethod?: StringOrCallback;
+  formmethod?: StringAttribute;
   /**
    * If the button is a submit button, this Boolean attribute specifies that
    * the form is not to be validated when it is submitted. If this attribute
@@ -619,35 +847,35 @@ type ButtonAttributes = Attributes & {
    * for, a browsing context (a tab, window, or <iframe>). If this attribute is
    * specified, it overrides the target attribute of the button's form owner.
    */
-  formtarget?: "_self" | "_blank" | "_parent" | "_top" | StringCallback;
+  formtarget?: StringAttribute<"_self" | "_blank" | "_parent" | "_top">;
   /**
    * The name of the button, submitted as a pair with the button's value as
    * part of the form data, when that button is used to submit the form.
    */
-  name?: StringOrCallback;
+  name?: StringAttribute;
   /**
    * Turns a <button> element into a popover control button; takes the ID of
    * the popover element to control as its value.
    */
-  popovertarget?: StringOrCallback;
+  popovertarget?: StringAttribute;
   /**
    * Specifies the action to be performed on a popover element being controlled
    * by a control <button>.
    */
-  popovertargetaction?: "hide" | "show" | "toggle" | StringOrCallback;
+  popovertargetaction?: StringAttribute<"hide" | "show" | "toggle">;
   /** The default behavior of the button. */
-  type?: "submit" | "reset" | "button" | StringCallback;
+  type?: StringAttribute<"submit" | "reset" | "button">;
   /**
    * Defines the value associated with the button's name when it's submitted
    * with the form data. This value is passed to the server in params when the
    * form is submitted using this button.
    */
-  value?: StringOrCallback;
+  value?: StringAttribute;
 };
 
 type SelectAttributes = Attributes & {
   /** A string providing a hint for a user agent's autocomplete feature. */
-  autocomplete?: StringOrCallback;
+  autocomplete?: StringAttribute;
   /**
    * This Boolean attribute lets you specify that a form control should have
    * input focus when the page loads. Only one form element in a document can
@@ -672,7 +900,7 @@ type SelectAttributes = Attributes & {
    * the document, not just inside a <form>. It can also override an ancestor
    * <form> element.
    */
-  form?: StringOrCallback;
+  form?: StringAttribute;
   /**
    * This Boolean attribute indicates that multiple options can be selected in
    * the list. If it is not specified, then only one option can be selected at
@@ -681,7 +909,7 @@ type SelectAttributes = Attributes & {
    */
   multiple?: BooleanAttribute;
   /** This attribute is used to specify the name of the control. */
-  name?: StringOrCallback;
+  name?: StringAttribute;
   /**
    * A Boolean attribute indicating that an option with a non-empty string
    * value must be selected.
@@ -708,7 +936,7 @@ type OptGroupAttributes = Attributes & {
    * the options in the user interface. This attribute is mandatory if this
    * element is used.
    */
-  label?: StringOrCallback;
+  label?: StringAttribute;
 };
 
 type OptionAttributes = OptGroupAttributes & {
@@ -724,38 +952,38 @@ type OptionAttributes = OptGroupAttributes & {
    * the form, should this option be selected. If this attribute is omitted,
    * the value is taken from the text content of the option element.
    */
-  value?: StringOrCallback;
+  value?: StringAttribute;
 };
 
 type TextAreaAttributes = Attributes & {
   autocapitalize?: BooleanAttribute;
-  autocomplete?: StringOrCallback;
-  autocorrect?: "on" | "off" | StringCallback;
+  autocomplete?: StringAttribute;
+  autocorrect?: StringAttribute<"on" | "off">;
   autofocus?: BooleanAttribute;
   cols?: NumberAttribute;
-  dirname?: StringOrCallback;
+  dirname?: StringAttribute;
   disabled?: BooleanAttribute;
-  form?: StringOrCallback;
+  form?: StringAttribute;
   maxlength?: NumberAttribute;
   minlength?: NumberAttribute;
-  name?: StringOrCallback;
-  placeholder?: StringOrCallback;
+  name?: StringAttribute;
+  placeholder?: StringAttribute;
   readonly?: BooleanAttribute;
   required?: BooleanAttribute;
   rows?: NumberAttribute;
-  spellcheck?: "true" | "default" | "false" | StringCallback;
-  wrap?: "hard" | "soft" | StringCallback;
+  spellcheck?: BooleanAttribute | StringAttribute<"true" | "default" | "false">;
+  wrap?: StringAttribute<"hard" | "soft">;
 };
 
 type OutputAttributes = Attributes & {
-  for?: StringOrCallback;
-  form?: StringOrCallback;
-  name?: StringOrCallback;
+  for?: StringAttribute;
+  form?: StringAttribute;
+  name?: StringAttribute;
 };
 
 type DetailsAttributes = Attributes & {
   open?: BooleanAttribute;
-  name?: StringOrCallback;
+  name?: StringAttribute;
 };
 
 type PakertajaArgument<A extends Attributes = Attributes> =
