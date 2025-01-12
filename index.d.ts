@@ -1037,8 +1037,28 @@ type FormAttributes = Attributes & {
 };
 
 type FieldsetAttributes = Attributes & {
+  /**
+   * If this Boolean attribute is set, all form controls that are descendants
+   * of the <fieldset>, are disabled, meaning they are not editable and won't
+   * be submitted along with the <form>. They won't receive any browsing
+   * events, like mouse clicks or focus-related events. By default browsers
+   * display such controls grayed out. Note that form elements inside the
+   * <legend> element won't be disabled.
+   */
   disabled?: BooleanAttribute;
+  /**
+   * This attribute takes the value of the id attribute of a <form> element
+   * you want the <fieldset> to be part of, even if it is not inside the form.
+   * Please note that usage of this is confusing — if you want the <input>
+   * elements inside the <fieldset> to be associated with the form, you need
+   * to use the form attribute directly on those elements. You can check which
+   * elements are associated with a form via JavaScript, using
+   * HTMLFormElement.elements.
+   */
   form?: StringAttribute;
+  /**
+   * The name associated with the group.
+   */
   name?: StringAttribute;
 };
 
