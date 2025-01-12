@@ -1030,9 +1030,42 @@ type THAttributes = Attributes & {
 };
 
 type FormAttributes = Attributes & {
+  /**
+   * The character encoding accepted by the server. The specification allows
+   * a single case-insensitive value of "UTF-8", reflecting the ubiquity of
+   * this encoding (historically multiple character encodings could be
+   * specified as a comma-separated or space-separated list).
+   */
   "accept-charset"?: StringAttribute;
-  autocomplete?: StringAttribute;
+  /**
+   * Controls whether inputted text is automatically capitalized and, if so,
+   * in what manner. See the autocapitalize global attribute page for more
+   * information.
+   */
+  autocapitalize?: BooleanAttribute;
+  /**
+   * Indicates whether input elements can by default have their values
+   * automatically completed by the browser. autocomplete attributes on form
+   * elements override it on <form>. Possible values:
+   *
+   * - off: The browser may not automatically complete entries. (Browsers tend
+   *   to ignore this for suspected login forms; see Managing autofill for
+   *   login fields.)
+   * - on: The browser may automatically complete entries.
+   */
+  autocomplete?: StringAttribute<"on" | "off">;
+  /**
+   * The name of the form. The value must not be the empty string, and must be
+   * unique among the form elements in the forms collection that it is in, if
+   * any.
+   */
   name?: StringAttribute;
+  /**
+   * Controls the annotations and what kinds of links the form creates.
+   * Annotations include external, nofollow, opener, noopener, and noreferrer.
+   * Link types include help, prev, next, search, and license. The rel value
+   * is a space-separated list of these enumerated values.
+   */
   rel?: StringAttribute;
 };
 
