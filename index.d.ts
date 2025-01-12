@@ -562,21 +562,101 @@ type MetaAttributes = Attributes & {
 };
 
 type StyleAttributes = Attributes & {
-  blocking?: BooleanAttribute;
+  /**
+   * This attribute explicitly indicates that certain operations should be
+   * blocked on the fetching of critical subresources. @import-ed stylesheets
+   * are generally considered as critical subresources, whereas
+   * background-image and fonts are not. The operations that are to be
+   * blocked must be a space-separated list of blocking tokens listed below.
+   *
+   * - render: The rendering of content on the screen is blocked.
+   */
+  blocking?: StringAttribute<"render">;
+  /**
+   * This attribute defines which media the style should be applied to. Its
+   * value is a media query, which defaults to all if the attribute is missing.
+   */
   media?: StringAttribute;
 };
 
 type ScriptAttributes = Attributes & {
+  /**
+   * For classic scripts, if the async attribute is present, then the classic
+   * script will be fetched in parallel to parsing and evaluated as soon as it
+   * is available.
+   *
+   * For module scripts, if the async attribute is present then the scripts and
+   * all their dependencies will be fetched in parallel to parsing and
+   * evaluated as soon as they are available.
+   */
   async?: BooleanAttribute;
-  blocking?: BooleanAttribute;
+  /**
+   * This attribute explicitly indicates that certain operations should be
+   * blocked on the fetching of the script. The operations that are to be
+   * blocked must be a space-separated list of blocking tokens listed below.
+   *
+   * - render: The rendering of content on the screen is blocked.
+   */
+  blocking?: StringAttribute<"render">;
+  /**
+   * Normal script elements pass minimal information to the window.onerror
+   * for scripts which do not pass the standard CORS checks. To allow error
+   * logging for sites which use a separate domain for static media, use this
+   * attribute. See CORS settings attributes for a more descriptive
+   * explanation of its valid arguments.
+   */
   crossorigin?: StringAttribute;
+  /**
+   * This Boolean attribute is set to indicate to a browser that the script
+   * is meant to be executed after the document has been parsed, but before
+   * firing DOMContentLoaded event.
+   *
+   * Scripts with the defer attribute will prevent the DOMContentLoaded event
+   * from firing until the script has loaded and finished evaluating.
+   *
+   * Scripts with the defer attribute will execute in the order in which they
+   * appear in the document.
+   *
+   * This attribute allows the elimination of parser-blocking JavaScript where
+   * the browser would have to load and evaluate scripts before continuing to
+   * parse. async has a similar effect in this case.
+   *
+   * If the attribute is specified with the async attribute, the element will
+   * act as if only the async attribute is specified.
+   */
   defer?: BooleanAttribute;
+  /**
+   * Provides a hint of the relative priority to use when fetching an external
+   * script.
+   */
   fetchpriority?: StringAttribute<FetchPriority>;
+  /**
+   * This attribute contains inline metadata that a user agent can use to
+   * verify that a fetched resource has been delivered without unexpected
+   * manipulation. The attribute must not specified when the src attribute
+   * is not specified. See Subresource Integrity.
+   */
   integrity?: StringAttribute;
+  /**
+   * This Boolean attribute is set to indicate that the script should not
+   * be executed in browsers that support ES modules — in effect, this can
+   * be used to serve fallback scripts to older browsers that do not support
+   * modular JavaScript code.
+   */
   nomodule?: BooleanAttribute;
-  nonce?: StringAttribute;
+  /**
+   * Indicates which referrer to send when fetching the script, or resources
+   * fetched by the script.
+   */
   referrerpolicy?: StringAttribute<ReferrerPolicy>;
+  /**
+   * This attribute specifies the URI of an external script; this can be used
+   * as an alternative to embedding a script directly within a document.
+   */
   src?: StringAttribute;
+  /**
+   * This attribute indicates the type of script represented.
+   */
   type?: StringAttribute<"importmap" | "module">;
 };
 
@@ -627,12 +707,42 @@ type BlockquoteAttributes = Attributes & {
 };
 
 type OlAttributes = Attributes & {
+  /**
+   * This Boolean attribute specifies that the list's items are in reverse
+   * order. Items will be numbered from high to low.
+   */
   reversed?: BooleanAttribute;
+  /**
+   * An integer to start counting from for the list items. Always an Arabic
+   * numeral (1, 2, 3, etc.), even when the numbering type is letters or
+   * Roman numerals. For example, to start numbering elements from the letter
+   * "d" or the Roman numeral "iv," use start="4".
+   */
   start?: NumberAttribute;
+  /**
+   * Sets the numbering type:
+   *
+   * - a for lowercase letters
+   * - A for uppercase letters
+   * - i for lowercase Roman numerals
+   * - I for uppercase Roman numerals
+   * - 1 for numbers (default)
+   *
+   * The specified type is used for the entire list unless a different type
+   * attribute is used on an enclosed <li> element.
+   */
   type?: StringAttribute<"a" | "A" | "i" | "I" | "1">;
 };
 
 type LiAttributes = Attributes & {
+  /**
+   * This integer attribute indicates the current ordinal value of the list
+   * item as defined by the <ol> element. The only allowed value for this
+   * attribute is a number, even if the list is displayed with Roman numerals
+   * or letters. List items that follow this one continue numbering from the
+   * value set. This attribute has no meaning for unordered lists (<ul>) or
+   * for menus (<menu>).
+   */
   value?: NumberAttribute;
 };
 
