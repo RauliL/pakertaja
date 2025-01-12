@@ -1092,13 +1092,75 @@ type OptionAttributes = OptGroupAttributes & {
 };
 
 type TextAreaAttributes = Attributes & {
+  /**
+   * Controls whether inputted text is automatically capitalized and, if so,
+   * in what manner.
+   */
   autocapitalize?: BooleanAttribute;
+  /**
+   * Controls whether entered text can be automatically completed by the
+   * browser. Possible values are:
+   *
+   * - off: The user must explicitly enter a value into this field for every
+   *   use, or the document provides its own auto-completion method; the
+   *   browser does not automatically complete the entry.
+   * - on: The browser can automatically complete the value based on values
+   *   that the user has entered during previous uses.
+   * - <token-list>: An ordered set of space-separated autofill detail tokens,
+   *   optionally preceded by a sectioning token, a billing or shipping
+   *   grouping token, and/or a token identifying the type of recipient.
+   *
+   * <textarea> elements that don't specify the autocomplete attribute inherit
+   * the autocomplete on or off status set on the <textarea>'s form owner. The
+   * form owner is either the <form> element that this <textarea> element is a
+   * descendant of or the form element whose id is specified by the form
+   * attribute of the input element. For more information, see the autocomplete
+   * attribute in <form>.
+   */
   autocomplete?: StringAttribute;
+  /**
+   * Controls whether automatic spelling correction and processing of text is
+   * enabled while the user is editing this textarea. Permitted values are:
+   *
+   * - on
+   *   Enable automatic spelling correction and text substitutions.
+   * - off
+   *   Disable automatic spelling correction and text substitutions.
+   */
   autocorrect?: StringAttribute<"on" | "off">;
+  /**
+   * This Boolean attribute lets you specify that a form control should have
+   * input focus when the page loads. Only one form-associated element in a
+   * document can have this attribute specified.
+   */
   autofocus?: BooleanAttribute;
+  /**
+   * The visible width of the text control, in average character widths. If
+   * it is specified, it must be a positive integer. If it is not specified,
+   * the default value is 20.
+   */
   cols?: NumberAttribute;
+  /**
+   * This attribute is used to indicate the text directionality of the
+   * element contents. For more information, see the dirname attribute.
+   */
   dirname?: StringAttribute;
+  /**
+   * This Boolean attribute indicates that the user cannot interact with the
+   * control. If this attribute is not specified, the control inherits its
+   * setting from the containing element, for example <fieldset>; if there
+   * is no containing element when the disabled attribute is set, the control
+   * is enabled.
+   */
   disabled?: BooleanAttribute;
+  /**
+   * The form element that the <textarea> element is associated with (its
+   * "form owner"). The value of the attribute must be the id of a form element
+   * in the same document. If this attribute is not specified, the <textarea>
+   * element must be a descendant of a form element. This attribute enables
+   * you to place <textarea> elements anywhere within a document, not just
+   * as descendants of form elements.
+   */
   form?: StringAttribute;
   maxlength?: NumberAttribute;
   minlength?: NumberAttribute;
@@ -1112,13 +1174,51 @@ type TextAreaAttributes = Attributes & {
 };
 
 type OutputAttributes = Attributes & {
+  /**
+   * A space-separated list of other elements' ids, indicating that those
+   * elements contributed input values to (or otherwise affected) the
+   * calculation.
+   */
   for?: StringAttribute;
+  /**
+   * The <form> element to associate the output with (its form owner). The
+   * value of this attribute must be the id of a <form> in the same document.
+   * (If this attribute is not set, the <output> is associated with its
+   * ancestor <form> element, if any.)
+   *
+   * This attribute lets you associate <output> elements to <form>s anywhere
+   * in the document, not just inside a <form>. It can also override an
+   * ancestor <form> element. The <output> element's name and content are not
+   * submitted when the form is submitted.
+   */
   form?: StringAttribute;
+  /**
+   * The element's name. Used in the form.elements API.
+   */
   name?: StringAttribute;
 };
 
 type DetailsAttributes = Attributes & {
+  /**
+   * This Boolean attribute indicates whether the details — that is, the
+   * contents of the <details> element — are currently visible. The details
+   * are shown when this attribute exists, or hidden when this attribute is
+   * absent. By default this attribute is absent which means the details are
+   * not visible.
+   */
   open?: BooleanAttribute;
+  /**
+   * This attribute enables multiple <details> elements to be connected, with
+   * only one open at a time. This allows developers to easily create UI
+   * features such as accordions without scripting.
+   *
+   * The name attribute specifies a group name — give multiple <details>
+   * elements the same name value to group them. Only one of the grouped
+   * <details> elements can be open at a time — opening one will cause
+   * another to close. If multiple grouped <details> elements are given the
+   * open attribute, only the first one in the source order will be rendered
+   * open.
+   */
   name?: StringAttribute;
 };
 
