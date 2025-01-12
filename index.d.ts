@@ -1189,11 +1189,36 @@ type EmbedAttributes = Attributes & {
 };
 
 type ObjectAttributes = Attributes & {
+  /**
+   * The address of the resource as a valid URL. At least one of data and
+   * type must be defined.
+   */
   data?: StringAttribute;
+  /**
+   * The form element, if any, that the object element is associated with
+   * (its form owner). The value of the attribute must be an ID of a
+   * <form> element in the same document.
+   */
   form?: StringAttribute;
+  /**
+   * The height of the displayed resource, in CSS pixels. — (Absolute
+   * values only. NO percentages)
+   */
   height?: NumberAttribute;
+  /**
+   * The name of valid browsing context (HTML5), or the name of the
+   * control (HTML 4).
+   */
   name?: StringAttribute;
+  /**
+   * The content type of the resource specified by data. At least one
+   * of data and type must be defined.  *
+   */
   type?: StringAttribute;
+  /**
+   * The width of the display resource, in CSS pixels. — (Absolute
+   * values only. NO percentages)
+   */
   width?: NumberAttribute;
 };
 
