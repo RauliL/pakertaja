@@ -34,4 +34,16 @@ jobs:
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
+          flag-name: ${{ matrix.node-version }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
