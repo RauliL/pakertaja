@@ -5,6 +5,12 @@ export default defineConfig({
     lib: {
       entry: "./src/pakertaja.mjs",
       formats: ["es"],
+      fileName: "pakertaja",
+    },
+    rollupOptions: {
+      output: {
+        entryFileNames: "pakertaja.mjs",
+      },
     },
   },
 });
