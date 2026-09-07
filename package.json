@@ -2,6 +2,7 @@
   "name": "pakertaja",
   "description": "Tiny JavaScript library for building HTML elements",
   "version": "2.2.0",
+  "type": "module",
   "author": "Rauli Laine",
   "homepage": "https://rauli.dev/pakertaja",
   "license": "MIT",
@@ -15,15 +16,20 @@
   "keywords": [
     "dom"
   ],
-  "main": "dist/pakertaja.js",
-  "module": "dist/pakertaja.mjs",
   "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/pakertaja.mjs",
+      "default": "./dist/pakertaja.mjs"
+    }
+  },
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -c -w",
+    "build": "vite build",
+    "watch": "vite build --watch",
     "clean": "rimraf './dist'",
     "prebuild": "$npm_execpath run clean",
-    "prepack": "cross-env NODE_ENV=production $npm_execpath run build",
+    "prepack": "$npm_execpath run build",
     "style:check": "prettier --check .",
     "style:fix": "prettier --write .",
     "types:check": "npx check-dts",
@@ -31,16 +37,10 @@
     "coverage": "vitest --coverage"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-terser": "^0.4.4",
     "@vitest/coverage-v8": "^5.0.0",
-    "cross-env": "^7.0.3",
     "happy-dom": "^20.8.9",
     "prettier": "^3.9.6",
     "rimraf": "^6.0.1",
-    "rollup": "^4.30.1",
     "vite": "^8.2.2",
     "vitest": "^5.0.0"
   },
@@ -48,8 +48,7 @@
     "LICENSE",
     "README.md",
     "index.d.ts",
-    "dist/pakertaja.js",
-    "dist/pakertaja.mjs",
-    "dist/pakertaja.iife.js"
-  ]
+    "dist/pakertaja.mjs"
+  ],
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

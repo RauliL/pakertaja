@@ -2228,7 +2228,7 @@ interface PakertajaStatic {
 declare module "pakertaja" {
   const p: PakertajaStatic;
 
-  export = p;
+  export default p;
 }
 
 declare namespace JSX {
