@@ -26,6 +26,7 @@
     "prepack": "cross-env NODE_ENV=production $npm_execpath run build",
     "style:check": "prettier --check .",
     "style:fix": "prettier --write .",
+    "types:check": "npx check-dts",
     "test": "vitest",
     "coverage": "vitest --coverage"
   },
