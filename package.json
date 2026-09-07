@@ -35,14 +35,14 @@
     "@babel/preset-env": "^7.26.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-terser": "^0.4.4",
-    "@vitest/coverage-istanbul": "^2.1.8",
-    "babel-plugin-istanbul": "^7.0.0",
+    "@vitest/coverage-v8": "^5.0.0",
     "cross-env": "^7.0.3",
     "happy-dom": "^20.8.9",
     "prettier": "^3.9.6",
     "rimraf": "^6.0.1",
     "rollup": "^4.30.1",
-    "vitest": "^3.2.6"
+    "vite": "^8.2.2",
+    "vitest": "^5.0.0"
   },
   "files": [
     "LICENSE",
