@@ -1,4 +1,3 @@
-/* istanbul ignore next */
 const document = (typeof window !== "undefined" ? window : global).document;
 
 const entityMapping = {
