@@ -2066,9 +2066,23 @@ interface PakertajaStatic {
    */
   escape: (input: string) => string;
 
+  /**
+   * Constructs HTML document fragment.
+   */
   fragment: (...args: PakertajaElement[]) => DocumentFragment;
 
+  /**
+   * Inserts given child elements to the end of the given root element. Child
+   * elements might consist from other HTML elements, strings or function
+   * callbacks which return strings.
+   */
   append: (root: Node, ...args: PakertajaElement[]) => Node;
+
+  /**
+   * Inserts given child elements to the beginning of the given root element.
+   * Child elements might consist from other HTML elements, strings or function
+   * callbacks which return strings.
+   */
   prepend: (root: Node, ...args: PakertajaElement[]) => Node;
 
   // The root element
