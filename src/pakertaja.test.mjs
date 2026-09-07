@@ -150,7 +150,7 @@ describe("Pakertaja", () => {
   it("should ignore null CSS rules", () => {
     const element = p("div", { style: () => null });
 
-    expect(Object.keys(element.style)).toHaveLength(1);
+    expect(element.style).toHaveLength(0);
   });
 
   it("should be able to set data attributes", () => {
