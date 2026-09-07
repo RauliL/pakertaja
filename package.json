@@ -30,6 +30,7 @@
     "clean": "rimraf './dist'",
     "prebuild": "$npm_execpath run clean",
     "prepack": "$npm_execpath run build",
+    "lint": "eslint",
     "style:check": "prettier --check .",
     "style:fix": "prettier --write .",
     "types:check": "npx check-dts",
@@ -37,8 +38,12 @@
     "coverage": "vitest --coverage"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@vitest/coverage-v8": "^5.0.0",
+    "eslint": "^10.10.0",
+    "globals": "^17.12.0",
     "happy-dom": "^20.8.9",
+    "jiti": "^2.7.0",
     "prettier": "^3.9.6",
     "rimraf": "^6.0.1",
     "vite": "^8.2.2",

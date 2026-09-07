@@ -27,6 +27,8 @@ jobs:
         run: yarn run style:check
       - name: Validate type definitions
         run: yarn run types:check
+      - name: Run ESLint
+        run: yarn run lint
       - name: Build
         run: yarn run build
       - name: Run tests
