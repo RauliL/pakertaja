@@ -25,12 +25,12 @@ jobs:
         run: yarn install
       - name: Check code style
         run: yarn run format:check
+      - name: Validate type definitions
+        run: yarn run types:check
       - name: Build
         run: yarn run build
       - name: Run tests
         run: yarn run coverage
-      - name: Validate type definitions
-        run: npx check-dts
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
