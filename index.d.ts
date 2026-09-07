@@ -10,18 +10,14 @@ type DataValueMappingCallback = () => DataValueMapping;
 type StringAttribute<T extends string = string> = T | (() => T);
 type NumberAttribute = number | (() => number) | StringAttribute;
 type BooleanAttribute =
-  | boolean
-  | (() => boolean)
-  | StringAttribute<"true" | "false">;
+  boolean | (() => boolean) | StringAttribute<"true" | "false">;
 type StyleAttribute = StringAttribute | Record<string, StringAttribute>;
 type DataAttribute = DataValueMapping | DataValueMappingCallback;
 
 type FetchPriority = "high" | "low" | "auto";
 
 type FormEncType =
-  | "application/x-www-form-urlencoded"
-  | "multipart/form-data"
-  | "text/plain";
+  "application/x-www-form-urlencoded" | "multipart/form-data" | "text/plain";
 
 type Attributes = {
   /**
@@ -1884,12 +1880,7 @@ type DetailsAttributes = Attributes & {
 type PakertajaElement = Node | boolean | null | undefined | (() => string);
 
 type PakertajaArgument<A extends Attributes = Attributes> =
-  | Node
-  | string
-  | A
-  | null
-  | undefined
-  | PakertajaElement[];
+  Node | string | A | null | undefined | PakertajaElement[];
 
 interface PakertajaStatic {
   (tagName: "html", ...args: PakertajaArgument[]): HTMLHtmlElement;

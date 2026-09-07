@@ -31,7 +31,7 @@ describe("Pakertaja", () => {
 
       expect(node).toHaveProperty("nodeType", Node.TEXT_NODE);
       expect(node).toHaveProperty("textContent", "Test.");
-    }
+    },
   );
 
   it.each(["fragment", p.fragment])(
@@ -40,7 +40,7 @@ describe("Pakertaja", () => {
       const node = p(tagName);
 
       expect(node).toHaveProperty("nodeType", Node.DOCUMENT_FRAGMENT_NODE);
-    }
+    },
   );
 
   it("should allow array of nodes for creation of fragment nodes", () => {
@@ -143,7 +143,7 @@ describe("Pakertaja", () => {
 
   it("should be able to set CSS rules as a string", () => {
     expect(p("div", { style: "color: red" }).getAttribute("style")).toEqual(
-      "color: red"
+      "color: red",
     );
   });
 
